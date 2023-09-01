@@ -4,6 +4,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
+import { useStore } from "@/state/messageState";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -39,6 +40,12 @@ export default function Home() {
     fetcher
   );
 
+  const { city, setCity } = useStore();
+
+  setCity("alicante");
+
+  console.log(city);
+
   useEffect(() => {
     // Set a delay of 300 milliseconds (adjust as needed)
     const delay = setTimeout(() => {
@@ -62,7 +69,7 @@ export default function Home() {
             <Input
               type="text"
               className=" text-black"
-              placeholder="type a city or town"
+              placeholder="Where to? Let's find out"
               onChange={(e) => setValue(e.target.value)}
               value={value}
             />
