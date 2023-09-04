@@ -1,20 +1,22 @@
 "use client";
-import useSWR from "swr";
-import axios from "axios";
-import { useState, useEffect } from "react";
 
-import { useStore } from "@/context/message";
+import useSWR from "swr";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useMutation } from "@tanstack/react-query";
-import { Message } from "@/lib/validators/message";
-import { useChat, useCompletion } from "ai/react";
-import { chatbotPrompt } from "@/helpers/constants/chatbot-prompt";
+import { useCompletion } from "ai/react";
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { useStore } from "@/context/message";
+import Location from "@/components/location";
+const activityArr = [
+  "Sunbathing",
+  "Restaurants",
+  "Nightlife",
+  "Museum",
+  "alcohol",
+  "party",
+];
 
-type ChatCompletionRequestMessage = {
-  role: string;
-  content: string;
-};
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 type AutocompleteResult = {
@@ -40,16 +42,7 @@ type AutocompleteResult = {
   types: string[];
 };
 
-const activityArr = [
-  "Sunbathing",
-  "Restaurants",
-  "Nightlife",
-  "Museum",
-  "alcohol",
-  "party",
-];
-
-export default function Home() {
+export default function Completion() {
   const {
     city,
     setCity,
@@ -61,44 +54,15 @@ export default function Home() {
     setMessage,
   } = useStore();
 
-
-  const [value, setValue] = useState("");
   const [delayedValue, setDelayedValue] = useState("");
-  const [cityName, setCityName] = useState("");
-  const [responseData, setResponseData] = useState(null);
+  const [value, setValue] = useState("");
 
   const { data, error, isLoading } = useSWR(
     `/api/locations/${delayedValue}`,
     fetcher
   );
-  /* 
-  async function handleSubmit() {
-    const message: Message = {
-      city: city,
-      isUserMessage: true,
-    };
-    sendMessage(message);
-  }
- */
-  /*   const { mutate: sendMessage } = useMutation({
-    mutationKey: ["sendMessage"],
-    mutationFn: async (message: Message) => {
-      const response = await fetch("/api/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ messages: [message] }),
-      });
-      const data = await response.json();
-      setResponseData(data);
 
-      return response.body;
-    },
-  });
- */
-
-  const { completion, input, setInput, stop, handleInputChange, handleSubmit } =
+  const { completion, complete, input, setInput, stop, handleInputChange, handleSubmit } =
     useCompletion({
       api: "/api/chat",
       body: {
@@ -106,8 +70,9 @@ export default function Home() {
         activities: activities,
       },
     });
-
-    
+  useEffect(() => {
+    setInput("null");
+  }, []);
 
   useEffect(() => {
     // Set a delay of 300 milliseconds (adjust as needed)
@@ -131,6 +96,41 @@ export default function Home() {
     console.log(activities);
   }, [activities]);
 
+  const checkAndPublish = useCallback(
+    async (c: string) => {
+      const completion = await complete(c);
+      if (!completion) throw new Error('Failed to check typos');
+      const typos = JSON.parse(completion);
+      // you should more validation here to make sure the response is valid
+      if (typos?.length && !window.confirm('Typos found… continue?')) return;
+      else alert('Post published');
+    },
+    [complete],
+  );
+  // Regular expression to find starred names enclosed in double asterisks, names wrapped with ^^ ^^, and text enclosed in ## ##
+  const combinedRegex = /\*\*(.*?)\*\* - \^\^(.*?)\^\^|##(.*?)##/g;
+
+  const combinedNames = [];
+  const enclosedText = [];
+
+  let match;
+
+  while ((match = combinedRegex.exec(completion)) !== null) {
+    const name = match[1];
+    const description = match[2];
+    const textInsideEnclosure = match[3];
+
+    if (name && description) {
+      combinedNames.push({ name, description });
+    }
+
+    if (textInsideEnclosure) {
+      enclosedText.push(textInsideEnclosure);
+    }
+  }
+  console.log("Combined Names:", combinedNames);
+
+  console.log("Enclosed Text:", enclosedText);
   return (
     <main className="flex flex-col justify-center m-40 items-center">
       <h1 className=" font-bold text-9xl">{city}</h1>
@@ -141,11 +141,10 @@ export default function Home() {
               type="text"
               className=" text-black"
               placeholder="Where to? Let's find out"
-              onChange={(e) => setValue(e.target.value)}
               value={value}
+              onChange={(e) => setValue(e.target.value)}
             />
             <button
-              type="submit"
               className="p-2 bg-slate-100 rounded-xl text-black"
             >
               Submit
@@ -221,6 +220,13 @@ export default function Home() {
         </div>
       </div>
       {completion}
+      {combinedNames.map((thing, i) => (
+        <div key={i}>
+          <Location name={thing.name} description={thing.description} />
+        </div>
+      ))}
+            {enclosedText}
+
     </main>
   );
 }

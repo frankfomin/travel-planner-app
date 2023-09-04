@@ -17,3 +17,4 @@ export const products = mysqlTable("products", {
   description: text("description"),
   price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
 });
+
