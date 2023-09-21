@@ -1,226 +1,80 @@
 "use client";
-import useSWR from "swr";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import ActivityPage from "@/components/ui/ActivityPage";
+import CitySearch from "@/components/ui/CitySearch";
+import ProgressBar from "@/components/ui/ProgressBar";
+import { dataToApi } from "@/context/message";
+import Image from "next/image";
 
-import { useStore } from "@/context/message";
-import { Input } from "@/components/ui/input";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useMutation } from "@tanstack/react-query";
-import { Message } from "@/lib/validators/message";
-import { useChat, useCompletion } from "ai/react";
-import { chatbotPrompt } from "@/helpers/constants/chatbot-prompt";
-
-type ChatCompletionRequestMessage = {
-  role: string;
-  content: string;
-};
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
-type AutocompleteResult = {
-  description: string;
-  matched_substrings: {
-    length: number;
-    offset: number;
-  }[];
-  place_id: string;
-  reference: string;
-  structured_formatting: {
-    main_text: string;
-    main_text_matched_substrings: {
-      length: number;
-      offset: number;
-    }[];
-    secondary_text: string;
-  };
-  terms: {
-    offset: number;
-    value: string;
-  }[];
-  types: string[];
-};
-
-const activityArr = [
-  "Sunbathing",
-  "Restaurants",
-  "Nightlife",
-  "Museum",
-  "alcohol",
-  "party",
-];
-
-export default function Home() {
-  const {
-    city,
-    setCity,
-    activities,
-    setActivities,
-    allMessages,
-    setAllMessages,
-    message,
-    setMessage,
-  } = useStore();
-
-
-  const [value, setValue] = useState("");
-  const [delayedValue, setDelayedValue] = useState("");
-  const [cityName, setCityName] = useState("");
-  const [responseData, setResponseData] = useState(null);
-
-  const { data, error, isLoading } = useSWR(
-    `/api/locations/${delayedValue}`,
-    fetcher
-  );
-  /* 
-  async function handleSubmit() {
-    const message: Message = {
-      city: city,
-      isUserMessage: true,
-    };
-    sendMessage(message);
-  }
- */
-  /*   const { mutate: sendMessage } = useMutation({
-    mutationKey: ["sendMessage"],
-    mutationFn: async (message: Message) => {
-      const response = await fetch("/api/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ messages: [message] }),
-      });
-      const data = await response.json();
-      setResponseData(data);
-
-      return response.body;
-    },
-  });
- */
-
-  const { completion, input, setInput, stop, handleInputChange, handleSubmit } =
-    useCompletion({
-      api: "/api/chat",
-      body: {
-        city: city,
-        activities: activities,
-      },
-    });
-
-    
-
-  useEffect(() => {
-    // Set a delay of 300 milliseconds (adjust as needed)
-    const delay = setTimeout(() => {
-      setDelayedValue(value);
-    }, 300);
-
-    // Clear the timeout if the value changes before the delay
-    return () => clearTimeout(delay);
-  }, [value]);
-
-  function handleClick(cityName: string) {
-    setCity(cityName);
-  }
-
-  function handleActivityClick(newActivity: string) {
-    setActivities([...activities, newActivity]);
-  }
-
-  useEffect(() => {
-    console.log(activities);
-  }, [activities]);
-
+export default function HomePage() {
+  const { city, setCity } = dataToApi();
   return (
-    <main className="flex flex-col justify-center m-40 items-center">
-      <h1 className=" font-bold text-9xl">{city}</h1>
-      <div>
-        <div className=" bg-black">
-          <form onSubmit={handleSubmit}>
-            <Input
-              type="text"
-              className=" text-black"
-              placeholder="Where to? Let's find out"
-              onChange={(e) => setValue(e.target.value)}
-              value={value}
+    <main className=" h-[100svh] relative overflow-hidden">
+      <div className="flex justify-center w-full">
+        <ProgressBar />
+      </div>
+      <section
+        className={`absolute w-full flex gap-10 flex-col items-center transition-transform ease-out mt-44 h-full ${
+          city ? " -translate-x-full" : ""
+        }`}
+      >
+        <div className="text-9xl font-semibold">
+          <div className="flex items-center gap-5 justify-center">
+            <h1>Seeking</h1>
+            <Image
+              src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3648&q=80"
+              width={400}
+              height={400}
+              className=" aspect-[4/3] rounded-md w-[13rem]"
+              alt="road"
             />
-            <button
-              type="submit"
-              className="p-2 bg-slate-100 rounded-xl text-black"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="158"
+              height="158"
+              viewBox="0 0 158 158"
+              fill="currentColor"
+              className=" w-40 h-40"
             >
-              Submit
-            </button>
-          </form>
-          <div>
-            {isLoading
-              ? Array.from({ length: 5 }, (_, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center hover:cursor-pointer p-2 hover:bg-slate-900"
-                  >
-                    <Skeleton className="w-[80%] h-[15px] rounded-full" />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-map-pin "
-                    >
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                  </div>
-                ))
-              : data?.map((city: AutocompleteResult) => (
-                  <div
-                    key={city.place_id}
-                    onClick={() =>
-                      handleClick(city.structured_formatting.main_text)
-                    }
-                    className="flex justify-between items-center hover:cursor-pointer hover:bg-slate-900"
-                  >
-                    <div className="p-2 ">
-                      {city.structured_formatting.main_text}
-                    </div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="feather feather-map-pin"
-                    >
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                      <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                  </div>
-                ))}
+              <mask
+                id="mask0_42_1235"
+                style={{ maskType: "alpha" }}
+                maskUnits="userSpaceOnUse"
+                x="0"
+                y="0"
+                width="158"
+                height="158"
+              >
+                <rect width="158" height="158" fill="currentColor" />
+              </mask>
+              <g mask="url(#mask0_42_1235)">
+                <path
+                  d="M45.0962 112.903L24.0295 101.382L30.942 94.4695L47.4003 96.7736L73.0753 71.0986L21.7253 43.1195L30.942 33.9028L93.8128 50.032L119.652 24.5215C121.518 22.6563 123.849 21.7236 126.647 21.7236C129.445 21.7236 131.777 22.6563 133.642 24.5215C135.507 26.3868 136.44 28.7184 136.44 31.5163C136.44 34.3143 135.507 36.6459 133.642 38.5111L107.967 64.1861L124.096 127.057L114.88 136.274L86.9003 84.9236L61.2253 110.599L63.5295 127.057L56.617 133.969L45.0962 112.903Z"
+                  fill="currentColor"
+                />
+              </g>
+            </svg>
+          </div>
+          <div className="flex gap-5 items-center">
+            <span>New</span>
+            <Image
+              src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1886&q=80"
+              width={400}
+              height={400}
+              className="aspect-square rounded-md w-[10rem]"
+              alt="road"
+            />
+            <span>Horizons?</span>
           </div>
         </div>
+        <CitySearch />
+      </section>
+      <div
+        className={` absolute w-full -right-full transition-transform ease-out ${
+          city ? "-translate-x-full" : ""
+        }`}
+      >
+        <ActivityPage />
       </div>
-      <div>
-        <div className=" mt-52 flex gap-6">
-          {activityArr.map((activity, i) => (
-            <div
-              key={i}
-              className=" hover:cursor-pointer"
-              onClick={() => handleActivityClick(activity)}
-            >
-              {activity}
-            </div>
-          ))}
-        </div>
-      </div>
-      {completion}
     </main>
   );
 }

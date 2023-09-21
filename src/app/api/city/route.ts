@@ -25,19 +25,16 @@ type AutocompleteResult = {
 };
 
 type UniqueMainTexts = { [key: string]: boolean };
+export async function POST(req: Request) {
+  const cityName = await req.json();
 
-export async function GET(
-  req: Request,
-  { params }: { params: { locationName: string } }
-) {
-  const locationName = params.locationName;
   try {
     const res = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${locationName}&types=%28cities%29&key=${process.env.GOOGLE_PLACES_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${cityName}&types=%28cities%29&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
 
     const city: AutocompleteResult[] = res.data.predictions;
-
+    console.log("DATA", res.data.predictions);
     // Create an object to keep track of unique main_text values
     const uniqueMainTexts: UniqueMainTexts = {};
 

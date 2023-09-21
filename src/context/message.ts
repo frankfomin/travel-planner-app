@@ -5,27 +5,42 @@ type allMessages = {
   city: string;
   activites: string[];
 };
-type Store = {
+type dataToApi = {
+  placeId: string;
+  setPlaceId: (place_id: string) => void;
+  isSubmitted: boolean;
+  setIsSubmitted: (isSubmitted: boolean) => void;
   city: string;
   setCity: (city: string) => void;
   message: any;
   setMessage: (message: any) => void;
   activities: string[];
   setActivities: (activities: string[]) => void;
-  allMessages: allMessages[];
-  setAllMessages: (allMessages: allMessages[]) => void;
 };
 
-//    setActivities([...activities, newActivity]);
-
-//message, user choices, city
-export const useStore = create<Store>((set) => ({
+export const dataToApi = create<dataToApi>((set) => ({
+  placeId: "",
+  setPlaceId: (placeId: string) => set({ placeId }),
+  isSubmitted: false,
+  setIsSubmitted: (isSubmitted: boolean) => set({ isSubmitted }),
   city: "",
   setCity: (city: string) => set({ city }),
   message: "",
   setMessage: (message: string) => set({ message }),
   activities: [],
   setActivities: (activities) => set({ activities }),
-  allMessages: [],
-  setAllMessages: (allMessages: allMessages[]) => set({ allMessages }),
+}));
+
+type dataFromApi = {
+  cityDesc: string;
+  setCityDesc: (cityDesc: string) => void;
+  locations: string;
+  setLocations: (locations: string) => void;
+};
+
+export const dataFromApi = create<dataFromApi>((set) => ({
+  cityDesc: "",
+  setCityDesc: (cityDesc: string) => set({ cityDesc }),
+  locations: "",
+  setLocations: (locations: string) => set({ locations }),
 }));
