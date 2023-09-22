@@ -47,6 +47,10 @@ export async function POST(req: Request) {
           `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${locationName}&inputtype=textquery&locationbias=circle%3A30000%${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
         );
         const candidates = res.data.candidates;
+        console.log(
+          "API CALLED",
+          ` https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${locationName}&inputtype=textquery&locationbias=circle%3A30000%${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+        );
 
         console.log("candidates", candidates);
         // Extract the first place_id from the candidates, or return an empty object if candidates is empty
