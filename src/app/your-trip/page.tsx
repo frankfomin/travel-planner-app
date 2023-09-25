@@ -5,7 +5,7 @@ import LocationCard from "@/components/LocationCard";
 import TripHeader from "@/components/TripHeader";
 import { Button } from "@/components/ui/button";
 import { dataFromApi, dataToApi } from "@/context/message";
-import { Place } from "@/types";
+import { Place } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useEffect } from "react";

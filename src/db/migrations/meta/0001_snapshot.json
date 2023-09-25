@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "970a43ab-759b-48e1-abe2-8d3a58be8d7d",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "0bc90f9d-504e-4f50-9365-6a7ea325ac4f",
+  "prevId": "970a43ab-759b-48e1-abe2-8d3a58be8d7d",
   "tables": {
     "account": {
       "name": "account",
@@ -138,13 +138,6 @@
     "user": {
       "name": "user",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "name": {
           "name": "name",
           "type": "varchar(255)",
@@ -177,14 +170,7 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "user_id": {
-          "name": "user_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
     "verificationToken": {

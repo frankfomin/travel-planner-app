@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import GoogleImage from "./GoogleImage";
-import { OpeningHours, Photo } from "@/types";
+import { OpeningHours, Photo } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query";
 
 type LocationCardProps = {

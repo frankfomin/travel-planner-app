@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "./input";
 import { Card, CardContent } from "./card";
-import { AutocompleteResult } from "@/types";
+import { AutocompleteResult } from "@/lib/types";
 import { Separator } from "./separator";
 import { useMutation } from "@tanstack/react-query";
 import { dataToApi } from "@/context/message";

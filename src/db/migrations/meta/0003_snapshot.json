@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "970a43ab-759b-48e1-abe2-8d3a58be8d7d",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "f850f77f-0fc6-4c3c-b7ed-8ebe0eed414d",
+  "prevId": "f4dd3551-5812-4c1a-b40f-ad4fc90474b2",
   "tables": {
     "account": {
       "name": "account",
@@ -72,7 +72,7 @@
         },
         "id_token": {
           "name": "id_token",
-          "type": "varchar(255)",
+          "type": "varchar(1024)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

@@ -71,3 +71,25 @@ export type AutocompleteResult = {
   }[];
   types: string[];
 };
+
+import { z } from "zod";
+
+export const signUpSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(10).max(100),
+    confirmPassword: z.string().min(10).max(100),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+
+export type TsignUpSchema = z.infer<typeof signUpSchema>;
+
+export const signInSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+export type TsignInSchema = z.infer<typeof signInSchema>;
