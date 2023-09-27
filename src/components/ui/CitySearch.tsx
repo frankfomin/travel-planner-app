@@ -30,7 +30,7 @@ export default function CitySearch() {
       });
 
       const responseData = await response.json();
-      return responseData;
+      return responseData as AutocompleteResult[];
     },
   });
   console.log(data?.length);
@@ -66,10 +66,9 @@ export default function CitySearch() {
   }, [value]); // Listen to changes in value
 
   function handleCityClick(city: string, place_id: string) {
-    console.log("place ID",place_id);
+    console.log("place ID", place_id);
     setPlaceId(place_id);
     setCity(city);
-
   }
   return (
     <div className="flex flex-col relative">
@@ -80,7 +79,10 @@ export default function CitySearch() {
         onChange={(e) => setValue(e.target.value)}
         value={value}
       />
-      <Card className="rounded-t-none">
+
+      <Card
+        className={`rounded-t-none ${data?.length === 0 ? "border-none" : ""} `}
+      >
         <CardContent className=" p-0">
           {data?.map((city: AutocompleteResult, i: number) => (
             <div

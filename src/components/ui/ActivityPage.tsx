@@ -58,7 +58,7 @@ export default function ActivityPage() {
   }
 
   return (
-    <section className="flex flex-col gap-10 mt-44">
+    <section className="flex flex-col gap-10 mt-24">
       <div className="flex flex-col items-center text-9xl font-semibold">
         <div className="flex gap-5 items-center ">
           <svg

@@ -55,6 +55,7 @@ export default function TripPage() {
     },
   });
 
+  //can probably be called within an api route
   const {
     mutate: getCityBias,
     isLoading: cityBiasLoading,
@@ -79,6 +80,7 @@ export default function TripPage() {
     mutate: getGoogleLocData,
     isLoading: googleLocLoading,
     data: googleLoc,
+    status,
   } = useMutation({
     mutationKey: ["getGoogleLocData"],
     mutationFn: async (payload: googleLocData) => {
@@ -95,6 +97,11 @@ export default function TripPage() {
     },
   });
 
+  if (status === "success") {
+    //retrieve data from redis
+  }
+
+  //can be in a component
   const {
     mutate: getCityDesc,
     isLoading: cityDescLoading,

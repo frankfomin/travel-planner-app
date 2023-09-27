@@ -1,5 +1,7 @@
+import { redis } from "@/lib/redis";
 import axios from "axios";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { nanoid } from "nanoid";
 
 type OpeningHours = {
   open_now?: boolean;
@@ -33,7 +35,7 @@ type Details = {
   }[];
 };
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { locations, lat, lng } = await req.json();
 
   console.log("locations", locations);
@@ -94,7 +96,19 @@ export async function POST(req: Request) {
       };
     });
 
-    return NextResponse.json(combinedRes);
+    const tripId = nanoid();
+
+    await redis.rpush("locations", tripId);
+
+    const trip = {
+      combinedRes: JSON.stringify(combinedRes),
+      user: req.cookies.get("userId"),
+      timeStamp: Date.now(),
+    };
+
+    await redis.hset(`location_details: ${tripId}`, trip);
+
+    return NextResponse.json("success", { status: 200 });
   } catch (error) {
     console.log(error);
     return new NextResponse("internal error", { status: 500 });

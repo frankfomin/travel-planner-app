@@ -8,15 +8,13 @@ import Image from "next/image";
 export default function HomePage() {
   const { city, setCity } = dataToApi();
   return (
-    <main className=" h-[100svh] relative overflow-hidden">
-      <div className="flex justify-center w-full">
-        <ProgressBar />
-      </div>
+    <main className="relative flex flex-col items-center overflow-hidden">
       <section
-        className={`absolute w-full flex gap-10 flex-col items-center transition-transform ease-out mt-44 h-full ${
-          city ? " -translate-x-full" : ""
+        className={`min-h-[100svh] w-full  flex gap-10 flex-col items-center transition-transform ease-out mt-44 h-full ${
+          city ? " -translate-x-full" : null
         }`}
       >
+        <ProgressBar />
         <div className="text-9xl font-semibold">
           <div className="flex items-center gap-5 justify-center">
             <h1>Seeking</h1>
@@ -69,7 +67,7 @@ export default function HomePage() {
         <CitySearch />
       </section>
       <div
-        className={` absolute w-full -right-full transition-transform ease-out ${
+        className={` absolute w-full min-h-[100svh]  -right-full transition-transform ease-out ${
           city ? "-translate-x-full" : ""
         }`}
       >

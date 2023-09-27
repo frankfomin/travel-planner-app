@@ -29,6 +29,13 @@
       "when": 1695587187834,
       "tag": "0003_open_madame_masque",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1695654160258,
+      "tag": "0004_next_gabe_jones",
+      "breakpoints": true
     }
   ]
 }
