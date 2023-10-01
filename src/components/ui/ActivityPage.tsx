@@ -139,7 +139,7 @@ export default function ActivityPage() {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button onClick={() => router.push("/your-trip")}>Button</Button>
+        <Button onClick={() => router.push("/loading")}>Button</Button>
       </div>
     </section>
   );

@@ -36,7 +36,7 @@ type Details = {
 };
 
 export async function POST(req: NextRequest) {
-  const { locations, lat, lng } = await req.json();
+  const { locations, lat, lng, city } = await req.json();
 
   console.log("locations", locations);
 
@@ -96,17 +96,12 @@ export async function POST(req: NextRequest) {
       };
     });
 
-    const tripId = nanoid();
+    const userId = req.cookies.get("userId");
+    if (!userId?.value) {
+      return new NextResponse("User ID not found in cookies", { status: 400 });
+    }
 
-    await redis.rpush("locations", tripId);
-
-    const trip = {
-      combinedRes: JSON.stringify(combinedRes),
-      user: req.cookies.get("userId"),
-      timeStamp: Date.now(),
-    };
-
-    await redis.hset(`location_details: ${tripId}`, trip);
+    await redis.set(userId.value, combinedRes);
 
     return NextResponse.json("success", { status: 200 });
   } catch (error) {

@@ -1,120 +1,29 @@
 "use client";
 
-import GoogleImage from "@/components/GoogleImage";
-import LocationCard from "@/components/LocationCard";
-import TripHeader from "@/components/TripHeader";
-import { Button } from "@/components/ui/button";
-import { dataFromApi, dataToApi } from "@/context/message";
+import { redis } from "@/lib/redis";
 import { Place } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query";
-import Image from "next/image";
+import axios from "axios";
 import { useEffect } from "react";
-import { set } from "zod";
 
-export default function TripPage() {
-  const { city, activities, placeId } = dataToApi();
-  const { setLocations, locations } = dataFromApi();
-
-  console.log(city, activities);
-
-  type data = {
-    city: string;
-    activities: string[];
-  };
-  type googleLocData = {
-    locations: string[];
-    lat: number;
-    lng: number;
-  };
-
+export default function YourTrip() {
   useEffect(() => {
-    getCityLoc({ city, activities });
-    getCityDesc(city);
-    getCityBias(placeId);
+    mutate("london");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   const {
-    mutate: getCityLoc,
-    isLoading: cityLocLoading,
-    data: cityLoc,
+    mutate,
+    isLoading,
+    data: cachedTrip,
   } = useMutation({
-    mutationKey: ["getCityLoc"],
-    mutationFn: async ({ city, activities }: data) => {
-      const response = await fetch("/api/openAi/cityLoc", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ city, activities }),
-      });
-
-      const responseData = await response.json();
-
-      return responseData;
-    },
-  });
-
-  //can probably be called within an api route
-  const {
-    mutate: getCityBias,
-    isLoading: cityBiasLoading,
-    data: cityBias,
-  } = useMutation({
-    mutationKey: ["getCityBias"],
-    mutationFn: async (placeId: string) => {
-      const response = await fetch("/api/cityBias", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(placeId),
-      });
-
-      const { lat, lng } = await response.json();
-      return { lat, lng };
-    },
-  });
-
-  const {
-    mutate: getGoogleLocData,
-    isLoading: googleLocLoading,
-    data: googleLoc,
-    status,
-  } = useMutation({
-    mutationKey: ["getGoogleLocData"],
-    mutationFn: async (payload: googleLocData) => {
-      const response = await fetch("/api/locations", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const responseData = await response.json();
-      return responseData;
-    },
-  });
-
-  if (status === "success") {
-    //retrieve data from redis
-  }
-
-  //can be in a component
-  const {
-    mutate: getCityDesc,
-    isLoading: cityDescLoading,
-    data: cityDesc,
-  } = useMutation({
-    mutationKey: ["getCityDesc"],
+    mutationKey: ["sajd"],
     mutationFn: async (city: string) => {
       const response = await fetch("/api/openAi/cityDesc", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(city),
+        body: JSON.stringify(null),
       });
 
       const responseData = await response.json();
@@ -122,40 +31,12 @@ export default function TripPage() {
     },
   });
 
-  useEffect(() => {
-    console.log("USEFFECT running");
-    if (cityBias && cityLoc) {
-      const payload = {
-        locations: cityLoc, // Combine the array into a string
-        lat: cityBias.lat,
-        lng: cityBias.lng,
-      };
-
-      console.log("PAYLOAD", payload);
-      setLocations(cityLoc);
-
-      getGoogleLocData(payload);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cityBias, cityLoc]);
-
   return (
-    <main className="flex flex-col">
-      {city}
-      {activities}
-      <div className="flex flex-col gap-5">
-        {googleLoc?.map((loc: Place, i: number) => (
-          <LocationCard
-            key={i}
-            cityLoc={cityLoc}
-            name={loc.name}
-            photos={loc.photos}
-            rating={loc.rating}
-            description={loc.description}
-          />
-        ))}
-      </div>
-    </main>
+    <div>
+      <h1>trip page</h1>
+      {cachedTrip?.map((trip: Place) => (
+        <div>{trip.name}</div>
+      ))}
+    </div>
   );
 }
