@@ -1,9 +1,74 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "f4dd3551-5812-4c1a-b40f-ad4fc90474b2",
-  "prevId": "0bc90f9d-504e-4f50-9365-6a7ea325ac4f",
+  "id": "45371ece-90e6-4cee-bdb7-b44fb4866cab",
+  "prevId": "b8e6ef98-4608-428f-8fae-2dc813cdf1c6",
   "tables": {
+    "location": {
+      "name": "location",
+      "columns": {
+        "locationId": {
+          "name": "locationId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "decimal(3,1)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "photos": {
+          "name": "photos",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "location_locationId": {
+          "name": "location_locationId",
+          "columns": [
+            "locationId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "account": {
       "name": "account",
       "columns": {
@@ -72,7 +137,7 @@
         },
         "id_token": {
           "name": "id_token",
-          "type": "varchar(255)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false

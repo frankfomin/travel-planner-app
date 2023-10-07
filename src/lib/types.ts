@@ -27,7 +27,7 @@ export type Photo = {
   width: number;
 };
 
-type Review = {
+export type Review = {
   author_name: string;
   author_url: string;
   language: string;

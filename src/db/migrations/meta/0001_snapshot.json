@@ -1,9 +1,74 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0bc90f9d-504e-4f50-9365-6a7ea325ac4f",
-  "prevId": "970a43ab-759b-48e1-abe2-8d3a58be8d7d",
+  "id": "b8e6ef98-4608-428f-8fae-2dc813cdf1c6",
+  "prevId": "7fb066b6-77cb-47c9-8605-bb6c0e715aaf",
   "tables": {
+    "location": {
+      "name": "location",
+      "columns": {
+        "locationId": {
+          "name": "locationId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "decimal(3,1)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "photos": {
+          "name": "photos",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "location_locationId": {
+          "name": "location_locationId",
+          "columns": [
+            "locationId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "account": {
       "name": "account",
       "columns": {
@@ -72,7 +137,7 @@
         },
         "id_token": {
           "name": "id_token",
-          "type": "varchar(255)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -135,9 +200,61 @@
       },
       "uniqueConstraints": {}
     },
+    "trip": {
+      "name": "trip",
+      "columns": {
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "trip_tripId": {
+          "name": "trip_tripId",
+          "columns": [
+            "tripId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "user": {
       "name": "user",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "name": {
           "name": "name",
           "type": "varchar(255)",
@@ -170,7 +287,14 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "user_id": {
+          "name": "user_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
       "uniqueConstraints": {}
     },
     "verificationToken": {

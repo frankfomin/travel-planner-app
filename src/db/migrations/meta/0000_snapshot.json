@@ -1,9 +1,141 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "970a43ab-759b-48e1-abe2-8d3a58be8d7d",
+  "id": "7fb066b6-77cb-47c9-8605-bb6c0e715aaf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "location": {
+      "name": "location",
+      "columns": {
+        "locationId": {
+          "name": "locationId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "decimal(3,1)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "photos": {
+          "name": "photos",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "location_locationId": {
+          "name": "location_locationId",
+          "columns": [
+            "locationId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "locationReviews": {
+      "name": "locationReviews",
+      "columns": {
+        "locationId": {
+          "name": "locationId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "author_name": {
+          "name": "author_name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rating": {
+          "name": "rating",
+          "type": "decimal(3,1)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "review_text": {
+          "name": "review_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "locationReviews_locationId_userId": {
+          "name": "locationReviews_locationId_userId",
+          "columns": [
+            "locationId",
+            "userId"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
     "account": {
       "name": "account",
       "columns": {
@@ -72,7 +204,7 @@
         },
         "id_token": {
           "name": "id_token",
-          "type": "varchar(255)",
+          "type": "varchar(2048)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -130,6 +262,51 @@
           "name": "session_sessionToken",
           "columns": [
             "sessionToken"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "trip": {
+      "name": "trip",
+      "columns": {
+        "tripId": {
+          "name": "tripId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "trip_tripId": {
+          "name": "trip_tripId",
+          "columns": [
+            "tripId"
           ]
         }
       },

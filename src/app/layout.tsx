@@ -1,10 +1,11 @@
-import Layout from "@/components/Providers";
+import Layout from "@/components/providers/Providers";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ThemeProvider } from "@/components/theme-provider";
-import NextUIProvider from "@/components/next-ui-provider";
-import AuthProvider from "@/components/AuthProvider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import NextUIProvider from "@/components/providers/next-ui-provider";
+import AuthProvider from "@/components/providers/AuthProvider";
+import Nav from "@/components/ui/nav/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,10 @@ export default function RootLayout({
         <AuthProvider>
           <NextUIProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <Layout>{children}</Layout>
+              <Layout>
+                <Nav />
+                {children}
+              </Layout>
             </ThemeProvider>
           </NextUIProvider>
         </AuthProvider>
