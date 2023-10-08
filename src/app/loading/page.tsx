@@ -15,7 +15,7 @@ import { set } from "zod";
 export default function TripPag() {
   const router = useRouter();
   const { city, activities, placeId } = dataToApi();
-  const { setLocations, locations } = dataFromApi();
+  const { setLocations, locations, setUserId } = dataFromApi();
 
   console.log(city, activities);
 
@@ -100,8 +100,7 @@ export default function TripPag() {
   });
 
   if (GoogleStatus === "success") {
-    console.log("PUSHING");
-    router.push("/your-trip");
+    router.push(`/your-trip/${googleLoc}`);
   }
 
   //can be in a component

@@ -61,27 +61,27 @@ export async function POST(req: NextRequest) {
       .flat()
       .map((candidate: any) => candidate.place_id);
 
-    const detailsRes = await Promise.all(
-      placeIds.map(async (place_id: string) => {
-        const res = await axios.get(
-          `https://maps.googleapis.com/maps/api/place/details/json?fields=reviews%2Cphotos%2Cname%2Crating%2Copening_hours%2Cprice_level&place_id=${place_id}&key=${process.env.GOOGLE_PLACES_API_KEY}`
-        );
-        return res.data.result as Details; // Use 'result' instead of 'candidates' for place details
-      })
-    );
-    //Filter out
-    const descRes = await Promise.all(
-      locationsArray.map(async (locationName: string) => {
-        console.log("locationName", locationName);
-        const res = await axios.post(
-          "http://localhost:3000/api/openAi/locationDesc",
-          JSON.stringify(locationName)
-        );
+    const [detailsRes, descRes] = await Promise.all([
+      Promise.all(
+        placeIds.map(async (place_id: string) => {
+          const res = await axios.get(
+            `https://maps.googleapis.com/maps/api/place/details/json?fields=reviews%2Cphotos%2Cname%2Crating%2Copening_hours%2Cprice_level&place_id=${place_id}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+          );
+          return res.data.result as Details; // Use 'result' instead of 'candidates' for place details
+        })
+      ),
+      Promise.all(
+        locationsArray.map(async (locationName: string) => {
+          console.log("locationName", locationName);
+          const res = await axios.post(
+            "http://localhost:3000/api/openAi/locationDesc",
+            JSON.stringify(locationName)
+          );
 
-        return res.data;
-      })
-    );
-    console.log("descRef", descRes);
+          return res.data;
+        })
+      ),
+    ]);
 
     const combinedRes = detailsRes.map((detail: Details, index: number) => {
       return {
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
 
     await redis.set(userId.value, combinedRes);
 
-    return NextResponse.json("success", { status: 200 });
+    return NextResponse.json(userId.value, { status: 200 });
   } catch (error) {
     console.log(error);
     return new NextResponse("internal error", { status: 500 });

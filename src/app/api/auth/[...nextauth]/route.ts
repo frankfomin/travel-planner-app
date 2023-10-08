@@ -8,7 +8,7 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const handler = NextAuth({
   adapter: DrizzleAdapter(db),
   providers: [
     GoogleProvider({
@@ -56,18 +56,21 @@ const handler = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session }) {
+      return session;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-
-     strategy: "database",
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hours 
+    updateAge: 24 * 60 * 60, // 24 hours
 
     // Session is updated when user is active
   },
   pages: {
     signIn: "/sign-in",
-    newUser: "/sign-up",
   },
 });
 

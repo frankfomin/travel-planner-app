@@ -26,16 +26,19 @@ export default function NavDropDown() {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="">
+          <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className=" hover:cursor-pointer">
               <Link href="/profile">Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem className=" hover:cursor-pointer">
               <Link href="/trips">Trips</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => signOut()}>
+            <DropdownMenuItem
+              className=" hover:cursor-pointer"
+              onClick={() => signOut()}
+            >
               Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>

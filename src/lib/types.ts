@@ -93,3 +93,9 @@ export const signInSchema = z.object({
 });
 
 export type TsignInSchema = z.infer<typeof signInSchema>;
+
+export const updateEmailSchema = z.object({
+  email: z.string().email(),
+});
+
+export type TupdateEmailSchema = z.infer<typeof updateEmailSchema>;

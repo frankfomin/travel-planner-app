@@ -36,6 +36,8 @@ type dataFromApi = {
   setCityDesc: (cityDesc: string) => void;
   locations: string;
   setLocations: (locations: string) => void;
+  userId: string;
+  setUserId: (userId: string) => void;
 };
 
 export const dataFromApi = create<dataFromApi>((set) => ({
@@ -43,4 +45,6 @@ export const dataFromApi = create<dataFromApi>((set) => ({
   setCityDesc: (cityDesc: string) => set({ cityDesc }),
   locations: "",
   setLocations: (locations: string) => set({ locations }),
+  userId: "",
+  setUserId: (userId: string) => set({ userId }),
 }));
