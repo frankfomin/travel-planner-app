@@ -1,10 +1,13 @@
 "use client";
+
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { dataToApi } from "@/context/message";
 import { Button } from "./button";
+
+import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 const activityCategories = [
   {
@@ -50,11 +53,37 @@ const activityCategories = [
   }, */
 ];
 
+type SubmitData = {
+  activities: string[];
+  city: string;
+  placeId: string;
+};
+
 export default function ActivityPage() {
   const router = useRouter();
-  const { setActivities, activities, setIsSubmitted } = dataToApi();
+  const { setActivities, activities, city, placeId } = dataToApi();
   function handleChange(activity: string) {
     setActivities([...activities, activity]);
+  }
+
+  const { mutate, status } = useMutation({
+    mutationKey: ["sendMessage"],
+    mutationFn: async ({ activities, city, placeId }: SubmitData) => {
+      const response = await fetch("/api/formTripData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ activities, city, placeId }),
+      });
+
+      const responseData = await response.json();
+      return responseData;
+    },
+  });
+
+  if (status === "success") {
+    router.push("/your-trip");
   }
 
   return (
@@ -139,7 +168,10 @@ export default function ActivityPage() {
         </div>
       </div>
       <div className="flex justify-center">
-        <Button onClick={() => router.push("/loading")}>Button</Button>
+        <Button onClick={() => mutate({ activities, city, placeId })}>
+          Button
+        </Button>
+        {status}
       </div>
     </section>
   );

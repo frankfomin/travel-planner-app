@@ -11,7 +11,6 @@ import {
   json,
 } from "drizzle-orm/mysql-core";
 import type { AdapterAccount } from "@auth/core/adapters";
-import { config } from "process";
 import { relations } from "drizzle-orm";
 
 export const users = mysqlTable("user", {
@@ -22,6 +21,7 @@ export const users = mysqlTable("user", {
     mode: "date",
     fsp: 3,
   }).defaultNow(),
+  password: varchar("password", { length: 255 }),
   image: varchar("image", { length: 255 }),
 });
 

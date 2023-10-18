@@ -1,59 +1,24 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { TupdateEmailSchema, updateEmailSchema } from "@/lib/types";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import React from "react";
+import UpdateEmailForm from "./UpdateEmailForm";
+import axios from "axios";
+import { headers } from "next/headers";
 
-import { useEffect, useState } from "react";
+async function getSession() {
+  const res = await axios
+    .get("http://localhost:3000/api/getSession", {
+      headers: Object.fromEntries(headers()),
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 
-export default function SignUpPage() {
-  const [isMounted, setIsMounted] = useState(false);
+  if (res && res.data) {
+    return res.data;
+  }
+}
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+export default async function UpdateUserEmail() {
+  const email = await getSession();
 
-  const onSubmit = async (data: TupdateEmailSchema) => {};
-
-  const form = useForm<TupdateEmailSchema>({
-    resolver: zodResolver(updateEmailSchema),
-  });
-
-  return (
-    <>
-      {isMounted ? (
-        <main className="">
-          <Form {...form}>
-            <form className="" onSubmit={form.handleSubmit(onSubmit)}>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </main>
-      ) : (
-        ""
-      )}
-    </>
-  );
+  return <UpdateEmailForm email={email} />;
 }

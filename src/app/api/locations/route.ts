@@ -36,68 +36,39 @@ type Details = {
 };
 
 export async function POST(req: NextRequest) {
-  const { locations, lat, lng, city } = await req.json();
-
-  console.log("locations", locations);
-
-  const locationsArray = locations.split(",");
-
   try {
-    const responses: Place[] = await Promise.all(
-      locationsArray.map(async (locationName: string) => {
-        const res = await axios.get(
-          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${locationName}&inputtype=textquery&locationbias=circle%3A10000%40${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
-        );
-        const candidates = res.data.candidates;
-
-        // Extract the first place_id from the candidates, or return an empty object if candidates is empty
-        const firstPlaceId =
-          candidates.length > 0 ? candidates[0].place_id : "";
-        return { place_id: firstPlaceId };
-      })
-    );
-
-    const placeIds = responses
-      .flat()
-      .map((candidate: any) => candidate.place_id);
-
-    const [detailsRes, descRes] = await Promise.all([
-      Promise.all(
-        placeIds.map(async (place_id: string) => {
-          const res = await axios.get(
-            `https://maps.googleapis.com/maps/api/place/details/json?fields=reviews%2Cphotos%2Cname%2Crating%2Copening_hours%2Cprice_level&place_id=${place_id}&key=${process.env.GOOGLE_PLACES_API_KEY}`
-          );
-          return res.data.result as Details; // Use 'result' instead of 'candidates' for place details
-        })
-      ),
-      Promise.all(
-        locationsArray.map(async (locationName: string) => {
-          console.log("locationName", locationName);
-          const res = await axios.post(
-            "http://localhost:3000/api/openAi/locationDesc",
-            JSON.stringify(locationName)
-          );
-
-          return res.data;
-        })
-      ),
-    ]);
-
-    const combinedRes = detailsRes.map((detail: Details, index: number) => {
-      return {
-        ...detail,
-        description: descRes[index],
-      };
-    });
-
     const userId = req.cookies.get("userId");
     if (!userId?.value) {
       return new NextResponse("User ID not found in cookies", { status: 400 });
     }
 
-    await redis.set(userId.value, combinedRes);
+    const cachedTripData = await redis.lrange(userId.value, 0, -1);
 
-    return NextResponse.json(userId.value, { status: 200 });
+    if (cachedTripData && cachedTripData.length > 0) {
+      return NextResponse.json(JSON.stringify("Trip already in cache"), {
+        status: 200,
+      });
+    }
+    const { location, lat, lng } = await req.json();
+
+    const placeId = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${location}&inputtype=textquery&locationbias=circle%3A10000%40${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+    );
+    const candidates = placeId.data.candidates;
+
+    console.log(candidates);
+
+    const firstPlaceId = candidates[0].place_id;
+
+    console.log(firstPlaceId);
+
+    const placeDetails = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/details/json?fields=reviews%2Cphotos%2Cname%2Crating%2Copening_hours%2Cprice_level&place_id=${firstPlaceId}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+    );
+
+    const details = placeDetails.data.result as Details;
+
+    return NextResponse.json(details, { status: 200 });
   } catch (error) {
     console.log(error);
     return new NextResponse("internal error", { status: 500 });

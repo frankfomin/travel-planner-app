@@ -29,6 +29,41 @@
       "when": 1696539587534,
       "tag": "0003_solid_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1697555435391,
+      "tag": "0004_spicy_the_twelve",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1697555531280,
+      "tag": "0005_fancy_hannibal_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1697555586850,
+      "tag": "0006_icy_roxanne_simpson",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1697555690071,
+      "tag": "0007_outgoing_fantastic_four",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1697555764293,
+      "tag": "0008_chilly_frog_thor",
+      "breakpoints": true
     }
   ]
 }

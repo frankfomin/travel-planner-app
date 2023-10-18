@@ -10,13 +10,15 @@ export default function GoogleImage({
   width,
   height,
 }: GoogleImageProps) {
+  console.log("SDKASKDOAKSP", photo_reference);
   return (
     <Image
       className="object-cover aspect-video rounded-md"
-      width={width}
-      height={height}
+      width={5000}
+      height={5000}
+      priority
       alt="tratt"
-      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photo_reference}&key=AIzaSyAiqem9JYwG1MhAqSQMSsJ10Q1MkRVoSUE`}
+      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photo_reference}&key=${process.env.GOOGLE_PLACES_API_KEY}`}
     />
   );
 }

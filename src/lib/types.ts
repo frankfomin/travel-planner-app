@@ -74,16 +74,10 @@ export type AutocompleteResult = {
 
 import { z } from "zod";
 
-export const signUpSchema = z
-  .object({
-    email: z.string().email(),
-    password: z.string().min(10).max(100),
-    confirmPassword: z.string().min(10).max(100),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export const signUpSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(10).max(100),
+});
 
 export type TsignUpSchema = z.infer<typeof signUpSchema>;
 
@@ -99,3 +93,30 @@ export const updateEmailSchema = z.object({
 });
 
 export type TupdateEmailSchema = z.infer<typeof updateEmailSchema>;
+
+export const saveTripSchema = z.object({
+  TripName: z.string().min(1).max(100),
+});
+
+export type TsaveTripSchema = z.infer<typeof saveTripSchema>;
+
+type LocationDetails = {
+  name: string;
+  photos: any[]; // You might want to define a more specific type for photos
+  opening_hours?: Record<string, any>; // You might want to define a more specific type for opening hours
+  rating?: number;
+  reviews?: any[]; // You might want to define a more specific type for reviews
+};
+
+export type Location = {
+  locationDetails: LocationDetails;
+  locationDescription: string;
+};
+
+export type session = {
+  user: {
+    name: string;
+    email: string;
+    image: string;
+  };
+};
