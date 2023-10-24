@@ -11,7 +11,7 @@ import {
   json,
 } from "drizzle-orm/mysql-core";
 import type { AdapterAccount } from "@auth/core/adapters";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),
@@ -24,6 +24,20 @@ export const users = mysqlTable("user", {
   password: varchar("password", { length: 255 }),
   image: varchar("image", { length: 255 }),
 });
+
+export const securityLogs = mysqlTable("securityLog", {
+  id: serial("id").notNull().primaryKey(),
+  userId: varchar("userId", { length: 255 }).notNull(),
+  date: timestamp("date", { mode: "date" }).notNull().defaultNow(),
+  type: varchar("type", { length: 255 }),
+  provider: varchar("provider", { length: 255 }),
+  ip: varchar("ipAdress", { length: 255 }),
+  country: varchar("country", { length: 255 }),
+});
+
+export const securityLogsRelations = relations(securityLogs, ({ one }) => ({
+  user: one(users, { fields: [securityLogs.userId], references: [users.id] }),
+}));
 
 export const accounts = mysqlTable(
   "account",
@@ -69,7 +83,9 @@ export const trip = mysqlTable("trip", {
   tripId: varchar("tripId", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
-  created_at: timestamp("created_at", { mode: "date" }).notNull().defaultNow(),
+  created_at: timestamp("created_at", { mode: "date" }).default(
+    sql`CURRENT_TIMESTAMP`
+  ),
 });
 
 export const tripRelations = relations(trip, ({ one }) => ({
@@ -95,9 +111,9 @@ export const LocationReviews = mysqlTable(
     authorName: varchar("author_name", { length: 255 }).notNull(),
     rating: decimal("rating", { precision: 3, scale: 1 }).notNull(),
     reviewText: text("review_text").notNull(),
-    created_at: timestamp("created_at", { mode: "date" })
-      .notNull()
-      .defaultNow(),
+    created_at: timestamp("created_at", { mode: "date" }).default(
+      sql`CURRENT_TIMESTAMP`
+    ),
   },
   (vt) => ({
     compoundKey: primaryKey(vt.locationId, vt.userId),

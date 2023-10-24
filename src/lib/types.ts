@@ -46,7 +46,7 @@ export type Place = {
   photos: Photo[];
   rating?: number;
   reviews: Review[];
-  description: string;
+  locationDescription: string;
 };
 
 export type AutocompleteResult = {
@@ -83,16 +83,25 @@ export type TsignUpSchema = z.infer<typeof signUpSchema>;
 
 export const signInSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(8).max(100),
 });
 
 export type TsignInSchema = z.infer<typeof signInSchema>;
 
-export const updateEmailSchema = z.object({
-  email: z.string().email(),
-});
+export const updateUserData = z
+  .object({
+    email: z.string().email(),
+    name: z.string(),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().min(8).max(100).optional(),
+    confirmPassword: z.string().min(8).max(100).optional(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
-export type TupdateEmailSchema = z.infer<typeof updateEmailSchema>;
+export type TupdateUserData = z.infer<typeof updateUserData>;
 
 export const saveTripSchema = z.object({
   TripName: z.string().min(1).max(100),

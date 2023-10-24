@@ -1,12 +1,13 @@
 import { NextAuthOptions } from "next-auth";
 import { db } from "@/db/db";
-import { users } from "@/db/schema";
+import { securityLogs, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import * as argon2 from "argon2";
 
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import axios from "axios";
 
 export const options: NextAuthOptions = {
   adapter: DrizzleAdapter(db),
@@ -42,6 +43,7 @@ export const options: NextAuthOptions = {
         console.log("ISVALID:", isValid);
 
         if (!isValid) {
+          console.log("INVALID");
           return null;
         }
 
@@ -52,7 +54,38 @@ export const options: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async signIn(user) {
+      const email = user.profile?.email ? user.profile?.email : user.user.email;
 
+      const name = user.profile?.name ? user.profile?.name : user.user.email;
+      if (!email) {
+        return false;
+      }
+
+      const userId = await db
+        .select()
+        .from(users)
+        .where(eq(users.email, email));
+
+      console.log("USERID:", userId[0].id);
+      if (userId.length === 0) {
+        return false;
+      }
+
+      const ip = await axios.get("https://api.ipify.org?format=json");
+      const ipAddress = ip.data.ip;
+
+      await db.insert(securityLogs).values({
+        userId: userId[0].id,
+        ip: ipAddress,
+        provider: name,
+        type: "Signed into Venturevista",
+      });
+
+      return true;
+    },
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -63,5 +96,6 @@ export const options: NextAuthOptions = {
   },
   pages: {
     signIn: "/sign-in",
+    newUser: "/"
   },
 };

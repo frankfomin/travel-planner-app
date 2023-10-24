@@ -64,6 +64,34 @@
       "when": 1697555764293,
       "tag": "0008_chilly_frog_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1697748117925,
+      "tag": "0009_tough_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1697748180466,
+      "tag": "0010_first_whiplash",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1697748228362,
+      "tag": "0011_rapid_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1697748263791,
+      "tag": "0012_cooing_supernaut",
+      "breakpoints": true
     }
   ]
 }

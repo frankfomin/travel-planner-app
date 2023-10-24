@@ -169,9 +169,8 @@ export default function ActivityPage() {
       </div>
       <div className="flex justify-center">
         <Button onClick={() => mutate({ activities, city, placeId })}>
-          Button
+          Submit
         </Button>
-        {status}
       </div>
     </section>
   );

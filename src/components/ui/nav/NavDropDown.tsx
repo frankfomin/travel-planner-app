@@ -34,7 +34,7 @@ export default async function NavDropDown() {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <Link href="/profile">
+            <Link href="/profile/account">
               <DropdownMenuItem className=" hover:cursor-pointer">
                 Profile
               </DropdownMenuItem>

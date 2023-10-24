@@ -13,22 +13,17 @@ export async function getLocationDetails({
   lat,
   lng,
 }: LocationDetails) {
-  const res = await axios
-    .post(
-      "http://localhost:3000/api/locations",
-      {
-        location: location,
-        lat: lat,
-        lng: lng,
-      },
-      {
-        headers: Object.fromEntries(headers()),
-      }
-    )
-    .catch((error) => {
-      console.log("cityLocationdetails error", error);
-    });
-  if (res && res.data) {
-    return res.data as Place;
-  }
+  const res = await axios.post(
+    "http://localhost:3000/api/locations",
+    {
+      location: location,
+      lat: lat,
+      lng: lng,
+    },
+    {
+      headers: Object.fromEntries(headers()),
+    }
+  );
+
+  return res.data as Place;
 }

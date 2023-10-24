@@ -27,7 +27,6 @@ export default function RootLayout({
           <NextUIProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Layout>
-                <Nav />
                 {children}
                 <Toaster richColors />
               </Layout>

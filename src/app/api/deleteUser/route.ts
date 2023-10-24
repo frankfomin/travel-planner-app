@@ -11,7 +11,7 @@ export async function DELETE() {
       headers: Object.fromEntries(headers()),
     });
 
-    const email = data;
+    const email = data.email;
 
     const user = await db.select().from(users).where(eq(users.email, email));
 

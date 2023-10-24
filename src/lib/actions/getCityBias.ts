@@ -7,14 +7,9 @@ type cityBias = {
   lng: number;
 };
 export async function getCityBias() {
-  const res = await axios
-    .get("http://localhost:3000/api/cityBias", {
-      headers: Object.fromEntries(headers()),
-    })
-    .catch((error) => {
-      console.log("citybias error", error);
-    });
-  if (res && res.data) {
-    return res.data as cityBias;
-  }
+  const res = await axios.get("http://localhost:3000/api/cityBias", {
+    headers: Object.fromEntries(headers()),
+  });
+
+  return res.data as cityBias;
 }
