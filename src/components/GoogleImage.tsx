@@ -13,10 +13,11 @@ export default function GoogleImage({
   return (
     <Image
       className="object-cover aspect-video rounded-md"
-      width={width}
-      height={height}
+      width={width + 3000}
+      height={height + 3000}
+      priority
       alt="tratt"
-      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photo_reference}&key=AIzaSyAiqem9JYwG1MhAqSQMSsJ10Q1MkRVoSUE`}
+      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photo_reference}&key=${process.env.GOOGLE_PLACES_API_KEY}`}
     />
   );
 }

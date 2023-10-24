@@ -1,3 +1,4 @@
+import { redis } from "@/lib/redis";
 import axios from "axios";
 import { NextResponse } from "next/server";
 
@@ -18,16 +19,45 @@ type Geometry = {
   };
 };
 
-export async function POST(req: Request) {
-  const placeId = await req.json();
+type cachedUserData = {
+  city: string;
+  activities: string;
+  placeId: string;
+};
+
+export async function GET(res: NextResponse) {
   try {
+    const userId = res.cookies.get("userId");
+
+    if (!userId?.value) {
+      return new NextResponse("User ID not found in cookies", { status: 400 });
+    }
+
+    const cachedTripData = await redis.lrange(userId.value, 0, -1);
+
+    if (cachedTripData && cachedTripData.length > 0) {
+      return NextResponse.json(JSON.stringify("Trip already in cache"), {
+        status: 200,
+      });
+    }
+
+    const cachedUserData: cachedUserData | null = await redis.hgetall(
+      `user:${userId.value}`
+    );
+
+    if (!cachedUserData) {
+      return new NextResponse("User data not found", { status: 404 });
+    }
+
+    const placeId = cachedUserData.placeId;
+
     if (!placeId)
       return new NextResponse("No placeID provided", { status: 400 });
-    const res = await axios.get(
+    const response = await axios.get(
       `https://maps.googleapis.com/maps/api/place/details/json?fields=geometry&place_id=${placeId}&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
 
-    const place: Geometry = res.data.result.geometry;
+    const place: Geometry = response.data.result.geometry;
 
     const lat = place.location.lat;
 
@@ -35,7 +65,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ lat, lng });
   } catch (error) {
-    console.log(error);
-    return new NextResponse("internal error", { status: 500 });
+    console.error(error);
+    return new NextResponse("Internal error", { status: 500 });
   }
 }

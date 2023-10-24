@@ -1,5 +1,3 @@
-"use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -9,15 +7,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "../button";
-import Link from "next/link";
 
-export default function NavDropDown() {
+import { getServerSession } from "next-auth";
+import Link from "next/link";
+import NavSignOut from "./NavSignOut";
+import { options } from "@/app/api/auth/[...nextauth]/options";
+import { Button } from "../button";
+
+export default async function NavDropDown() {
+  const session = await getServerSession(options);
+
   return (
     <>
-      {!useSession().data?.user ? (
-        <Button onClick={() => signIn("google")}>Sign in</Button>
+      {!session ? (
+        <Link href="/sign-in">
+          <Button>Sign In</Button>
+        </Link>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -29,18 +34,17 @@ export default function NavDropDown() {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className=" hover:cursor-pointer">
-              <Link href="/profile">Profile</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className=" hover:cursor-pointer">
-              <Link href="/trips">Trips</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className=" hover:cursor-pointer"
-              onClick={() => signOut()}
-            >
-              Sign out
-            </DropdownMenuItem>
+            <Link href="/profile/account">
+              <DropdownMenuItem className=" hover:cursor-pointer">
+                Profile
+              </DropdownMenuItem>
+            </Link>
+            <Link href="/trips">
+              <DropdownMenuItem className=" hover:cursor-pointer">
+                Trips
+              </DropdownMenuItem>
+            </Link>
+            <NavSignOut />
           </DropdownMenuContent>
         </DropdownMenu>
       )}

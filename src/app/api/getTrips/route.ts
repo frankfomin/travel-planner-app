@@ -2,39 +2,29 @@ import { db } from "@/db/db";
 import { trip, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import { handler } from "../auth/[...nextauth]/route";
+import { getServerSession } from "next-auth";
+import { options } from "../auth/[...nextauth]/options";
+import { session } from "@/lib/types";
 
-/* {
-  user: {
-    name: 'Frank Fomin',
-    email: 'frank.fomin@gmail.com',
-    image: 'https://lh3.googleusercontent.com/a/ACg8ocIgG-QO5fhMISrQf8EP8fRl7rNpEyJfITO3Vk2Z1fJAzKw=s96-c'
-  }
-} */
-type session = {
-  user: {
-    name: string;
-    email: string;
-    image: string;
-  };
-};
 
-export async function POST() {
+
+export async function GET() {
   try {
-    const session: session | null = await getServerSession(handler);
+    const session: session | null = await getServerSession(options);
 
-    if (!session) {
+    console.log("GETTING TRIPS");
+
+    console.log("SESSION", session);
+
+    const email = session?.user.email;
+
+    console.log("EMAIL", email);
+    if (!email) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
     //retrieve trips from database
-    console.log(session);
-    const user = await db
-      .select()
-      .from(users)
-      .where(
-        eq(users.email, session ? session.user.email : "frank.fomin@gmail.com")
-      );
+    const user = await db.select().from(users).where(eq(users.email, email));
 
     if (!user || user.length === 0) {
       return new Response("User not found", { status: 404 });

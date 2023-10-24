@@ -33,38 +33,27 @@ export default function CitySearch() {
       return responseData as AutocompleteResult[];
     },
   });
-  console.log(data?.length);
   useEffect(() => {
-    // Set a delay of 300 milliseconds (adjust as needed)
     const delay = setTimeout(() => {
-      console.log("SENDING");
-      sendMessage(delayedValue); // Send the delayed value to the API
+      sendMessage(delayedValue);
     }, 300);
 
-    // Clear the timeout if the value changes before the delay
     return () => clearTimeout(delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [delayedValue]); // Listen to changes in delayedValue, not value
+  }, [delayedValue]);
 
   useEffect(() => {
-    // This effect runs when the user types
-    // Set the value immediately
     setValue(value);
 
-    // Clear any existing timeout
     clearTimeout(delayedValue);
 
-    // Set a new timeout
     const delay = setTimeout(() => {
-      // Update the delayedValue after 300ms
       setDelayedValue(value);
     }, 300);
 
-    // Clear the timeout if the component unmounts or if value changes before the delay
     return () => clearTimeout(delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]); // Listen to changes in value
-
+  }, [value]);
   function handleCityClick(city: string, place_id: string) {
     console.log("place ID", place_id);
     setPlaceId(place_id);
