@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { use, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { useSession } from "next-auth/react";
@@ -28,23 +27,24 @@ import { Place, TsaveTripSchema, saveTripSchema } from "@/lib/types";
 import { toast } from "sonner";
 import SignInForm from "@/app/(auth)/sign-in/components/SignInForm";
 
-type SaveTripProps = {
+export default function SaveTrip({
+  locations,
+  cityDescription,
+}: {
   locations: Place[];
-  tripName: string;
-};
-
-export default function SaveTrip({ locations }: { locations: Place[] }) {
+  cityDescription: string;
+}) {
   const session = useSession();
 
   const { mutate, isLoading, data, status } = useMutation({
     mutationKey: ["saveTrip"],
-    mutationFn: async ({ tripName, locations }: SaveTripProps) => {
+    mutationFn: async (tripName: string) => {
       const response = await fetch("/api/saveTrip", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ tripName, locations }),
+        body: JSON.stringify({ tripName, locations, cityDescription }),
       });
 
       const responseData = await response.json();
@@ -60,7 +60,7 @@ export default function SaveTrip({ locations }: { locations: Place[] }) {
 
   async function onSubmit(data: TsaveTripSchema) {
     const tripName = data.TripName;
-    mutate({ tripName, locations });
+    mutate(tripName);
   }
 
   const form = useForm<TsaveTripSchema>({

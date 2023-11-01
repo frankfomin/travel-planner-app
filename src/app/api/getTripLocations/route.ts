@@ -40,6 +40,7 @@ export async function POST(req: Request) {
       return new NextResponse("no tripLocations found", { status: 404 });
     }
 
+
     return NextResponse.json(tripLocations);
   } catch (error) {
     console.log("TRIP_LOCATIONS_ERROR", error);

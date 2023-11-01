@@ -1,0 +1,1 @@
+ALTER TABLE `locationReviews` ADD `created_at` timestamp DEFAULT CURRENT_TIMESTAMP;
