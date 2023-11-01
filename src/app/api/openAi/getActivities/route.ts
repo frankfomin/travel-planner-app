@@ -1,18 +1,11 @@
-import { chatDescPrompt } from "@/helpers/constants/chatbot-prompt";
-import { redis } from "@/lib/redis";
-import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { cookies } from "next/headers";
+import { redis } from "@/lib/redis";
+import { NextResponse } from "next/server";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-
-type cachedUserData = {
-  city: string;
-  activities: string;
-  placeId: string;
-};
 
 export async function GET() {
   try {
@@ -24,40 +17,31 @@ export async function GET() {
     if (!tripDetails) {
       return new NextResponse("No trip details found", { status: 400 });
     }
-
     const city = tripDetails.city;
-
-    if (!city) {
-      return new NextResponse("No city or activities provided", {
-        status: 400,
-      });
-    }
-
-    if (!openai.apiKey) {
-      return new NextResponse("No OpenAI API key provided", { status: 500 });
-    }
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
-          content: `${chatDescPrompt}`,
+          content: `Please generate atleast 10 activities for ${city} with a comma seperating each activity 
+          the activity should only be one word. For example: "hiking, swimming, biking" no exceptions in how you write it consistently use the same format.`,
         },
         {
           role: "user",
           content: `${city}`,
         },
       ],
-      max_tokens: 1,
+      max_tokens: 150,
       temperature: 0.6,
     });
 
     const responseText = completion.choices[0].message.content;
+    const activites = responseText?.split(", ");
 
-    return NextResponse.json(responseText);
+    return NextResponse.json(activites);
   } catch (error) {
-    console.error("Error:", error);
-    return new NextResponse("Internal error", { status: 500 });
+    console.log(error);
+    return new NextResponse("Something went wrong", { status: 500 });
   }
 }

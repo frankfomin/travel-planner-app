@@ -32,6 +32,9 @@ export default function LocationCard({
               photo_reference={firstPhotoReference}
               width={photos[0].width}
               height={photos[0].height}
+              src=""
+              alt=""
+              className="aspect-video object-cover rounded-md"
             />
           </Suspense>
         ) : (

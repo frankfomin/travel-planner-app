@@ -46,7 +46,7 @@ export type Place = {
   photos: Photo[];
   rating?: number;
   reviews: Review[];
-  locationDescription: string;
+  description: string;
 };
 
 export type AutocompleteResult = {

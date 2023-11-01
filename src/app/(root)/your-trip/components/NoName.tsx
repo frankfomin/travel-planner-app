@@ -13,7 +13,7 @@ export default async function NoName() {
   ]);
   return (
     <Suspense fallback={<Loading />}>
-      <YourTrip locations={locations} lat={bias.lat} lng={bias.lng} />
+      <YourTrip locations={locations} lat={bias.lat} lng={bias.lng} cityDescription={cityDescription} />
     </Suspense>
   );
 }

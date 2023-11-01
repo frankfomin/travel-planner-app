@@ -5,7 +5,6 @@ import {
   primaryKey,
   varchar,
   serial,
-  foreignKey,
   text,
   decimal,
   json,
@@ -28,7 +27,9 @@ export const users = mysqlTable("user", {
 export const securityLogs = mysqlTable("securityLog", {
   id: serial("id").notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
-  date: timestamp("date", { mode: "date" }).notNull().defaultNow(),
+  date: timestamp("date", { mode: "date" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
   type: varchar("type", { length: 255 }),
   provider: varchar("provider", { length: 255 }),
   ip: varchar("ipAdress", { length: 255 }),
@@ -83,9 +84,14 @@ export const trip = mysqlTable("trip", {
   tripId: varchar("tripId", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
-  created_at: timestamp("created_at", { mode: "date" }).default(
-    sql`CURRENT_TIMESTAMP`
-  ),
+  created_at: timestamp("created_at", { mode: "date" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  city: varchar("city", { length: 255 }),
+  description: text("description"),
+  photo_reference: varchar("photo_reference", { length: 255 }).notNull(),
+  width: int("width").notNull(),
+  height: int("height").notNull(),
 });
 
 export const tripRelations = relations(trip, ({ one }) => ({
@@ -102,23 +108,17 @@ export const Location = mysqlTable("location", {
   photos: json("photos"),
 });
 
-export const LocationReviews = mysqlTable(
-  "locationReviews",
-  {
-    locationId: varchar("locationId", { length: 255 }).notNull(),
-    tripId: varchar("tripId", { length: 255 }).notNull(),
-    userId: varchar("userId", { length: 255 }).notNull(),
-    authorName: varchar("author_name", { length: 255 }).notNull(),
-    rating: decimal("rating", { precision: 3, scale: 1 }).notNull(),
-    reviewText: text("review_text").notNull(),
-    created_at: timestamp("created_at", { mode: "date" }).default(
-      sql`CURRENT_TIMESTAMP`
-    ),
-  },
-  (vt) => ({
-    compoundKey: primaryKey(vt.locationId, vt.userId),
-  })
-);
+export const LocationReviews = mysqlTable("locationReviews", {
+  locationId: varchar("locationId", { length: 255 }).notNull().primaryKey(),
+  tripId: varchar("tripId", { length: 255 }).notNull(),
+  userId: varchar("userId", { length: 255 }).notNull(),
+  authorName: varchar("author_name", { length: 255 }).notNull(),
+  rating: decimal("rating", { precision: 3, scale: 1 }).notNull(),
+  reviewText: text("review_text").notNull(),
+  created_at: timestamp("created_at", { mode: "date" })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+});
 
 export const locationReviewsRelations = relations(
   LocationReviews,

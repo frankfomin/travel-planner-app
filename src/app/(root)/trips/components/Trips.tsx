@@ -5,19 +5,15 @@ import Image from "next/image";
 import Link from "next/link";
 import DeleteTrip from "./DeleteTrip";
 import { headers } from "next/headers";
+import GoogleImage from "@/components/GoogleImage";
 
 type Trip = {
   tripId: string;
   name: string;
   created_at: string;
-};
-
-type session = {
-  user: {
-    name: string;
-    email: string;
-    image: string;
-  };
+  photo_reference: string;
+  width: number;
+  height: number;
 };
 
 async function getTrips(): Promise<Trip[] | undefined> {
@@ -42,12 +38,13 @@ export default async function Trips() {
       {data?.map((trip: Trip, i) => (
         <Card key={i} className="flex gap-10 flex-shrink-0 overflow-hidden  ">
           <Link href={`trips/${trip.tripId}`} key={i}>
-            <Image
-              width={400}
-              height={400}
-              alt="trip"
-              src="https://images.unsplash.com/photo-1530330222720-9e081f1e46bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80"
-              className=" aspect-square max-w-xs max-h-56 object-cover "
+            <GoogleImage
+              className="max-w-xs object-cover max-h-56"
+              photo_reference={trip.photo_reference}
+              width={trip.width}
+              height={trip.height}
+              alt="hello"
+              src=""
             />
           </Link>
 

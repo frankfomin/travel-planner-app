@@ -2,6 +2,7 @@ import { chatLocPrompt } from "@/helpers/constants/chatbot-prompt";
 import { redis } from "@/lib/redis";
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import { cookies } from "next/headers";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -9,21 +10,6 @@ const openai = new OpenAI({
 
 export async function POST(req: NextRequest) {
   try {
-    const userId = req.cookies.get("userId");
-
-    if (!userId?.value) {
-      return new NextResponse("User ID not found in cookies", { status: 400 });
-    }
-
-    const cachedTripData = await redis.lrange(userId.value, 0, -1);
-
-    if (cachedTripData && cachedTripData.length > 0) {
-      console.log("cachedTripData", cachedTripData);
-      return NextResponse.json(JSON.stringify("Trip already in cache"), {
-        status: 200,
-      });
-    }
-
     const { locationName } = await req.json();
 
     if (!locationName) {

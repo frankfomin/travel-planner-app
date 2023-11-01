@@ -20,7 +20,6 @@ type SecurityLog = {
   country: string;
 };
 
-import { AxiosResponse } from "axios";
 
 async function getSecurityLog() {
   const { data } = await axios.get("http://localhost:3000/api/getSecurityLog", {
