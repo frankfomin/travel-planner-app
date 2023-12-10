@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import {
   AlertDialog,
@@ -12,9 +10,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
+import { revalidatePath } from "next/cache";
 
 export default function DeleteTrip({
   tripName,
@@ -23,12 +21,13 @@ export default function DeleteTrip({
   tripName: string;
   tripId: string;
 }) {
-  const { mutate, isLoading, data } = useMutation({
-    mutationKey: ["deleteTrip"],
-    mutationFn: async (tripId: string) => {
-      const { data } = await axios.delete(`/api/DeleteTrip/${tripId}`);
-    },
-  });
+  async function handleSubmit() {
+    "use server";
+    console.log("submitting")
+    await axios.delete(`http://localhost:3000/api/DeleteTrip/${tripId}`);
+
+    revalidatePath("http://localhost:3000/trips");
+  }
 
   return (
     <AlertDialog>
@@ -59,10 +58,14 @@ export default function DeleteTrip({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction asChild>
-            <Button className=" bg-destructive">Continue</Button>
-          </AlertDialogAction>
+          <form className="flex gap-5" action={handleSubmit}>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction asChild >
+              <Button type="submit" variant="destructive">
+                Continue
+              </Button>
+            </AlertDialogAction>
+          </form>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

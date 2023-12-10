@@ -1,0 +1,1 @@
+ALTER TABLE `locationReviews` ADD `tripId` varchar(255) NOT NULL;

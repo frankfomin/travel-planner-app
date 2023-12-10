@@ -169,6 +169,118 @@
       "when": 1698789559531,
       "tag": "0023_thick_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "5",
+      "when": 1698880481645,
+      "tag": "0024_clumsy_thanos",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "5",
+      "when": 1698880499334,
+      "tag": "0025_great_dreadnoughts",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "5",
+      "when": 1698882751894,
+      "tag": "0026_keen_captain_marvel",
+      "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "5",
+      "when": 1698928340929,
+      "tag": "0027_warm_living_mummy",
+      "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "5",
+      "when": 1698931357325,
+      "tag": "0028_ordinary_lizard",
+      "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "5",
+      "when": 1698935181072,
+      "tag": "0029_flimsy_multiple_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "5",
+      "when": 1698939583543,
+      "tag": "0030_marvelous_mysterio",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "5",
+      "when": 1698940063049,
+      "tag": "0031_sloppy_ultimates",
+      "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "5",
+      "when": 1698940420035,
+      "tag": "0032_busy_morbius",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "5",
+      "when": 1700149362271,
+      "tag": "0033_true_komodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "5",
+      "when": 1700150075554,
+      "tag": "0034_milky_old_lace",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "5",
+      "when": 1700150089258,
+      "tag": "0035_sleepy_nicolaos",
+      "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "5",
+      "when": 1700150573824,
+      "tag": "0036_noisy_lady_ursula",
+      "breakpoints": true
+    },
+    {
+      "idx": 37,
+      "version": "5",
+      "when": 1700151012201,
+      "tag": "0037_known_sir_ram",
+      "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "5",
+      "when": 1700151246315,
+      "tag": "0038_freezing_shadowcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "5",
+      "when": 1700310967646,
+      "tag": "0039_icy_power_pack",
+      "breakpoints": true
     }
   ]
 }

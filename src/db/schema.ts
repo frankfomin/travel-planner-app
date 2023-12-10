@@ -36,10 +36,6 @@ export const securityLogs = mysqlTable("securityLog", {
   country: varchar("country", { length: 255 }),
 });
 
-export const securityLogsRelations = relations(securityLogs, ({ one }) => ({
-  user: one(users, { fields: [securityLogs.userId], references: [users.id] }),
-}));
-
 export const accounts = mysqlTable(
   "account",
   {
@@ -81,7 +77,7 @@ export const verificationTokens = mysqlTable(
 );
 
 export const trip = mysqlTable("trip", {
-  tripId: varchar("tripId", { length: 255 }).notNull().primaryKey(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   created_at: timestamp("created_at", { mode: "date" })
@@ -94,47 +90,52 @@ export const trip = mysqlTable("trip", {
   height: int("height").notNull(),
 });
 
-export const tripRelations = relations(trip, ({ one }) => ({
-  user: one(users, { fields: [trip.userId], references: [users.id] }),
-}));
-
-export const Location = mysqlTable("location", {
-  locationId: varchar("locationId", { length: 255 }).notNull().primaryKey(),
+export const location = mysqlTable("location", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   tripId: varchar("tripId", { length: 255 }).notNull(),
-  userId: varchar("userId", { length: 255 }).notNull(),
   name: varchar("name", { length: 255 }).notNull(),
   description: text("description"),
   rating: decimal("rating", { precision: 3, scale: 1 }),
   photos: json("photos"),
+  opening_hours: json("opening_hours"),
 });
 
-export const LocationReviews = mysqlTable("locationReviews", {
-  locationId: varchar("locationId", { length: 255 }).notNull().primaryKey(),
+export const locationReviews = mysqlTable("locationReviews", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  locationId: varchar("locationId", { length: 255 }).notNull(),
   tripId: varchar("tripId", { length: 255 }).notNull(),
-  userId: varchar("userId", { length: 255 }).notNull(),
-  authorName: varchar("author_name", { length: 255 }).notNull(),
+  author_name: varchar("author_name", { length: 255 }).notNull(),
   rating: decimal("rating", { precision: 3, scale: 1 }).notNull(),
-  reviewText: text("review_text").notNull(),
-  created_at: timestamp("created_at", { mode: "date" })
-    .default(sql`CURRENT_TIMESTAMP`)
-    .notNull(),
+  relative_time_description: varchar("relative_time_description", {
+    length: 255,
+  }),
+  text: text("text").notNull(),
+  profile_photo_url: varchar("profile_photo_url", { length: 255 }),
+  author_url: varchar("author_url", { length: 255 }),
 });
+
+export const tripRelations = relations(trip, ({ one, many }) => ({
+  user: one(users, {
+    fields: [trip.userId],
+    references: [users.id],
+  }),
+  location: many(location),
+}));
+
+export const locationRelations = relations(location, ({ one, many }) => ({
+  trip: one(trip, {
+    fields: [location.tripId],
+    references: [trip.id],
+  }),
+  reviews: many(locationReviews),
+}));
 
 export const locationReviewsRelations = relations(
-  LocationReviews,
+  locationReviews,
   ({ one }) => ({
-    user: one(users, {
-      fields: [LocationReviews.userId],
-      references: [users.id],
-    }),
-    trip: one(trip, {
-      fields: [LocationReviews.tripId],
-      references: [trip.tripId],
+    location: one(location, {
+      fields: [locationReviews.locationId],
+      references: [location.id],
     }),
   })
 );
-
-export const locationRelations = relations(Location, ({ one }) => ({
-  user: one(users, { fields: [Location.userId], references: [users.id] }),
-  trip: one(trip, { fields: [Location.tripId], references: [trip.tripId] }),
-}));

@@ -1,0 +1,1 @@
+ALTER TABLE `locationReviews` DROP COLUMN `created_at`;

@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { Location, LocationReviews, accounts, trip, users } from "@/db/schema";
+import {  accounts, location, locationReviews, trip, users } from "@/db/schema";
 import axios from "axios";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -18,12 +18,11 @@ export async function DELETE() {
     if (!user) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
     await Promise.all([
       db.delete(users).where(eq(users.id, user[0].id)),
       db.delete(trip).where(eq(trip.userId, user[0].id)),
-      db.delete(Location).where(eq(Location.userId, user[0].id)),
-      db.delete(LocationReviews).where(eq(LocationReviews.userId, user[0].id)),
+      db.delete(location).where(eq(location.id, user[0].id)),
+      db.delete(locationReviews).where(eq(LocationReviews.userId, user[0].id)),
       db.delete(accounts).where(eq(accounts.userId, user[0].id)),
     ]);
 

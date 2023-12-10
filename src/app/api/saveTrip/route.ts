@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { Location, LocationReviews, trip, users } from "@/db/schema";
+import { location, locationReviews, trip, users } from "@/db/schema";
 import { Location as Locationtype, Place, Review } from "@/lib/types";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
@@ -25,7 +25,9 @@ export async function POST(req: NextRequest) {
     const [body, session, tripDetails] = await Promise.all([
       await req.json(),
       await getServerSession(options),
-      (await redis.hgetall(`tripDetails:${userIdCookie?.value}`)) as TripDetails,
+      (await redis.hgetall(
+        `tripDetails:${userIdCookie?.value}`
+      )) as TripDetails,
     ]);
 
     const { tripName, cityDescription, locations } = body;
@@ -62,36 +64,39 @@ export async function POST(req: NextRequest) {
         name: tripName,
         city: city,
         description: cityDescription,
-        tripId: tripId,
+        id: tripId,
         userId: userId,
         photo_reference: cityImage,
         width: imageWidth,
         height: imageHeight,
       }),
-      ...locations.map((location: Place) =>
+      ...locations.map((loc: Place) => {
+        const locationId = nanoid();
         Promise.all([
-          db.insert(Location).values({
-            locationId: nanoid(),
+          db.insert(location).values({
+            id: locationId,
             tripId: tripId,
-            userId: userId,
-            name: location.name,
-            description: location.locationDescription,
-            rating: location.rating?.toString(),
-            photos: location.photos,
+            name: loc.name,
+            description: loc.description,
+            rating: loc.rating?.toString(),
+            photos: loc.photos,
+            opening_hours: loc.opening_hours,
           }),
-          ...(location?.reviews?.slice(0, 2).map((review: Review) =>
-            db.insert(LocationReviews).values({
-              locationId: nanoid(),
+          ...loc.reviews.slice(0, 3).map((review: Review) => {
+            return db.insert(locationReviews).values({
+              id: nanoid(),
+              locationId: locationId,
               tripId: tripId,
-              userId: userId,
-              authorName: review.author_name,
-              reviewText: review.text,
+              author_name: review.author_name,
+              relative_time_description: review.relative_time_description,
+              text: review.text,
               rating: review.rating.toString(),
-              created_at: new Date(review.time),
-            })
-          ) || []),
-        ])
-      ),
+              profile_photo_url: review.profile_photo_url,
+              author_url: review.author_url,
+            });
+          }),
+        ]);
+      }),
     ]);
 
     return NextResponse.json("success", { status: 200 });

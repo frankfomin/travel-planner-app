@@ -42,9 +42,12 @@ export default async function TripHeader({
           <div className=" aspect-video max-w-4xl rounded-md w-full h-full bg-black absolute opacity-30  " />
           <div className=" aspect-video object-cover max-w-4xl rounded-md w-full h-full ">
             <GoogleImage
+              className="aspect-video object-cover max-w-4xl rounded-md w-full h-full"
               photo_reference={cityImage.photo_reference}
               width={cityImage.width}
               height={cityImage.height}
+              src=""
+              alt=""
             />
           </div>
         </div>

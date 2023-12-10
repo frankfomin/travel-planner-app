@@ -1,0 +1,1 @@
+ALTER TABLE `location` ADD `icon` varchar(255);

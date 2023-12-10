@@ -1,14 +1,11 @@
 import Layout from "@/components/providers/Providers";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import NextUIProvider from "@/components/providers/next-ui-provider";
 import AuthProvider from "@/components/providers/AuthProvider";
-import Nav from "@/components/ui/nav/Nav";
 import { Toaster } from "sonner";
-
-const inter = Inter({ subsets: ["latin"] });
+import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className}`}>
+      <body className={`${GeistSans.variable}`}>
         <AuthProvider>
           <NextUIProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

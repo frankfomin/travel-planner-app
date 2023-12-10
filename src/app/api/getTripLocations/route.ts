@@ -1,9 +1,9 @@
 import { db } from "@/db/db";
-import { Location, users } from "@/db/schema";
-import { and, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { options } from "../auth/[...nextauth]/options";
+import { users } from "@/db/schema";
 
 type session = {
   user: {
@@ -31,17 +31,20 @@ export async function POST(req: Request) {
       return new NextResponse("no userId found", { status: 404 });
     }
 
-    const tripLocations = await db
-      .select()
-      .from(Location)
-      .where(and(eq(Location.tripId, tripId), eq(Location.userId, user[0].id)));
+    const locations = await db.query.location.findMany({
+      where: (location, { eq }) => eq(location.tripId, tripId),
+      with: {
+          reviews: true,
+      }
+    });
 
-    if (!tripLocations || tripLocations.length === 0) {
-      return new NextResponse("no tripLocations found", { status: 404 });
+    console.log("LOCATIONS", locations)
+
+    if (!locations) {
+      return new NextResponse("no locations", { status: 404 });
     }
 
-
-    return NextResponse.json(tripLocations);
+    return NextResponse.json(locations);
   } catch (error) {
     console.log("TRIP_LOCATIONS_ERROR", error);
     return new NextResponse("Internal Error", { status: 500 });

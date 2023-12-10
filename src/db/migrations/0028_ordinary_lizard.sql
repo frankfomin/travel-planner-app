@@ -1,0 +1,1 @@
+ALTER TABLE `locationReviews` RENAME COLUMN `review_text` TO `text`;

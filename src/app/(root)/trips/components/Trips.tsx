@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 import GoogleImage from "@/components/GoogleImage";
 
 type Trip = {
-  tripId: string;
+  id: string;
   name: string;
   created_at: string;
   photo_reference: string;
@@ -37,7 +37,7 @@ export default async function Trips() {
     <>
       {data?.map((trip: Trip, i) => (
         <Card key={i} className="flex gap-10 flex-shrink-0 overflow-hidden  ">
-          <Link href={`trips/${trip.tripId}`} key={i}>
+          <Link href={`trips/${trip.id}`} key={i}>
             <GoogleImage
               className="max-w-xs object-cover max-h-56"
               photo_reference={trip.photo_reference}
@@ -50,12 +50,12 @@ export default async function Trips() {
 
           <div className="mt-7 flex w-full justify-between pr-10">
             <div>
-              <Link href={`trips/${trip.tripId}`} key={i}>
+              <Link href={`trips/${trip.id}`} key={i}>
                 <CardTitle>{trip.name}</CardTitle>
               </Link>
               <CardDescription>{trip.created_at}</CardDescription>
             </div>
-            <DeleteTrip tripName={trip.name} tripId={trip.tripId} />
+            <DeleteTrip tripName={trip.name} tripId={trip.id} />
           </div>
         </Card>
       ))}

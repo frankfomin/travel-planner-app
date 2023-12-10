@@ -40,6 +40,8 @@ export async function GET() {
     }
 
     console.log("TRIPS", trips);
+
+    console.log("TRIPS", trips);
     return NextResponse.json(trips);
   } catch (error) {
     console.log("TRIPS_ERROR", error);
