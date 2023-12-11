@@ -1,8 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
-import { signUpSchema } from "@/lib/types";
-import { TsignUpSchema } from "@/lib/types";
+import { signUpSchema, TsignUpSchema } from "@/lib/validators/signUp";
 import {
   Form,
   FormControl,
