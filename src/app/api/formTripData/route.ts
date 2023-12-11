@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
       return new Response("Missing activities or city", { status: 400 });
     }
 
-   /*  console.log("HELLO API");
+    /*  console.log("HELLO API");
 
     if (!req.cookies.get("userId")) {
       console.log("setting cookie");
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     } */
 
     const userId = req.cookies.get("userId");
-    console.log("USER ID", userId?.value)
+    console.log("USER ID", userId?.value);
     if (!userId?.value) {
       return new Response("User Id not found in cookies", { status: 400 });
     }
