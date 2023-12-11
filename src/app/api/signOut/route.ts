@@ -3,6 +3,7 @@ import { securityLogs, users } from "@/db/schema";
 import axios from "axios";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 
 type userSession = {
   data: {
@@ -46,8 +47,8 @@ export async function GET() {
       type: "Signed out",
     })
   
-    return new Response("Signed out", { status: 200 });
+    return new NextResponse("Signed out", { status: 200 });
   } catch (error) {
-    return new Response("Internal Error", { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }
