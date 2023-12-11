@@ -10,7 +10,6 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   try {
     const { city, companion } = await req.json();
-    console.log(city, companion)
 
     const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
