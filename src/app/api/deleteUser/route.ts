@@ -22,7 +22,7 @@ export async function DELETE() {
       db.delete(users).where(eq(users.id, user[0].id)),
       db.delete(trip).where(eq(trip.userId, user[0].id)),
       db.delete(location).where(eq(location.id, user[0].id)),
-      db.delete(locationReviews).where(eq(LocationReviews.userId, user[0].id)),
+      db.delete(locationReviews).where(eq(locationReviews.id, user[0].id)),
       db.delete(accounts).where(eq(accounts.userId, user[0].id)),
     ]);
 
