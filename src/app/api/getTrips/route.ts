@@ -1,17 +1,13 @@
 import { db } from "@/db/db";
 import { trip, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { NextRequest, NextResponse } from "next/server";
-import { handler } from "../auth/[...nextauth]/route";
+import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { options } from "../auth/[...nextauth]/options";
-import { session } from "@/lib/types";
-
-
+import { session } from "@/types";
 
 export async function GET() {
   try {
-    const session: session | null = await getServerSession(options);
+    const session: session | null = await getServerSession();
 
     console.log("GETTING TRIPS");
 

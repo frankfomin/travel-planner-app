@@ -11,11 +11,10 @@ import {
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 import NavSignOut from "./NavSignOut";
-import { options } from "@/app/api/auth/[...nextauth]/options";
 import { Button } from "../button";
 
 export default async function NavDropDown() {
-  const session = await getServerSession(options);
+  const session = await getServerSession();
 
   return (
     <>

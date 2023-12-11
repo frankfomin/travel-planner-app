@@ -1,9 +1,8 @@
 "use client";
 
-import { signOut } from "next-auth/react";
 import { DropdownMenuItem } from "../dropdown-menu";
 import axios from "axios";
-import { headers } from "next/headers";
+import { signOut } from "next-auth/react";
 import { toast } from "sonner";
 
 async function handleSignOut() {

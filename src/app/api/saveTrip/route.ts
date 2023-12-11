@@ -1,11 +1,10 @@
 import { db } from "@/db/db";
 import { location, locationReviews, trip, users } from "@/db/schema";
-import { Location as Locationtype, Place, Review } from "@/lib/types";
+import { Location as Locationtype, Place, Review } from "@/types";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth";
-import { options } from "../auth/[...nextauth]/options";
 import { redis } from "@/lib/redis";
 import { cookies } from "next/headers";
 
@@ -24,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const [body, session, tripDetails] = await Promise.all([
       await req.json(),
-      await getServerSession(options),
+      await getServerSession(),
       (await redis.hgetall(
         `tripDetails:${userIdCookie?.value}`
       )) as TripDetails,
