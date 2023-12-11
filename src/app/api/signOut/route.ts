@@ -22,7 +22,7 @@ export async function GET() {
     );
 
     if (!userSession) {
-      return new Response("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const email = userSession.data.email;
@@ -34,7 +34,7 @@ export async function GET() {
 
     console.log("USERID:", userId[0].id);
     if (userId.length === 0) {
-      return false;
+      return new NextResponse("Unauthorized", { status: 401 });
     }
 
     const ip = await axios.get("https://api.ipify.org?format=json");
