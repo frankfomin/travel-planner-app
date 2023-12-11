@@ -18,7 +18,6 @@ export default function Search() {
 
   const {
     mutate: sendMessage,
-    isLoading,
     data,
   } = useMutation({
     mutationKey: ["sendMessage"],

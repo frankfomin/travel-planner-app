@@ -18,20 +18,23 @@ import {
 import { saveTripData } from "@/lib/actions/saveTripData.action";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Activities() {
   const router = useRouter();
   const { formData, nextStep, prevStep, step } = formContext();
+  const [activities, setActivities] = useState<string[]>();
+
   const { activities: a } = activitiesContext();
   const ref = useRef<HTMLFormElement>(null);
-  /*  useEffect(() => {
-    if (step === 3 && !data) {
+  useEffect(() => {
+    if (!data) {
       mutate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [step]);
- */
-  /* onst { mutate, isLoading, data } = useMutation({
+  }, []);
+
+  const { mutate, isLoading, data } = useMutation({
     mutationFn: async () => {
       const { data } = await axios.get("/api/openAi/getActivities", {
         headers: {
@@ -41,31 +44,10 @@ export default function Activities() {
 
       return data as string[];
     },
-  }); */
-
-  const data = [
-    "Hiking",
-    "Skiing",
-    "Surfing",
-    "Camping",
-    "Fishing",
-    "Sightseeing",
-    "Shopping",
-    "Eating",
-    "Drinking",
-    "Partying",
-    "Relaxing",
-    "Museum",
-    "Concert",
-    "Theater",
-    "Sport",
-    "Spa",
-    "Beach",
-    "Pool",
-    "Theme Park",
-  ];
-
-  const [activities, setActivities] = useState(data);
+    onSuccess: (data) => {
+      setActivities(data);
+    },
+  });
 
   return (
     <FormPage
@@ -75,9 +57,19 @@ export default function Activities() {
     >
       <div className="w-full grid gap-5">
         <div className="flex flex-wrap max-w-lg w-full gap-3">
-          {activities?.map((activity, i) => (
-            <ActivityBadge activity={activity} key={i} />
-          ))}
+          {isLoading ? (
+            <>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <Skeleton key={i} className="w-14 h-5 rounded-full" />
+              ))}
+            </>
+          ) : (
+            <>
+              {data?.map((activity, i) => (
+                <ActivityBadge activity={activity} key={i} />
+              ))}
+            </>
+          )}
           <Badge variant="outline">
             <form
               ref={ref}
@@ -90,14 +82,13 @@ export default function Activities() {
                   return;
                 }
                 setActivities((prevActivities) => [
-                  ...prevActivities,
+                  ...(prevActivities ?? []),
                   result.data,
                 ]);
                 ref.current?.reset();
               }}
             >
               <input
-                
                 placeholder="Add+"
                 name="activity"
                 size={1}
