@@ -1,6 +1,6 @@
 import LocationCard from "@/app/(root)/your-trip/components/LocationCard";
 import { options } from "@/app/api/auth/[...nextauth]/options";
-import { Place, Review } from "@/lib/types";
+import { Place } from "@/types";
 import axios from "axios";
 import { headers } from "next/headers";
 
