@@ -23,9 +23,10 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Place, TsaveTripSchema, saveTripSchema } from "@/lib/types";
+import { Place } from "@/types";
 import { toast } from "sonner";
 import SignInForm from "@/app/(auth)/sign-in/components/SignInForm";
+import { saveTripSchema, TsaveTripSchema } from "@/lib/validators/saveTrip";
 
 export default function SaveTrip({
   locations,

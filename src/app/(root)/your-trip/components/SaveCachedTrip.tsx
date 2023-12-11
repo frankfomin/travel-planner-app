@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TsaveTripSchema, saveTripSchema } from "@/lib/types";
+import { TsaveTripSchema, saveTripSchema } from "@/lib/validators/saveTrip";
 import { toast } from "sonner";
 import SignInForm from "@/app/(auth)/sign-in/components/SignInForm";
 

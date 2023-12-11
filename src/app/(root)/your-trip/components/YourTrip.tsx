@@ -18,7 +18,7 @@ export default async function YourTrip({
   lng: number;
   cityDescription: string;
 }) {
-  const details: Place[] = await Promise.all(
+  const details: any = await Promise.all(
     locations?.map(async (location) => {
       const { details } = await getLocationDetails({ location, lat, lng });
       const { description } = await getLocationDescription(location);
@@ -32,7 +32,7 @@ export default async function YourTrip({
       <SaveTrip locations={details} cityDescription={cityDescription} />
       <TripHeader cityDescription={cityDescription} />
       <section className="flex flex-col gap-5 ml-10 mt-10 ">
-        {details.map((detail: Place, i) => (
+        {details.map((detail: Place, i: number) => (
           <>
             <LocationCard
               key={i}
