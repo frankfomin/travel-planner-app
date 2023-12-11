@@ -153,7 +153,7 @@ export async function getCityDescription() {
           content: `${city}`,
         },
       ],
-      max_tokens: 1,
+      max_tokens: 300,
       temperature: 0.6,
     });
 

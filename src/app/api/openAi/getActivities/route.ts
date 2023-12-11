@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         {
           role: "system",
           content: `Please generate atleast 10 activities for ${city}. The user is travelling with ${companion} so you should adapt the activities to fit that target group. Please seperate each activity 
-          with a comma.The activity should only be one word. For example: "hiking, swimming, biking" no exceptions in how you write it consistently use the same format.`,
+          with a comma.The activity should only be one word. For example: "hiking, swimming, biking" no exceptions in how you write it consistently use the same format always respond with activity name and then a comma and then the next activity.`,
         },
         {
           role: "user",

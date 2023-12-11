@@ -38,5 +38,3 @@ Eiffel Tower, Louvre Museum, Notre-Dame Cathedral, Montmartre
 
 Ensure that the recommendations are relevant to the city and provide a diverse range of places to visit. `;
 
-export const activitiesPrompt = `Please generate atleast 10 activities for ${city} with a comma seperating each activity 
-the activity should only be one word. For example: "hiking, swimming, biking" no exceptions in how you write it consistently use the same format.`

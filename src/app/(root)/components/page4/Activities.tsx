@@ -51,7 +51,7 @@ export default function Activities() {
       setActivities(data);
     },
   });
-
+console.log(activities)
   return (
     <FormPage
       title="What are you going to do?"

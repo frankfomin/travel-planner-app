@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 import { travelPlanningSchema } from "../validators/travelPlanning";
 import { redis } from "../redis";
-import { redirect } from "next/navigation";
 import { nanoid } from "nanoid";
 export async function saveTripData(data: unknown) {
   try {
@@ -21,7 +20,9 @@ export async function saveTripData(data: unknown) {
     const message = result.data.activities.message
       ? result.data.activities.message
       : "";
-    const activities = result.data.activities;
+    const a = result.data.activities.activities;
+    const activities = a.join(', ');
+
     const companion = result.data.companion;
     const place_id = result.data.placeId;
 
