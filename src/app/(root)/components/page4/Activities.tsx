@@ -27,6 +27,7 @@ export default function Activities() {
 
   const { activities: a } = activitiesContext();
   const ref = useRef<HTMLFormElement>(null);
+  
   useEffect(() => {
     if (!data) {
       mutate();
@@ -36,7 +37,9 @@ export default function Activities() {
 
   const { mutate, isLoading, data } = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.get("/api/openAi/getActivities", {
+      const { data } = await axios.post("/api/openAi/getActivities", {
+        city: formData.cityName,
+        companion: formData.companions,
         headers: {
           "Content-Type": "application/json",
         },
@@ -68,7 +71,7 @@ export default function Activities() {
               {data?.map((activity, i) => (
                 <ActivityBadge activity={activity} key={i} />
               ))}
-            </>
+            </> 
           )}
           <Badge variant="outline">
             <form
