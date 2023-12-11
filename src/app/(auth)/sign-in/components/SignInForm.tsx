@@ -1,8 +1,8 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
-import { TsignInSchema, signInSchema } from "@/lib/types";
-import { TsignUpSchema } from "@/lib/types";
+import { signInSchema, TsignInSchema } from "@/lib/validators/signIn";
+import { TsignUpSchema } from "@/lib/validators/signUp";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CardFooter } from "@nextui-org/react";
