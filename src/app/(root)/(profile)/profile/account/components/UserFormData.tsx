@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { TupdateUserData, updateUserData } from "@/lib/types";
+import { TupdateUserData, updateUserData } from "@/lib/validators/updateUser";
 import {
   Form,
   FormControl,
