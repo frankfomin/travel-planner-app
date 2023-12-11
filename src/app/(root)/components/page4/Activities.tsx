@@ -68,7 +68,7 @@ export default function Activities() {
             </>
           ) : (
             <>
-              {data?.map((activity, i) => (
+              {activities?.map((activity, i) => (
                 <ActivityBadge activity={activity} key={i} />
               ))}
             </> 
