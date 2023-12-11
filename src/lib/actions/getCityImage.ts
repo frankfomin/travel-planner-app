@@ -1,7 +1,7 @@
 "use server";
 
 import axios from "axios";
-import { Photo } from "../types";
+import { Photo } from "@/types";
 import { redis } from "../redis";
 import { cookies } from "next/headers";
 
