@@ -4,10 +4,11 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { session } from "@/types";
+import { config } from "../../../../auth";
 
 export async function GET() {
   try {
-    const session: session | null = await getServerSession();
+    const session: session | null = await getServerSession(config);
 
     console.log("GETTING TRIPS");
 

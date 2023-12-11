@@ -7,6 +7,8 @@ import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth";
 import { redis } from "@/lib/redis";
 import { cookies } from "next/headers";
+import { config } from "../../../../auth";
+
 
 type TripDetails = {
   city: string;
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     const [body, session, tripDetails] = await Promise.all([
       await req.json(),
-      await getServerSession(),
+      await getServerSession(config),
       (await redis.hgetall(
         `tripDetails:${userIdCookie?.value}`
       )) as TripDetails,

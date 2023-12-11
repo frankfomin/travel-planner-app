@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { users } from "@/db/schema";
+import { config } from "../../../../auth";
 
 type session = {
   user: {
@@ -15,7 +16,7 @@ type session = {
 export async function POST(req: Request) {
   try {
     const { tripId } = await req.json();
-    const session: session | null = await getServerSession();
+    const session: session | null = await getServerSession(config);
 
     if (!tripId) {
       return new NextResponse("No tripId", { status: 401 });
