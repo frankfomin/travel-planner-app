@@ -1,6 +1,7 @@
 import YourTrip from "./YourTrip";
 import { Suspense } from "react";
 import Loading from "./Loading";
+
 import {
   getCityBias,
   getCityDescription,

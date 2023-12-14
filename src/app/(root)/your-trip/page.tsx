@@ -1,6 +1,4 @@
 import { Suspense } from "react";
-import YourTrip from "./components/YourTrip";
-import SaveTrip from "./components/SaveCachedTrip";
 import NoName from "./components/NoName";
 import Loading from "./Loading";
 

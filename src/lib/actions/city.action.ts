@@ -30,11 +30,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const cookie = cookies();
-const header = headers();
-const userId = cookie.get("userId");
-
 async function getIpAdress() {
+  const header = headers();
   const ip = header.get("x-forwarded-for")!;
   console.log("IP: ", ip);
   return ip;
@@ -42,6 +39,9 @@ async function getIpAdress() {
 
 export async function getCityBias() {
   try {
+    const cookie = cookies();
+    const userId = cookie.get("userId");
+
     const ipAddress = await getIpAdress();
 
     const currentRequestCount = await redis.incr(ipAddress);
@@ -73,6 +73,9 @@ export async function getCityBias() {
 
 export async function getCityLocations() {
   try {
+    const cookie = cookies();
+    const userId = cookie.get("userId");
+
     const ipAddress = await getIpAdress();
 
     const currentRequestCount = await redis.incr(ipAddress);

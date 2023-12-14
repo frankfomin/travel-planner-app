@@ -2,10 +2,7 @@
 
 import { Details, locationDetailsParams } from "@/types";
 import axios from "axios";
-import { cookies } from "next/headers";
 import OpenAI from "openai";
-import { chatLocPrompt } from "@/helpers/constants/chatbot-prompt";
-import { redis } from "@/lib/redis";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -17,8 +14,6 @@ export async function getLocationDetails({
   lng,
 }: locationDetailsParams) {
   try {
-    /*   const { location, lat, lng } = await req.json(); */
-
     const placeId = await axios.get(
       `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${location}&inputtype=textquery&locationbias=circle%3A10000%40${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
