@@ -4,19 +4,14 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { session } from "@/types";
-import { config } from "../../../../auth";
+import { auth } from "@/lib/auth";
 
 export async function GET() {
   try {
-    const session: session | null = await getServerSession(config);
-
-    console.log("GETTING TRIPS");
-
-    console.log("SESSION", session);
+    const session = await auth();
 
     const email = session?.user.email;
 
-    console.log("EMAIL", email);
     if (!email) {
       return new NextResponse("Unauthorized", { status: 401 });
     }

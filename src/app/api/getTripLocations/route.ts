@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { users } from "@/db/schema";
-import { config } from "../../../../auth";
+import { config } from "../../../lib/auth";
 
 type session = {
   user: {

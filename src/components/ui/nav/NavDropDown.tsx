@@ -12,7 +12,7 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 import NavSignOut from "./NavSignOut";
 import { Button } from "../button";
-import { config } from "../../../../auth";
+import { config } from "../../../lib/auth";
 
 export default async function NavDropDown() {
   const session = await getServerSession(config);
