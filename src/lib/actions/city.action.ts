@@ -1,7 +1,7 @@
 "use server";
 
 import axios from "axios";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redis } from "../redis";
 import {
   chatDescPrompt,
@@ -30,19 +30,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-async function getIpAdress() {
-  const header = headers();
-  const ip = header.get("x-forwarded-for")!;
-  console.log("IP: ", ip);
-  return ip;
-}
-
 export async function getCityBias() {
   try {
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const ipAddress = await getIpAdress();
+    const ipAddress = "192.186.12.11";
 
     const currentRequestCount = await redis.incr(ipAddress);
 
@@ -76,7 +69,7 @@ export async function getCityLocations() {
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const ipAddress = await getIpAdress();
+    const ipAddress = "192.186.12.11";
 
     const currentRequestCount = await redis.incr(ipAddress);
 
@@ -126,7 +119,7 @@ export async function getCityDescription() {
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const ipAddress = await getIpAdress();
+    const ipAddress = "192.186.12.11";
 
     const currentRequestCount = await redis.incr(ipAddress);
 
