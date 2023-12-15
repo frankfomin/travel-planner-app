@@ -2,8 +2,8 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Loading() {
-  return Array.from({ length: 4 }).map((_, i) => (
-    <Card key={i} className="flex flex-col gap-5 max-w-2xl px-4 py-5 shadow-lg">
+  return (
+    <Card className="flex flex-col gap-5 max-w-2xl px-4 py-5 shadow-lg">
       <CardTitle>
         <Skeleton className="h-6 w-[45%]" />
       </CardTitle>
@@ -17,5 +17,5 @@ export default function Loading() {
         </div>
       </CardContent>
     </Card>
-  ));
+  );
 }

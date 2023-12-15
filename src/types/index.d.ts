@@ -98,6 +98,21 @@ export type session = {
 };
 
 export type Details = {
+  name: string;
+  opening_hours: {
+    open_now: boolean;
+    periods: {
+      close: {
+        day: number;
+        time: string;
+      };
+      open: {
+        day: number;
+        time: string;
+      };
+    }[];
+    weekday_text: string[];
+  };
   photos: {
     height: number;
     html_attributions: string[];

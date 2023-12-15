@@ -19,7 +19,7 @@ async function handleSignOut() {
 
 export default function NavSignOut() {
   return (
-    <DropdownMenuItem className=" hover:cursor-pointer" onClick={handleSignOut}>
+    <DropdownMenuItem className=" hover:cursor-pointer" onClick={() => signOut()}>
       Sign out
     </DropdownMenuItem>
   );

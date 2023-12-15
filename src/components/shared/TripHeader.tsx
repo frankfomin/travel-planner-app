@@ -9,11 +9,7 @@ type tripDetails = {
   place_id: string;
 };
 
-export default async function TripHeader({
-  cityDescription,
-}: {
-  cityDescription: string;
-}) {
+export default async function TripHeader() {
   async function getDetails() {
     "use server";
     const cookie = cookies();
@@ -33,28 +29,23 @@ export default async function TripHeader({
   );
 
   return (
-    <header className="relative w-full flex flex-col gap-10 ">
-      <section className="flex justify-center items-center">
-        <h1 className=" absolute text-9xl font-semibold z-10 text-primary-foreground">
-          {tripDetails?.city}
-        </h1>
-        <div className="w-full h-full relative flex flex-col items-center">
-          <div className=" aspect-video max-w-4xl rounded-md w-full h-full bg-black absolute opacity-30  " />
-          <div className=" aspect-video object-cover max-w-4xl rounded-md w-full h-full ">
-            <GoogleImage
-              className="aspect-video object-cover max-w-4xl rounded-md w-full h-full"
-              photo_reference={cityImage.photo_reference}
-              width={cityImage.width}
-              height={cityImage.height}
-              src=""
-              alt=""
-            />
-          </div>
+    <section className="flex justify-center items-center">
+      <h1 className=" absolute text-9xl font-semibold z-10 text-primary-foreground">
+        {tripDetails?.city}
+      </h1>
+      <div className="w-full h-full relative flex flex-col items-center">
+        <div className=" aspect-video rounded-md w-full h-full bg-black absolute opacity-30  " />
+        <div className=" aspect-video object-cover rounded-md w-full h-full ">
+          <GoogleImage
+            className="aspect-video object-cover max-w-4xl rounded-md w-full h-full"
+            photo_reference={cityImage.photo_reference}
+            width={cityImage.width}
+            height={cityImage.height}
+            src=""
+            alt=""
+          />
         </div>
-      </section>
-      <section className="flex justify-center">
-        <p className=" text-muted-foreground">{cityDescription}</p>
-      </section>
-    </header>
+      </div>
+    </section>
   );
 }

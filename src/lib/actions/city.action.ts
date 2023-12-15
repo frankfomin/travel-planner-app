@@ -9,6 +9,8 @@ import {
 } from "@/helpers/constants/chatbot-prompt";
 import OpenAI from "openai";
 
+
+
 type Geometry = {
   location: {
     lat: number;

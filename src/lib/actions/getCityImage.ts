@@ -16,8 +16,6 @@ export async function getCityImage(city: unknown, placeId: unknown) {
 
   const photos = data.result.photos as Photo[];
 
-  console.log("PHOTOS", photos);
-
   const firstPhotoReference = photos[0];
 
   await redis.hmset(`tripDetails:${userId?.value}`, {

@@ -1,49 +1,51 @@
+import { Suspense } from "react";
+
 import TripHeader from "@/components/shared/TripHeader";
+import CityDescription from "./CityDescription";
 import LocationCard from "./LocationCard";
-import SaveTrip from "./SaveTrip";
-import {
-  getLocationDescription,
-  getLocationDetails,
-} from "@/lib/actions/location.action";
-import { Details, Place } from "@/types";
+import { getCityBias, getCityLocations } from "@/lib/actions/city.action";
+import Loading from "./Loading/CardLoading";
+import CityDescLoading from "./Loading/CityDescLoading";
+import CityPictureLoading from "./Loading/CityPictureLoading";
 
-export default async function YourTrip({
-  locations,
-  lat,
-  lng,
-  cityDescription,
-}: {
-  locations: string[];
-  lat: number;
-  lng: number;
-  cityDescription: string;
-}) {
-  const details: any = await Promise.all(
-    locations?.map(async (location) => {
-      const { details } = await getLocationDetails({ location, lat, lng });
-      const { description } = await getLocationDescription(location);
-      return { ...details, description };
-    })
-  );
+export default async function YourTrip() {
+  const [locations, bias] = await Promise.all([
+    getCityLocations(),
+    getCityBias(),
+  ]);
 
-  console.log(details);
+  if (locations.rateLimit || bias.rateLimit) {
+    throw new Error("Rate limit exceeded");
+  }
+
+  if (!locations.cityLocations || !bias.lat || !bias.lng) {
+    throw new Error("Failed to load data");
+  }
+
   return (
-    <main>
-      <SaveTrip locations={details} cityDescription={cityDescription} />
-      <TripHeader cityDescription={cityDescription} />
+    <>
+      <header className="relative w-full flex flex-col items-center gap-10">
+        <div className="max-w-4xl">
+          <Suspense fallback={<CityPictureLoading />}>
+            <TripHeader />
+          </Suspense>
+          <Suspense fallback={<CityDescLoading />}>
+            <CityDescription />
+          </Suspense>
+        </div>
+      </header>
       <section className="flex flex-col gap-5 ml-10 mt-10 ">
-        {details.map((detail: Place, i: number) => (
-          <>
+        {locations.cityLocations.map((location: string, i) => (
+          <Suspense key={i} fallback={<Loading />}>
             <LocationCard
               key={i}
-              name={detail.name}
-              photos={detail.photos}
-              description={detail.description}
-              reviews={detail.reviews}
+              location={location}
+              lat={bias.lat}
+              lng={bias.lng}
             />
-          </>
+          </Suspense>
         ))}
       </section>
-    </main>
+    </>
   );
 }

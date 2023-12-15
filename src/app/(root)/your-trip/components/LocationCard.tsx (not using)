@@ -1,42 +1,58 @@
-import GoogleImage from "@/components/GoogleImage";
+/* import GoogleImage from "@/components/GoogleImage";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { OpeningHours, Photo, Review } from "@/types";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getLocationDetails } from "@/lib/actions/location.action";
-import React, { Suspense } from "react";
-import LocationDescription from "./LocationDescription";
-import Rating from "@/components/shared/Rating";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import Image from "next/image";
+import Rating from "@/components/shared/Rating";
 import Link from "next/link";
-import DescLoading from "./Loading/DescLoading";
+
+type LocationCardProps = {
+  name: string;
+  photos: Photo[];
+  rating?: number;
+  opening_hours?: OpeningHours;
+  description?: string;
+  reviews: Review[];
+  icon_mask_base_uri?: string;
+};
 
 export default async function LocationCard({
-  location,
-  lat,
-  lng,
-}: {
-  location: string;
-  lat: number;
-  lng: number;
-}) {
-  const { details } = await getLocationDetails({ location, lat, lng });
+  name,
+  photos,
+  rating,
+  icon_mask_base_uri,
+  opening_hours,
+  reviews,
+  description,
+}: LocationCardProps) {
 
-  if (!details) {
-    throw new Error("No details");
-  }
-
+  const details: any = await Promise.all(
+    locations?.map(async (location) => {
+      const { details } = await getLocationDetails({ location, lat, lng });
+      const { description } = await getLocationDescription(location);
+      return { ...details, description };
+    })
+  );
   const firstPhotoReference =
-    details?.photos?.length > 0 ? details.photos[0].photo_reference : null;
+    photos?.length > 0 ? photos[0].photo_reference : null;
 
+  console.log(opening_hours);
   return (
     <Card className="max-w-2xl px-4 py-5 shadow-lg">
       <Tabs defaultValue="details">
         <div className="flex justify-between items-center">
-          <CardTitle>{details.name}</CardTitle>
+          <CardTitle>{name}</CardTitle>
           <TabsList className="flex justify-between">
             <TabsTrigger value="details">Details</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
@@ -47,11 +63,11 @@ export default async function LocationCard({
             {firstPhotoReference ? (
               <GoogleImage
                 photo_reference={firstPhotoReference}
-                width={details.photos[0].width}
-                height={details.photos[0].height}
+                width={photos[0].width}
+                height={photos[0].height}
                 src=""
                 alt=""
-                className="aspect-video object-cove w-full rounded-md"
+                className="aspect-video object-cover rounded-md"
               />
             ) : (
               <div className="flex h-full justify-center items-center aspect-video object-cover rounded-md dark:bg-muted bg-muted">
@@ -73,14 +89,21 @@ export default async function LocationCard({
                 </svg>
               </div>
             )}
-            <Suspense fallback={<DescLoading />}>
-              <LocationDescription locationName={details.name} />
-            </Suspense>
+            <div className="flex justify-end gap-5">
+              <HoverCard>
+                <HoverCardTrigger>Opening hours</HoverCardTrigger>
+                <HoverCardContent>
+                  The React Framework – created and maintained by @vercel.
+                </HoverCardContent>
+              </HoverCard>
+              <span>{rating ? <Rating rating={rating} /> : null}</span>
+            </div>
+            <p className=" text-muted-foreground">{description}</p>
           </CardContent>
         </TabsContent>
         <TabsContent value="reviews">
           <CardContent className="p-0 flex flex-col gap-3">
-            {details.reviews?.map((review, i) => (
+            {reviews?.map((review, i) => (
               <Card className="flex flex-col gap-1 p-3 bg-muted" key={i}>
                 <CardTitle className="flex items-center justify-between gap-3">
                   <Link
@@ -111,3 +134,4 @@ export default async function LocationCard({
     </Card>
   );
 }
+ */
