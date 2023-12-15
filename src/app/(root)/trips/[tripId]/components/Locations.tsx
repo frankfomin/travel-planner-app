@@ -21,7 +21,7 @@ export default async function Locations({ tripId }: { tripId: string }) {
 
   return (
     <section className="flex flex-col gap-5 ml-10 mt-10 ">
-      {locations.map((location: Place, i) => (
+      {/* {locations.map((location: Place, i) => (
         <LocationCard
           key={i}
           name={location.name}
@@ -31,7 +31,7 @@ export default async function Locations({ tripId }: { tripId: string }) {
           reviews={location.reviews}
           
         />
-      ))}
+      ))} */}
     </section>
   );
 }
