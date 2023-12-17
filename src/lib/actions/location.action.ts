@@ -2,6 +2,7 @@
 
 import { Details, locationDetailsParams } from "@/types";
 import axios from "axios";
+import { cookies } from "next/headers";
 import OpenAI from "openai";
 
 const openai = new OpenAI({

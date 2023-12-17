@@ -7,8 +7,18 @@ import { getCityBias, getCityLocations } from "@/lib/actions/city.action";
 import Loading from "./Loading/CardLoading";
 import CityDescLoading from "./Loading/CityDescLoading";
 import CityPictureLoading from "./Loading/CityPictureLoading";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { object } from "zod";
+import SaveBtn from "./saveBtn";
 
-export default async function YourTrip() {
+export default async function YourTrip({
+  params,
+  tripId,
+}: {
+  params: string | string[] | undefined;
+  tripId: string;
+}) {
   const [locations, bias] = await Promise.all([
     getCityLocations(),
     getCityBias(),
@@ -22,15 +32,20 @@ export default async function YourTrip() {
     throw new Error("Failed to load data");
   }
 
+  if (params) {
+    console.log("MAIN component ", params);
+  }
+
   return (
     <>
+      <SaveBtn />
       <header className="relative w-full flex flex-col items-center gap-10">
         <div className="max-w-4xl">
           <Suspense fallback={<CityPictureLoading />}>
-            <TripHeader />
+            <TripHeader tripId={tripId} params={params} />
           </Suspense>
           <Suspense fallback={<CityDescLoading />}>
-            <CityDescription />
+            <CityDescription tripId={tripId} params={params} />
           </Suspense>
         </div>
       </header>
@@ -38,7 +53,9 @@ export default async function YourTrip() {
         {locations.cityLocations.map((location: string, i) => (
           <Suspense key={i} fallback={<Loading />}>
             <LocationCard
+              tripId={tripId}
               key={i}
+              params={params}
               location={location}
               lat={bias.lat}
               lng={bias.lng}

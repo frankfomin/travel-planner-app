@@ -3,13 +3,20 @@ import { cookies } from "next/headers";
 import { redis } from "@/lib/redis";
 import { getCityImage } from "@/lib/actions/getCityImage";
 import GoogleImage from "../GoogleImage";
+import { saveTrip } from "@/lib/actions/saveTrip.action";
 
 type tripDetails = {
   city: string;
   place_id: string;
 };
 
-export default async function TripHeader() {
+export default async function TripHeader({
+  tripId,
+  params,
+}: {
+  tripId: string;
+  params: string | string[] | undefined;
+}) {
   async function getDetails() {
     "use server";
     const cookie = cookies();
@@ -27,6 +34,17 @@ export default async function TripHeader() {
     tripDetails?.city,
     tripDetails?.place_id
   );
+
+  if (params === "save") {
+    await saveTrip({
+      saveTrip: true,
+      tripId,
+      city: tripDetails?.city,
+      width: cityImage.width,
+      height: cityImage.height,
+      photo_reference: cityImage.photo_reference,
+    });
+  }
 
   return (
     <section className="flex justify-center items-center">

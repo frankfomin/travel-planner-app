@@ -28,8 +28,6 @@ export type Photo = {
 };
 
 export type Review = {
-  locationId: string;
-  tripId: string;
   author_name: string;
   author_url: string;
   language: string;
@@ -99,6 +97,7 @@ export type session = {
 
 export type Details = {
   name: string;
+  rating: number;
   opening_hours: {
     open_now: boolean;
     periods: {

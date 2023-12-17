@@ -9,8 +9,6 @@ import {
 } from "@/helpers/constants/chatbot-prompt";
 import OpenAI from "openai";
 
-
-
 type Geometry = {
   location: {
     lat: number;
@@ -41,7 +39,7 @@ export async function getCityBias() {
 
     const currentRequestCount = await redis.incr(ipAddress);
 
-    if (currentRequestCount > 3) {
+    if (currentRequestCount > 100) {
       return { rateLimit: "Too many requests" };
     }
 
@@ -75,7 +73,7 @@ export async function getCityLocations() {
 
     const currentRequestCount = await redis.incr(ipAddress);
 
-    if (currentRequestCount > 3) {
+    if (currentRequestCount > 100) {
       return { rateLimit: "Too many requests" };
     }
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
@@ -125,7 +123,7 @@ export async function getCityDescription() {
 
     const currentRequestCount = await redis.incr(ipAddress);
 
-    if (currentRequestCount > 3) {
+    if (currentRequestCount > 100) {
       return { rateLimit: "Too many requests" };
     }
 

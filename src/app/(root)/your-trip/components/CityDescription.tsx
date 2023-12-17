@@ -1,7 +1,26 @@
 import { getCityDescription } from "@/lib/actions/city.action";
+import { saveTrip } from "@/lib/actions/saveTrip.action";
 import React from "react";
 
-export default async function CityDescription() {
+export default async function CityDescription({
+  params,
+  tripId,
+}: {
+  params: string | string[] | undefined;
+  tripId: string;
+}) {
   const description = await getCityDescription();
-  return <h2 className="text-cennter text-muted-foreground">{description.responseText}</h2>;
+
+  if (params === "save") {
+    await saveTrip({
+      saveDescription: true,
+      cityDescription: description.responseText as string,
+      tripId,
+    });
+  }
+  return (
+    <h2 className="text-center text-muted-foreground">
+      {description.responseText}
+    </h2>
+  );
 }

@@ -6,27 +6,53 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getLocationDetails } from "@/lib/actions/location.action";
+import {
+  getLocationDescription,
+  getLocationDetails,
+} from "@/lib/actions/location.action";
 import React, { Suspense } from "react";
 import LocationDescription from "./LocationDescription";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";
 import DescLoading from "./Loading/DescLoading";
+import { saveLocation } from "@/lib/actions/saveTrip.action";
 
 export default async function LocationCard({
   location,
   lat,
   lng,
+  params,
+  tripId,
 }: {
+  params: string | string[] | undefined;
   location: string;
   lat: number;
   lng: number;
+  tripId: string;
 }) {
   const { details } = await getLocationDetails({ location, lat, lng });
-
   if (!details) {
     throw new Error("No details");
+  }
+
+  const { description } = await getLocationDescription(details.name);
+
+  if (!description) {
+    throw new Error("No description");
+  }
+
+  if (params === "save") {
+    Promise.all;
+    await saveLocation({
+      tripId,
+      name: details.name,
+      rating: details.rating,
+      photos: details.photos[0],
+      opening_hours: details.opening_hours,
+      description: description,
+      reviews: details.reviews,
+    });
   }
 
   const firstPhotoReference =
@@ -73,9 +99,10 @@ export default async function LocationCard({
                 </svg>
               </div>
             )}
-            <Suspense fallback={<DescLoading />}>
+            {/* <Suspense fallback={<DescLoading />}>
               <LocationDescription locationName={details.name} />
-            </Suspense>
+            </Suspense> */}
+            <p className=" text-muted-foreground">{description}</p>;
           </CardContent>
         </TabsContent>
         <TabsContent value="reviews">
