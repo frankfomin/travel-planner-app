@@ -1,11 +1,8 @@
-import axios from "axios";
-
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import Link from "next/link";
 import DeleteTrip from "./DeleteTrip";
-import { headers } from "next/headers";
 import GoogleImage from "@/components/GoogleImage";
+import { getTrips } from "@/lib/actions/trips.action";
 
 type Trip = {
   id: string;
@@ -16,26 +13,12 @@ type Trip = {
   height: number;
 };
 
-async function getTrips(): Promise<Trip[] | undefined> {
-  const response = await axios
-    .get("http://localhost:3000/api/getTrips", {
-      headers: Object.fromEntries(headers()),
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-
-  if (response && response.data) {
-    return response.data as Trip[];
-  }
-}
-
 export default async function Trips() {
-  const data = await getTrips();
+  const trips = await getTrips();
 
   return (
     <>
-      {data?.map((trip: Trip, i) => (
+      {trips?.trips?.map((trip, i) => (
         <Card key={i} className="flex gap-10 flex-shrink-0 overflow-hidden  ">
           <Link href={`trips/${trip.id}`} key={i}>
             <GoogleImage
@@ -51,9 +34,11 @@ export default async function Trips() {
           <div className="mt-7 flex w-full justify-between pr-10">
             <div>
               <Link href={`trips/${trip.id}`} key={i}>
-                <CardTitle>{trip.name}</CardTitle>
+                <CardTitle>{trip.city}</CardTitle>
               </Link>
-              <CardDescription>{trip.created_at}</CardDescription>
+              <CardDescription>
+                {new Date(trip.created_at).toLocaleDateString()}
+              </CardDescription>
             </div>
             <DeleteTrip tripName={trip.name} tripId={trip.id} />
           </div>

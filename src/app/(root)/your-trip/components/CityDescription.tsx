@@ -11,13 +11,18 @@ export default async function CityDescription({
 }) {
   const description = await getCityDescription();
 
+  if (!description.responseText) {
+    throw new Error("description error");
+  }
+
   if (params === "save") {
     await saveTrip({
       saveDescription: true,
-      cityDescription: description.responseText as string,
+      cityDescription: description.responseText,
       tripId,
     });
   }
+
   return (
     <h2 className="text-center text-muted-foreground">
       {description.responseText}

@@ -21,7 +21,7 @@ export async function saveTripData(data: unknown) {
       ? result.data.activities.message
       : "";
     const a = result.data.activities.activities;
-    const activities = a.join(', ');
+    const activities = a.join(", ");
 
     const companion = result.data.companion;
     const place_id = result.data.placeId;
@@ -38,17 +38,26 @@ export async function saveTripData(data: unknown) {
     const startDateString = startDate.toISOString().split("T")[0];
     const endDateString = endDate.toISOString().split("T")[0];
 
-    const res = await redis.hmset(`tripDetails:${userId?.value}`, {
-      city: cityName,
-      place_id,
-      startDate: startDateString,
-      endDate: endDateString,
-      message,
-      activities,
-      companion,
-    });
+    const [res, keys] = await Promise.all([
+      redis.hmset(`tripDetails:${userId?.value}`, {
+        city: cityName,
+        place_id,
+        startDate: startDateString,
+        endDate: endDateString,
+        message,
+        activities,
+        companion,
+      }),
+      redis.keys(`location*:${userId?.value}`),
+    ]);
 
-    console.log(res);
+    for (const key of keys) {
+      await redis.del(key);
+    }
+
+    return {
+      success: true,
+    };
   } catch (error) {
     console.log(error);
     return {

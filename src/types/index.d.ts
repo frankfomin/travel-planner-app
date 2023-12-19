@@ -28,16 +28,15 @@ export type Photo = {
 };
 
 export type Review = {
-  author_name: string;
-  author_url: string;
-  language: string;
-  original_language: string;
-  profile_photo_url: string;
-  rating: number;
-  relative_time_description: string;
+  id: string;
   text: string;
-  time: number;
-  translated: boolean;
+  rating: string;
+  tripId: string;
+  locationId: string;
+  author_name: string;
+  relative_time_description: string | null;
+  profile_photo_url: string | null;
+  author_url: string | null;
 };
 
 export type Place = {
@@ -136,4 +135,5 @@ type locationDetailsParams = {
   location: string;
   lat: number;
   lng: number;
+  locationCount: number;
 };

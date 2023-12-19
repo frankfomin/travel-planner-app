@@ -4,7 +4,13 @@ import React from "react";
 
 export default function SaveBtn() {
   return (
-    <Link href="/your-trip?action=save">
+    <Link
+      href={{
+        pathname: "/your-trip",
+        query: { action: "save" },
+      }}
+      shallow={true}
+    >
       <Button>Save trip</Button>
     </Link>
   );

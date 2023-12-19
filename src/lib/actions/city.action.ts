@@ -127,6 +127,14 @@ export async function getCityDescription() {
       return { rateLimit: "Too many requests" };
     }
 
+    const cachedLoaction = await redis.hgetall(`location:${userId?.value}`);
+
+    if (cachedLoaction?.cityDescription) {
+      return {
+        responseText: cachedLoaction.cityDescription as string,
+      };
+    }
+
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
 
     if (!tripDetails) {
@@ -154,6 +162,10 @@ export async function getCityDescription() {
     });
 
     const responseText = completion.choices[0].message.content;
+
+    await redis.hmset(`location:${userId?.value}`, {
+      cityDescription: responseText,
+    });
 
     return {
       responseText,

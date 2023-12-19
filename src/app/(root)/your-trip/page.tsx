@@ -26,9 +26,12 @@ export default async function YourTripPage({
       }),
     ]);
   }
+  
   if (searchParams.action === "save") {
     await poop();
   }
+
+  console.log(searchParams.action);
 
   return (
     <main>

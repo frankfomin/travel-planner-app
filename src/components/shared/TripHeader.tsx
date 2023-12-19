@@ -4,6 +4,7 @@ import { redis } from "@/lib/redis";
 import { getCityImage } from "@/lib/actions/getCityImage";
 import GoogleImage from "../GoogleImage";
 import { saveTrip } from "@/lib/actions/saveTrip.action";
+import { tripDetails } from "@/lib/actions/location.action";
 
 type tripDetails = {
   city: string;
@@ -17,48 +18,34 @@ export default async function TripHeader({
   tripId: string;
   params: string | string[] | undefined;
 }) {
-  async function getDetails() {
-    "use server";
-    const cookie = cookies();
-    const userId = cookie.get("userId");
+  const details = await tripDetails();
 
-    const tripDetails: tripDetails | null = await redis.hgetall(
-      `tripDetails:${userId?.value}`
-    );
-
-    return tripDetails;
-  }
-
-  const tripDetails = await getDetails();
-  const cityImage = await getCityImage(
-    tripDetails?.city,
-    tripDetails?.place_id
-  );
+  console.log(details);
 
   if (params === "save") {
     await saveTrip({
       saveTrip: true,
       tripId,
-      city: tripDetails?.city,
-      width: cityImage.width,
-      height: cityImage.height,
-      photo_reference: cityImage.photo_reference,
+      city: details?.city,
+      width: details?.photo.width,
+      height: details?.photo.height,
+      photo_reference: details?.photo.photo_reference,
     });
   }
 
   return (
     <section className="flex justify-center items-center">
       <h1 className=" absolute text-9xl font-semibold z-10 text-primary-foreground">
-        {tripDetails?.city}
+        {details?.city}
       </h1>
       <div className="w-full h-full relative flex flex-col items-center">
         <div className=" aspect-video rounded-md w-full h-full bg-black absolute opacity-30  " />
         <div className=" aspect-video object-cover rounded-md w-full h-full ">
           <GoogleImage
             className="aspect-video object-cover max-w-4xl rounded-md w-full h-full"
-            photo_reference={cityImage.photo_reference}
-            width={cityImage.width}
-            height={cityImage.height}
+            photo_reference={details?.photo.photo_reference as string}
+            width={details?.photo.width}
+            height={details?.photo.height}
             src=""
             alt=""
           />

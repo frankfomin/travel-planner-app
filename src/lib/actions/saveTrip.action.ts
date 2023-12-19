@@ -47,13 +47,16 @@ export async function saveTrip({
         .set({ description: cityDescription })
         .where(eq(trip.id, tripId));
     } else {
-      await db.update(trip).set({
-        userId: user[0].id,
-        city,
-        photo_reference,
-        width,
-        height,
-      });
+      await db
+        .update(trip)
+        .set({
+          userId: user[0].id,
+          city,
+          photo_reference,
+          width,
+          height,
+        })
+        .where(eq(trip.id, tripId));
     }
   } catch (error) {}
 }

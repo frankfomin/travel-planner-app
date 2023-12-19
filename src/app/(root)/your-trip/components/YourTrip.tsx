@@ -32,10 +32,6 @@ export default async function YourTrip({
     throw new Error("Failed to load data");
   }
 
-  if (params) {
-    console.log("MAIN component ", params);
-  }
-
   return (
     <>
       <SaveBtn />
@@ -55,6 +51,7 @@ export default async function YourTrip({
             <LocationCard
               tripId={tripId}
               key={i}
+              locationCount={i}
               params={params}
               location={location}
               lat={bias.lat}
