@@ -27,7 +27,7 @@ export type Photo = {
   width: number;
 };
 
-export type Review = {
+export type savedReview = {
   id: string;
   text: string;
   rating: string;
@@ -37,6 +37,19 @@ export type Review = {
   relative_time_description: string | null;
   profile_photo_url: string | null;
   author_url: string | null;
+};
+
+export type Review = {
+  author_name: string;
+  author_url: string;
+  language: string;
+  original_language: string;
+  profile_photo_url: string;
+  rating: number;
+  relative_time_description: string;
+  text: string;
+  time: number;
+  translated: boolean;
 };
 
 export type Place = {

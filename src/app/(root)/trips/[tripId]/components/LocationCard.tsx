@@ -10,7 +10,7 @@ import React from "react";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";
-import { Photo, Review } from "@/types";
+import { Photo, savedReview } from "@/types";
 
 export default async function LocationCard({
   name,
@@ -22,7 +22,7 @@ export default async function LocationCard({
   name: string;
   description?: string;
   photos: Photo;
-  reviews: Review[];
+  reviews: savedReview[];
   rating: string;
 }) {
   return (
