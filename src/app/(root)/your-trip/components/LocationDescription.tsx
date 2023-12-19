@@ -3,10 +3,15 @@ import React from "react";
 
 export default async function LocationDescription({
   locationName,
+  locationCount,
 }: {
   locationName: string;
+  locationCount: number;
 }) {
-  const res = await getLocationDescription(locationName);
+  const res = await getLocationDescription({
+    locationName,
+    locationCount,
+  });
 
   if (!res.description) {
     throw new Error("No description found");

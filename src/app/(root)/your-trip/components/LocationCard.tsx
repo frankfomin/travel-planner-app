@@ -11,7 +11,6 @@ import {
   getLocationDetails,
 } from "@/lib/actions/location.action";
 import React, { Suspense } from "react";
-import LocationDescription from "./LocationDescription";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";

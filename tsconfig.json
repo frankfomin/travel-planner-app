@@ -34,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/app/(root)/your-trip/components/LocationCard.tsx (not using)", "src/app/(root)/your-trip/components/Locations.tsx (not using)"  ],
+, "src/app/(root)/your-trip/components/LocationCard.tsx (not using)", "src/app/(root)/your-trip/components/Locations.tsx (not using)", "src/app/(root)/your-trip/components/LocationDescription.tsx"  ],
   "exclude": [
     "node_modules"
   ]
