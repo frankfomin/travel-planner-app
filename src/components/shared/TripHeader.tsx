@@ -35,14 +35,14 @@ export default async function TripHeader({
 
   return (
     <section className="flex justify-center items-center">
-      <h1 className=" absolute text-9xl font-semibold z-10 text-primary-foreground">
+      <h1 className=" absolute sm:text-9xl text-5xl font-semibold z-10 text-primary-foreground">
         {details?.city}
       </h1>
       <div className="w-full h-full relative flex flex-col items-center">
         <div className=" aspect-video rounded-md w-full h-full bg-black absolute opacity-30  " />
         <div className=" aspect-video object-cover rounded-md w-full h-full ">
           <GoogleImage
-            className="aspect-video object-cover max-w-4xl rounded-md w-full h-full"
+            className="aspect-video object-cover  rounded-md w-full h-full"
             photo_reference={details?.photo.photo_reference as string}
             width={details?.photo.width}
             height={details?.photo.height}

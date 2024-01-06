@@ -24,7 +24,7 @@ export default async function CityDescription({
   }
 
   return (
-    <h2 className="text-center text-muted-foreground">
+    <h2 className="sm:text-center text-muted-foreground">
       {description.responseText}
     </h2>
   );

@@ -5,7 +5,6 @@ import { signUpSchema, TsignUpSchema } from "@/lib/validators/signUp";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -20,7 +19,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icons } from "@/components/ui/icons";
@@ -93,13 +91,13 @@ export default function SignInPage() {
     <>
       {isMounted ? (
         <main className="flex h-screen">
-          <section className="w-1/2 flex flex-col justify-center items-center">
+          <section className="sm:w-1/2 w-full flex flex-col justify-center items-center">
             <CardTitle>Sign into your account</CardTitle>
             <CardDescription>
               New to Venturevista?{" "}
               <Link href="/sign-up">Sign up for an account</Link>
             </CardDescription>
-            <CardContent className="flex flex-col gap-4 min-w-[26rem]">
+            <CardContent className="flex flex-col gap-4 sm:px-6 px-8  min-w-[26rem]">
               <Form {...form}>
                 <form className="" onSubmit={form.handleSubmit(onSubmit)}>
                   <FormField
@@ -162,7 +160,7 @@ export default function SignInPage() {
               </div>
             </CardContent>
           </section>
-          <section className="w-1/2 bg-black ">
+          <section className="w-1/2 sm:block hidden bg-black ">
             <Image
               src="https://images.unsplash.com/photo-1503891450247-ee5f8ec46dc3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80"
               width={1200}

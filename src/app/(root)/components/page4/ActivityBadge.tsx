@@ -14,7 +14,7 @@ export default function ActivityBadge({ activity }: { activity: string }) {
   }
   return (
     <Badge
-      className=" w-min select-none hover:cursor-pointer whitespace-nowrap text-lg"
+      className=" w-min select-none hover:cursor-pointer whitespace-nowrap sm:text-lg text-base"
       onClick={() => addActivity()}
       variant={activities.includes(activity) ? "default" : "secondary"}
     >

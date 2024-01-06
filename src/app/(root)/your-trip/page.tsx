@@ -34,7 +34,7 @@ export default async function YourTripPage({
   console.log(searchParams.action);
 
   return (
-    <main>
+    <main className="p-3">
       <Suspense fallback={<Loading />}>
         <YourTrip tripId={tripId} params={searchParams.action} />
       </Suspense>

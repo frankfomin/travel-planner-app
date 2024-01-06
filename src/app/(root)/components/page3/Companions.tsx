@@ -121,11 +121,11 @@ export default function Companions() {
   return (
     <FormPage title="Who are you travelling with?" subTitle="Choose one">
       <form className="flex flex-col w-full gap-5">
-        <div className="flex gap-4">
+        <div className="flex sm:gap-4 gap-2 flex-wrap ">
           {companions.map((item, i) => (
             <Badge
               key={i}
-              className=" select-none hover:cursor-pointer text-lg "
+              className=" select-none hover:cursor-pointer sm:text-lg text-base "
               variant={item.companion === companion ? "default" : "secondary"}
               onClick={() => {
                 setCompanion(item.companion);

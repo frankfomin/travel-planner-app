@@ -21,7 +21,7 @@ export default function Calendar() {
   });
 
   return (
-    <FormPage title="How long will you be away?" subTitle="">
+    <FormPage title="How long will you stay?" subTitle="">
       <form className="flex flex-col w-full gap-5">
         <div className="flex w-full justify-between">
           <C

@@ -68,10 +68,10 @@ export default async function LocationCard({
     details?.photos?.length > 0 ? details.photos[0].photo_reference : null;
 
   return (
-    <Card className="max-w-2xl px-4 py-5 shadow-lg">
+    <Card className="max-w-2xl sm:px-4 sm:py-5 px-2 py-3 shadow-lg">
       <Tabs defaultValue="details">
         <div className="flex justify-between items-center">
-          <CardTitle>{details.name}</CardTitle>
+          <CardTitle className="text-2xl sm:text-xl">{details.name}</CardTitle>
           <TabsList className="flex justify-between">
             <TabsTrigger value="details">Details</TabsTrigger>
             <TabsTrigger value="reviews">Reviews</TabsTrigger>
@@ -118,9 +118,9 @@ export default async function LocationCard({
           <CardContent className="p-0 flex flex-col gap-3">
             {details.reviews?.map((review, i) => (
               <Card className="flex flex-col gap-1 p-3 bg-muted" key={i}>
-                <CardTitle className="flex items-center justify-between gap-3">
+                <CardTitle className="flex items-center justify-between  gap-3 text-base">
                   <Link
-                    className="flex gap-2"
+                    className="flex items-center gap-2"
                     href={review.author_url}
                     target="_blank"
                   >
@@ -129,13 +129,19 @@ export default async function LocationCard({
                       alt={review.author_name}
                       width={24}
                       height={24}
-                      className="rounded-full aspect-square object-cover"
+                      className="rounded-full aspect-square w-8 h-8 object-cover"
                     />
-                    <span>{review.author_name}</span>
+                    <div className="flex flex-col justify-center">
+                      <span>{review.author_name}</span>
+                      <div className="text-sm text-muted-foreground">{review.relative_time_description}</div>
+                    </div>
                   </Link>
-                  <div className="text-sm flex items-center gap-2">
+                  <div className="text-sm flex sm:items-center gap-2">
                     <Rating rating={review.rating} />
-                    <div> {review.relative_time_description}</div>
+                    <div className="sm:block hidden">
+                      {" "}
+                      {review.relative_time_description}
+                    </div>
                   </div>
                 </CardTitle>
                 <CardDescription>{review.text}</CardDescription>

@@ -27,7 +27,7 @@ export default function Activities() {
 
   const { activities: a } = activitiesContext();
   const ref = useRef<HTMLFormElement>(null);
-  
+
   useEffect(() => {
     if (!data) {
       mutate();
@@ -51,15 +51,14 @@ export default function Activities() {
       setActivities(data);
     },
   });
-console.log(activities)
+  console.log(activities);
   return (
     <FormPage
       title="What are you going to do?"
-      subTitle="feel free to add an extra option if you're feeling extra adventurous!
-    "
+      subTitle="Choose as many as you want"
     >
       <div className="w-full grid gap-5">
-        <div className="flex flex-wrap max-w-lg w-full gap-3">
+        <div className="flex flex-wrap max-w-lg w-full sm:gap-3 gap-2">
           {isLoading ? (
             <>
               {Array.from({ length: 10 }).map((_, i) => (
@@ -71,7 +70,7 @@ console.log(activities)
               {activities?.map((activity, i) => (
                 <ActivityBadge activity={activity} key={i} />
               ))}
-            </> 
+            </>
           )}
           <Badge variant="outline">
             <form
@@ -101,7 +100,6 @@ console.log(activities)
           </Badge>
         </div>
         <form className="grid gap-5 w-full">
-          <Textarea className="w-full" name="message" />
           <div className="flex gap-2">
             <Button onClick={() => prevStep()} variant="outline">
               Back

@@ -36,7 +36,7 @@ export default async function YourTrip({
     <>
       <SaveBtn />
       <header className="relative w-full flex flex-col items-center gap-10">
-        <div className="max-w-4xl">
+        <div className="sm:max-w-4xl ">
           <Suspense fallback={<CityPictureLoading />}>
             <TripHeader tripId={tripId} params={params} />
           </Suspense>
@@ -45,7 +45,7 @@ export default async function YourTrip({
           </Suspense>
         </div>
       </header>
-      <section className="flex flex-col gap-5 ml-10 mt-10 ">
+      <section className="flex flex-col gap-5 sm:ml-10 sm:mt-10 mt-5 ">
         {locations.cityLocations.map((location: string, i) => (
           <Suspense key={i} fallback={<Loading />}>
             <LocationCard
