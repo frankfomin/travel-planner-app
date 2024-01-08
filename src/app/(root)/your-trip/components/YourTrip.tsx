@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import TripHeader from "@/components/shared/TripHeader";
 import CityDescription from "./CityDescription";
 import LocationCard from "./LocationCard";
-import { getCityBias, getCityLocations } from "@/lib/actions/city.action";
+import { getCityBias, getCityLocations } from "@/lib/actions/city.actions";
 import Loading from "./Loading/CardLoading";
 import CityDescLoading from "./Loading/CityDescLoading";
 import CityPictureLoading from "./Loading/CityPictureLoading";

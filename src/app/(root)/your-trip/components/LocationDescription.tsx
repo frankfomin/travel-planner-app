@@ -1,4 +1,4 @@
-import { getLocationDescription } from "@/lib/actions/location.action";
+import { getLocationDescription } from "@/lib/actions/location.actions";
 import React from "react";
 
 export default async function LocationDescription({

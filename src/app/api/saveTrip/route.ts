@@ -7,7 +7,7 @@ import { nanoid } from "nanoid";
 import { getServerSession } from "next-auth";
 import { redis } from "@/lib/redis";
 import { cookies } from "next/headers";
-import { config } from "../../../lib/auth";
+import { config } from "../../../auth";
 
 
 type TripDetails = {

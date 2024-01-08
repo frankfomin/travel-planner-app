@@ -6,7 +6,6 @@ import Companions from "./page3/Companions";
 import Activities from "./page4/Activities";
 import CitySearch from "./page1/CitySearch";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 
 export default function Wrapper() {
   const { step } = formContext();
@@ -22,7 +21,6 @@ export default function Wrapper() {
         {step === 2 && <Companions />}
         {step === 3 && <Calendar />}
         {step === 4 && <Activities />}
-
       </main>
     </>
   );

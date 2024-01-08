@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getLocationDescription,
   getLocationDetails,
-} from "@/lib/actions/location.action";
+} from "@/lib/actions/location.actions";
 import React, { Suspense } from "react";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";

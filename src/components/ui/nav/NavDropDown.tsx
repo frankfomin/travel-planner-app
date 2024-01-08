@@ -7,15 +7,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { auth } from "@/auth";
 
-import { getServerSession } from "next-auth";
 import Link from "next/link";
 import NavSignOut from "./NavSignOut";
 import { Button } from "../button";
-import { config } from "../../../lib/auth";
 
 export default async function NavDropDown() {
-  const session = await getServerSession(config);
+  const session = await auth();
 
   return (
     <>

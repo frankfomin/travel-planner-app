@@ -19,7 +19,7 @@ export const users = mysqlTable("user", {
   emailVerified: timestamp("emailVerified", {
     mode: "date",
     fsp: 3,
-  }).defaultNow(),
+  }),
   password: varchar("password", { length: 255 }),
   image: varchar("image", { length: 255 }),
 });
@@ -34,6 +34,20 @@ export const securityLogs = mysqlTable("securityLog", {
   provider: varchar("provider", { length: 255 }),
   ip: varchar("ipAdress", { length: 255 }),
   country: varchar("country", { length: 255 }),
+});
+
+export const passwordResetToken = mysqlTable("passwordResetToken", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  email: varchar("email", { length: 255 }).notNull(),
+  token: varchar("token", { length: 255 }).notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationToken = mysqlTable("verificationToken", {
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
+  email: varchar("email", { length: 255 }).notNull(),
+  token: varchar("token", { length: 255 }).notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
 export const accounts = mysqlTable(
@@ -54,7 +68,7 @@ export const accounts = mysqlTable(
     session_state: varchar("session_state", { length: 255 }),
   },
   (account) => ({
-    compoundKey: primaryKey(account.provider, account.providerAccountId),
+    compoundKey: (account.provider, account.providerAccountId),
   })
 );
 
@@ -63,18 +77,6 @@ export const sessions = mysqlTable("session", {
   userId: varchar("userId", { length: 255 }).notNull(),
   expires: timestamp("expires", { mode: "date" }).notNull(),
 });
-
-export const verificationTokens = mysqlTable(
-  "verificationToken",
-  {
-    identifier: varchar("identifier", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull(),
-    expires: timestamp("expires", { mode: "date" }).notNull(),
-  },
-  (vt) => ({
-    compoundKey: primaryKey(vt.identifier, vt.token),
-  })
-);
 
 export const trip = mysqlTable("trip", {
   id: varchar("id", { length: 255 }).notNull().primaryKey(),

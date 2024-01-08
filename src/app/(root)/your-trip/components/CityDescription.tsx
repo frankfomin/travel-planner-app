@@ -1,4 +1,4 @@
-import { getCityDescription } from "@/lib/actions/city.action";
+import { getCityDescription } from "@/lib/actions/city.actions";
 import { saveTrip } from "@/lib/actions/saveTrip.action";
 import React from "react";
 

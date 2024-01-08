@@ -2,7 +2,7 @@
 
 import { db } from "@/db/db";
 import { getServerSession } from "next-auth";
-import { config } from "@/lib/auth";
+import { config } from "../../auth";
 import { eq } from "drizzle-orm";
 import { trip, users } from "@/db/schema";
 
