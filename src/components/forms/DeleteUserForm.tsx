@@ -10,7 +10,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
-import { deleteUserSchema, updateUserInfoSchema } from "@/lib/validators";
+import { deleteUserSchema } from "@/lib/validators";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../ui/SubmitButton";
