@@ -6,30 +6,38 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { useForm } from "react-hook-form";
-import { updateUserInfoSchema } from "@/lib/validators";
+import { deleteUserSchema, updateUserInfoSchema } from "@/lib/validators";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import SubmitButton from "../ui/SubmitButton";
+import { Button } from "../ui/button";
+import { Icons } from "../ui/icons";
+import { deleteUser } from "@/lib/actions/user.actions";
 
-export default function DeleteUserForm() {
+export default function DeleteUserForm({
+  userId,
+}: {
+  userId: string | undefined;
+}) {
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof updateUserInfoSchema>>({
-    resolver: zodResolver(updateUserInfoSchema),
+  const form = useForm<z.infer<typeof deleteUserSchema>>({
+    resolver: zodResolver(deleteUserSchema),
     defaultValues: {
-      name: "",
-      newPassword: "",
-      confirmPassword: "",
+      deleteKeyWord: "",
     },
   });
 
-  async function onSubmit(data: z.infer<typeof updateUserInfoSchema>) {
-    setIsLoading(true);
+  async function onSubmit(data: z.infer<typeof deleteUserSchema>) {
+    if (userId) {
+      setIsLoading(true);
+      await deleteUser(userId);
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -37,10 +45,9 @@ export default function DeleteUserForm() {
       <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="confirmPassword"
+          name="deleteKeyWord"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -48,8 +55,10 @@ export default function DeleteUserForm() {
             </FormItem>
           )}
         />
-
-        <SubmitButton isLoading={isLoading}>Create your account</SubmitButton>
+        <Button disabled={isLoading} variant="destructive">
+          DELETE
+          {isLoading && <Icons.spinner className="animate-spin" />}
+        </Button>
       </form>
     </Form>
   );

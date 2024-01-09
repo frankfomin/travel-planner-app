@@ -7,10 +7,12 @@ export default function SubmitButton({
   isLoading,
   children,
   outline = false,
+  destructive = false,
 }: {
   isLoading: boolean;
   children: React.ReactNode;
   outline?: boolean;
+  destructive?: boolean;
 }) {
   return (
     <Button

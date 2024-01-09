@@ -10,6 +10,7 @@ import {
   getUserByEmail,
   getUserById,
 } from "./lib/actions/user.actions";
+import { ExtendedSession } from "./types";
 
 export const {
   handlers: { GET, POST },
@@ -50,7 +51,11 @@ export const {
   callbacks: {
     async session({ session, token }) {
       if (token.sub && session.user) {
-        session.user.id = token.sub;
+        const user = session.user as ExtendedSession;
+
+        user.id = token.sub;
+        user.isOAuth = token.isOAuth as boolean;
+        user.provider = token.provider as string;
       }
       return session;
     },
@@ -74,6 +79,7 @@ export const {
       token.isOAuth = !!existingAccount;
       token.name = existingUser.name;
       token.email = existingUser.email;
+      token.provider = existingAccount?.provider || "credentials";
 
       return token;
     },

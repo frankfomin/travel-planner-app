@@ -1,35 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Search from "./Search";
-
-const svg = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="158"
-    height="158"
-    viewBox="0 0 158 158"
-    fill="currentColor"
-    className="sm:w-40 sm:h-40 w-20 h-20"
-  >
-    <mask
-      id="mask0_42_1235"
-      style={{ maskType: "alpha" }}
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-      width="158"
-      height="158"
-    >
-      <rect width="158" height="158" fill="currentColor" />
-    </mask>
-    <g mask="url(#mask0_42_1235)">
-      <path
-        d="M45.0962 112.903L24.0295 101.382L30.942 94.4695L47.4003 96.7736L73.0753 71.0986L21.7253 43.1195L30.942 33.9028L93.8128 50.032L119.652 24.5215C121.518 22.6563 123.849 21.7236 126.647 21.7236C129.445 21.7236 131.777 22.6563 133.642 24.5215C135.507 26.3868 136.44 28.7184 136.44 31.5163C136.44 34.3143 135.507 36.6459 133.642 38.5111L107.967 64.1861L124.096 127.057L114.88 136.274L86.9003 84.9236L61.2253 110.599L63.5295 127.057L56.617 133.969L45.0962 112.903Z"
-        className=" fill-muted-foreground"
-      />
-    </g>
-  </svg>
-);
+import { Icons } from "@/components/ui/icons";
 
 export default function CitySearch() {
   return (
@@ -44,7 +16,7 @@ export default function CitySearch() {
             className="sm:aspect-[4/3] object-cover aspect-video rounded-md sm:w-52 w-24"
             alt="road"
           />
-          <div className="">{svg}</div>
+          <Icons.plane className="sm:w-40 sm:h-40 w-20 h-20" />
         </div>
         <div className="flex gap-3 items-center justify-center">
           <span>New</span>

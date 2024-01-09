@@ -9,7 +9,7 @@ import { z } from "zod";
 import { AutocompleteResult } from "@/types";
 import { formContext } from "@/context/Form";
 import { Input } from "@/components/ui/input";
-import { citySearchSchema } from "@/lib/validators/travelPlanning";
+import { citySearchSchema } from "@/lib/validators";
 import axios from "axios";
 import { findCitiesFromText } from "@/lib/actions/city.actions";
 

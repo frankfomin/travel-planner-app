@@ -35,6 +35,58 @@ export const Icons = {
       />
     </svg>
   ),
+  plane: (props: IconProps) => (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="158"
+      height="158"
+      viewBox="0 0 158 158"
+      fill="currentColor"
+    >
+      <mask
+        id="mask0_42_1235"
+        style={{ maskType: "alpha" }}
+        maskUnits="userSpaceOnUse"
+        x="0"
+        y="0"
+        width="158"
+        height="158"
+      >
+        <rect width="158" height="158" fill="currentColor" />
+      </mask>
+      <g mask="url(#mask0_42_1235)">
+        <path
+          d="M45.0962 112.903L24.0295 101.382L30.942 94.4695L47.4003 96.7736L73.0753 71.0986L21.7253 43.1195L30.942 33.9028L93.8128 50.032L119.652 24.5215C121.518 22.6563 123.849 21.7236 126.647 21.7236C129.445 21.7236 131.777 22.6563 133.642 24.5215C135.507 26.3868 136.44 28.7184 136.44 31.5163C136.44 34.3143 135.507 36.6459 133.642 38.5111L107.967 64.1861L124.096 127.057L114.88 136.274L86.9003 84.9236L61.2253 110.599L63.5295 127.057L56.617 133.969L45.0962 112.903Z"
+        />
+      </g>
+    </svg>
+  ),
+  compass: (props: IconProps) => (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M16.24 7.75977L14.12 14.1198L7.76001 16.2398L9.88001 9.87977L16.24 7.75977Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   spinner: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

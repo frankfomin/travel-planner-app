@@ -1,9 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { travelPlanningSchema } from "../validators/travelPlanning";
 import { redis } from "../redis";
 import { nanoid } from "nanoid";
+import { travelPlanningSchema } from "../validators";
 export async function saveTripData(data: unknown) {
   try {
     const result = travelPlanningSchema.safeParse(data);

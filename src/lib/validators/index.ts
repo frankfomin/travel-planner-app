@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { object, z } from "zod";
 
 export const signUpSchema = object({
@@ -25,7 +26,8 @@ export const resetPasswordSchema = object({
   email: z.string().email({ message: "Email is required" }),
 });
 
-export const updateUserInfoSchema = object({
+export const updateUserSchema = object({
+  email: z.optional(z.string().email({ message: "Email is required" })),
   name: z.optional(z.string()),
   newPassword: z.optional(z.string().min(6)),
   confirmPassword: z.optional(z.string().min(6)),
@@ -34,7 +36,12 @@ export const updateUserInfoSchema = object({
   path: ["confirmPassword"],
 });
 
-export const deleteUserSchema = object({});
+export const deleteUserSchema = object({
+  deleteKeyWord: z.string(),
+}).refine((data) => data.deleteKeyWord === "DELETE", {
+  message: "Please type 'DELETE' to confirm",
+  path: ["deleteKeyWord"],
+});
 
 export const calendarSchema = z.object({
   from: z.date(),

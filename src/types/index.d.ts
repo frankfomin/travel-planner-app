@@ -1,3 +1,6 @@
+import { is } from "drizzle-orm";
+import { User } from "next-auth";
+
 type location = {
   location_id: string;
   name: string;
@@ -99,12 +102,9 @@ export type Location = {
   locationDescription: string;
 };
 
-export type session = {
-  user: {
-    name: string;
-    email: string;
-    image: string;
-  };
+export type ExtendedSession = User & {
+  isOAuth: boolean;
+  provider: string;
 };
 
 export type Details = {
