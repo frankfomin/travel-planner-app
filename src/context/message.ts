@@ -1,4 +1,3 @@
-import { Message } from "@/lib/validators/message";
 import { create } from "zustand";
 
 type allMessages = {
