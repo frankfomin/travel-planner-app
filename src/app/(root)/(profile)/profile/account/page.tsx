@@ -6,17 +6,21 @@ import {
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import Loading from "./Loading";
-import DeleteUser from "./components/DeleteUser";
-import GetUserData from "./components/GetUserData";
+import { auth } from "@/auth";
 
-export default function accountPage() {
+export default async function AccountPage() {
+  const session = await auth();
   return (
     <div className="w-full max-w-3xl flex flex-col gap-2">
       <CardTitle>Account</CardTitle>
       <div className="flex flex-col gap-5">
-        <Suspense fallback={<Loading />}>
-          <GetUserData />
-        </Suspense>
+        <section>
+          {/* form to see email, add a name or show name,
+            * change password, delete account
+       
+          */}
+          
+        </section>
         <div>
           <Card>
             <CardHeader>
@@ -27,7 +31,8 @@ export default function accountPage() {
                   be certain.
                 </CardDescription>
                 <Suspense>
-                  <DeleteUser />
+                  {/*                   <DeleteUser />
+                   */}{" "}
                 </Suspense>
               </div>
             </CardHeader>

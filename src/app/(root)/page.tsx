@@ -1,5 +1,5 @@
-import Wrapper from "./components/Wrapper";
+import FormStepCard from "@/components/cards/FormStepCard";
 
 export default function HomePage() {
-  return <Wrapper />;
+  return <FormStepCard />;
 }

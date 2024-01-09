@@ -1,4 +1,4 @@
-import ResetPassword from "@/components/auth/forms/ResetPassword";
+import ResetPassword from "@/components/forms/ResetPassword";
 import React from "react";
 
 export default function page() {

@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import { cookies } from "next/headers";
+import { headers } from "next/headers";
 import { redis } from "../redis";
 import {
   chatDescPrompt,
@@ -107,10 +108,10 @@ export async function getCityBias() {
   try {
     const cookie = cookies();
     const userId = cookie.get("userId");
+    const header = headers();
+    const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
-    const ipAddress = "192.186.12.11";
-
-    const currentRequestCount = await redis.incr(ipAddress);
+    const currentRequestCount = await redis.incr(ip);
 
     if (currentRequestCount > 100) {
       return { rateLimit: "Too many requests" };
@@ -192,9 +193,10 @@ export async function getCityDescription() {
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const ipAddress = "192.186.12.11";
+    const header = headers();
+    const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
-    const currentRequestCount = await redis.incr(ipAddress);
+    const currentRequestCount = await redis.incr(ip);
 
     if (currentRequestCount > 100) {
       return { rateLimit: "Too many requests" };
@@ -239,6 +241,8 @@ export async function getCityDescription() {
     await redis.hmset(`location:${userId?.value}`, {
       cityDescription: responseText,
     });
+
+    await redis.expire(`location:${userId?.value}`, 3600);
 
     return {
       responseText,

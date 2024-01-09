@@ -1,9 +1,9 @@
-import YourTrip from "./components/YourTrip";
+import YourTrip from "../../../components/trip/YourTrip";
 import { Suspense } from "react";
-import Loading from "./Loading";
 import { db } from "@/db/db";
 import { location, trip } from "@/db/schema";
 import { nanoid } from "nanoid";
+import Loading from "@/components/loading/Loading";
 
 export default async function YourTripPage({
   searchParams,
@@ -26,7 +26,7 @@ export default async function YourTripPage({
       }),
     ]);
   }
-  
+
   if (searchParams.action === "save") {
     await poop();
   }

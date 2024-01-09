@@ -101,7 +101,7 @@ export async function getLocationDetails({
       details: JSON.stringify(details),
     });
 
- 
+    await redis.expire(`location${locationCount}:${userId?.value}`, 3600);
 
     return {
       details,
@@ -158,6 +158,8 @@ export async function getLocationDescription({
     await redis.hmset(`location${locationCount}:${userId?.value}`, {
       locDescription: responseText,
     });
+
+    await redis.expire(`location${locationCount}:${userId?.value}`, 3600);
 
     return {
       description: responseText,
