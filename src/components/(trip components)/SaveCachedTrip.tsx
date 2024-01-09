@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,9 +24,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { TsaveTripSchema, saveTripSchema } from "@/lib/validators/saveTrip";
 import { toast } from "sonner";
-import SignInForm from "@/app/(auth)/sign-in/components/SignInForm";
 
 type SaveTripProps = {
   locations: string[];
@@ -117,3 +115,4 @@ export default function SaveCachedTrip({ locations }: { locations: string[] }) {
     </div>
   );
 }
+ */
