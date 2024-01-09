@@ -19,6 +19,7 @@ import { saveTripData } from "@/lib/actions/saveTripData.action";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getActivites } from "@/lib/actions/city.actions";
 
 export default function Activities() {
   const router = useRouter();
@@ -37,15 +38,12 @@ export default function Activities() {
 
   const { mutate, isLoading, data } = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.post("/api/openAi/getActivities", {
+      const { activites } = await getActivites({
         city: formData.cityName,
         companion: formData.companions,
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
-      return data as string[];
+      return activites;
     },
     onSuccess: (data) => {
       setActivities(data);

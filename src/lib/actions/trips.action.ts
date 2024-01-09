@@ -1,14 +1,14 @@
 "use server";
 
 import { db } from "@/db/db";
-import { getServerSession } from "next-auth";
-import { config } from "../../auth";
+
 import { eq } from "drizzle-orm";
 import { trip, users } from "@/db/schema";
+import { auth } from "@/auth";
 
 export async function getTrips() {
   try {
-    const session = await getServerSession(config);
+    const session = await auth();
     const email = session?.user?.email;
     if (!email) {
       return {

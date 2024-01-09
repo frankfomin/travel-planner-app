@@ -10,33 +10,26 @@ import { AutocompleteResult } from "@/types";
 import { formContext } from "@/context/Form";
 import { Input } from "@/components/ui/input";
 import { citySearchSchema } from "@/lib/validators/travelPlanning";
+import axios from "axios";
+import { findCitiesFromText } from "@/lib/actions/city.actions";
 
 export default function Search() {
   const [value, setValue] = useState("");
   const [delayedValue, setDelayedValue] = useState("");
   const { nextStep, step, formData } = formContext();
 
-  const {
-    mutate: sendMessage,
-    data,
-  } = useMutation({
-    mutationKey: ["sendMessage"],
+  const { mutate, data } = useMutation({
     mutationFn: async (city: string) => {
-      const response = await fetch("/api/city", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(city),
-      });
+      const res = await findCitiesFromText(city);
 
-      const responseData = await response.json();
-      return responseData as AutocompleteResult[];
+      if (res?.uniquePredictions) {
+        return res.uniquePredictions;
+      }
     },
   });
   useEffect(() => {
     const delay = setTimeout(() => {
-      sendMessage(delayedValue);
+      mutate(delayedValue);
     }, 200);
 
     return () => clearTimeout(delay);
@@ -55,7 +48,6 @@ export default function Search() {
     return () => clearTimeout(delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
-
 
   return (
     <div className="flex flex-col relative">
@@ -87,11 +79,11 @@ export default function Search() {
                     toast.error("Something went wrong");
                     return;
                   }
-                  
+
                   formData.cityName = result.data.city;
                   formData.placeId = result.data.place_id;
                   nextStep();
-                  console.log(step)
+                  console.log(step);
                 }}
                 key={city.place_id}
                 className="flex items-center hover:cursor-pointer relative p-2 w-full "
