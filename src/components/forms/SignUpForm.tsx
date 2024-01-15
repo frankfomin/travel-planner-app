@@ -20,6 +20,7 @@ import AuthCard from "../cards/AuthCard";
 import { CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icons } from "@/components/ui/icons";
 import SubmitButton from "../ui/SubmitButton";
+import { toast } from "sonner";
 
 export default function SignUpForm() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -39,16 +40,13 @@ export default function SignUpForm() {
 
     switch (true) {
       case userExists:
-        form.setError("email", {
-          type: "manual",
-          message: "User already exists",
-        });
+        toast.error("User already exists");
         break;
       case success:
         setSuccess(true);
         break;
       case error:
-        console.log(error);
+        toast.error("Something went wrong");
         break;
       case validationError:
         console.log(validationError);
@@ -67,7 +65,9 @@ export default function SignUpForm() {
           <CardDescription>
             We just sent a verification link to{" "}
             <span className="text-accent-foreground">
-              {form.getValues("email") ? form.getValues("email") : "venturevista200@gmail.com"}
+              {form.getValues("email")
+                ? form.getValues("email")
+                : "venturevista200@gmail.com"}
             </span>
           </CardDescription>
         </CardHeader>

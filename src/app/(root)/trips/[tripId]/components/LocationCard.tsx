@@ -21,10 +21,11 @@ export default async function LocationCard({
 }: {
   name: string;
   description?: string;
-  photos: Photo;
+  photos: Photo[];
   reviews: savedReview[];
   rating: string;
 }) {
+  const firstPhotoReference = photos?.length > 0 ? photos[0] : null;
   return (
     <Card className="max-w-2xl px-4 py-5 shadow-lg">
       <Tabs defaultValue="details">
@@ -39,12 +40,12 @@ export default async function LocationCard({
           <CardContent className="p-0 flex flex-col gap-3">
             {photos ? (
               <GoogleImage
-                photo_reference={photos.photo_reference}
-                width={photos.width}
-                height={photos.height}
+                photo_reference={firstPhotoReference?.photo_reference || ""}
+                width={firstPhotoReference?.width}
+                height={firstPhotoReference?.height}
                 src=""
                 alt=""
-                className="aspect-video object-cove w-full rounded-md"
+                className="aspect-video object-cover w-full rounded-md"
               />
             ) : (
               <div className="flex h-full justify-center items-center aspect-video object-cover rounded-md dark:bg-muted bg-muted">

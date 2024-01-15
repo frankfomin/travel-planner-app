@@ -8,6 +8,8 @@ import Loading from "../loading/CardLoading";
 import CityDescLoading from "../loading/CityDescLoading";
 import CityPictureLoading from "../loading/CityPictureLoading";
 import SaveBtn from "../(trip components)/saveBtn";
+import { auth } from "@/auth";
+import { ExtendedSession } from "@/types";
 
 export default async function YourTrip({
   params,
@@ -16,9 +18,10 @@ export default async function YourTrip({
   params: string | string[] | undefined;
   tripId: string;
 }) {
-  const [locations, bias] = await Promise.all([
+  const [locations, bias, session] = await Promise.all([
     getCityLocations(),
     getCityBias(),
+    auth(),
   ]);
 
   if (locations.rateLimit || bias.rateLimit) {
@@ -28,12 +31,10 @@ export default async function YourTrip({
   if (!locations.cityLocations || !bias.lat || !bias.lng) {
     throw new Error("Failed to load data");
   }
-
-  console.log("LENGTH ",locations.cityLocations.length);
-
+  const length = locations.cityLocations.length;
   return (
     <>
-      <SaveBtn />
+      <SaveBtn length={length} user={session?.user as ExtendedSession} />
       <header className="relative w-full flex flex-col items-center gap-10">
         <div className="sm:max-w-4xl ">
           <Suspense fallback={<CityPictureLoading />}>

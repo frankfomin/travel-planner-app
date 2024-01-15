@@ -98,13 +98,19 @@ type LocationDetails = {
 };
 
 export type Location = {
-  locationDetails: LocationDetails;
-  locationDescription: string;
+  details: LocationDetails;
+  locDescription: string;
 };
 
 export type ExtendedSession = User & {
   isOAuth: boolean;
   provider: string;
+};
+
+export type city = {
+  photo: Photo;
+  cityDescription: string;
+  city: string;
 };
 
 export type Details = {
@@ -150,3 +156,41 @@ type locationDetailsParams = {
   lng: number;
   locationCount: number;
 };
+
+type Trip =
+  | {
+      city: string | null;
+      photo_reference: string;
+      width: number;
+      height: number;
+      description: string | null;
+      id: string;
+      name: string;
+      userId: string;
+      created_at: Date;
+    }
+  | undefined;
+
+type LocationAndTrip =
+  | {
+      id: string;
+      name: string;
+      description: string | null;
+      rating: string | null;
+      photos: unknown;
+      tripId: string;
+      opening_hours: unknown;
+      trip: {
+        width: number;
+        height: number;
+        id: string;
+        photo_reference: string;
+        city: string | null;
+        created_at: Date;
+        description: string | null;
+        name: string;
+        userId: string;
+      };
+      reviews: savedReview[];
+    }
+  | undefined;

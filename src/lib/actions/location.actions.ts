@@ -21,18 +21,18 @@ export async function tripDetails() {
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const tripDetails: tripDetails | null = await redis.hgetall(
-      `tripDetails:${userId?.value}`
-    );
-
     const cachedLocation = await redis.hgetall(`location:${userId?.value}`);
 
-    if (cachedLocation?.photo) {
+    if (cachedLocation) {
       return {
-        city: tripDetails?.city,
+        city: cachedLocation.city as string,
         photo: cachedLocation.photo as Photo,
       };
     }
+
+    const tripDetails: tripDetails | null = await redis.hgetall(
+      `tripDetails:${userId?.value}`
+    );
 
     const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/place/details/json?fields=photos&place_id=${tripDetails?.place_id}&key=${process.env.GOOGLE_PLACES_API_KEY}`
@@ -44,6 +44,7 @@ export async function tripDetails() {
 
     await redis.hmset(`location:${userId?.value}`, {
       photo: firstPhotoReference,
+      city: tripDetails?.city,
     });
 
     console.log("PHOTO", firstPhotoReference);

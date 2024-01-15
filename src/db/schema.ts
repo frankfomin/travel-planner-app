@@ -79,8 +79,8 @@ export const sessions = mysqlTable("session", {
 });
 
 export const trip = mysqlTable("trip", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   userId: varchar("userId", { length: 255 }).notNull(),
+  id: varchar("id", { length: 255 }).notNull().primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
   created_at: timestamp("created_at", { mode: "date" })
     .default(sql`CURRENT_TIMESTAMP`)

@@ -1,7 +1,5 @@
 import React from "react";
-import { cookies } from "next/headers";
-import { redis } from "@/lib/redis";
-import { getCityImage } from "@/lib/actions/getCityImage";
+
 import GoogleImage from "../GoogleImage";
 import { saveTrip } from "@/lib/actions/saveTrip.action";
 import { tripDetails } from "@/lib/actions/location.actions";

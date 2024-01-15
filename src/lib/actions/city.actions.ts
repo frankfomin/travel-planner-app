@@ -254,3 +254,19 @@ export async function getCityDescription() {
     };
   }
 }
+
+export async function getCityImageFromPhotoRef(
+  photo_reference: string | undefined
+) {
+  try {
+    const { data } = await axios.get(
+      `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photo_reference}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+    );
+
+    console.log("DATA", data);  
+
+    return data;
+  } catch (error) {
+    return null;
+  }
+}

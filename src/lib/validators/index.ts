@@ -70,3 +70,7 @@ export const travelPlanningSchema = z.object({
   }),
   companion: z.string(),
 });
+
+export const saveTripSchema = z.object({
+  tripName: z.string(),
+});

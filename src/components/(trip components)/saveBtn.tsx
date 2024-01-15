@@ -1,17 +1,49 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React from "react";
+"use client";
 
-export default function SaveBtn() {
+import { auth } from "@/auth";
+import { Button } from "@/components/ui/button";
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Badge } from "../ui/badge";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { ExtendedSession } from "@/types";
+import SignInForm from "../forms/SignInForm";
+import SaveTripForm from "../forms/SaveTripForm";
+
+export default function saveBtn({
+  user,
+  length,
+}: {
+  user: ExtendedSession | undefined;
+  length: number;
+}) {
+  console.log(user?.id);
   return (
-    <Link
-      href={{
-        pathname: "/your-trip",
-        query: { action: "save" },
-      }}
-      shallow={true}
-    >
-      <Button>Save trip</Button>
-    </Link>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Save trip</Button>
+      </DialogTrigger>
+      <DialogContent>
+        {user ? (
+          <DialogHeader>
+            <DialogTitle>Save your trip</DialogTitle>
+            <DialogDescription>Give your trip a name</DialogDescription>
+            <SaveTripForm length={length} />
+          </DialogHeader>
+        ) : (
+          <DialogHeader>
+            <SignInForm />
+          </DialogHeader>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }
