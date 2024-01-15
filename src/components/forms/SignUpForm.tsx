@@ -41,6 +41,10 @@ export default function SignUpForm() {
     switch (true) {
       case userExists:
         toast.error("User already exists");
+        form.setError("email", {
+          type: "manual",
+          message: "User already exists",
+        });
         break;
       case success:
         setSuccess(true);
