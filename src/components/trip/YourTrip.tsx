@@ -10,6 +10,7 @@ import CityPictureLoading from "../loading/CityPictureLoading";
 import SaveBtn from "../(trip components)/saveBtn";
 import { auth } from "@/auth";
 import { ExtendedSession } from "@/types";
+import TripMap from "./TripMap";
 
 export default async function YourTrip({
   params,
@@ -33,7 +34,7 @@ export default async function YourTrip({
   }
   const length = locations.cityLocations.length;
   return (
-    <>
+    <main className="flex flex-col gap-5">
       <SaveBtn length={length} user={session?.user as ExtendedSession} />
       <header className="relative w-full flex flex-col items-center gap-10">
         <div className="sm:max-w-4xl ">
@@ -45,21 +46,28 @@ export default async function YourTrip({
           </Suspense>
         </div>
       </header>
-      <section className="flex flex-col gap-5 sm:ml-10 sm:mt-10 mt-5 ">
-        {locations.cityLocations.map((location: string, i) => (
-          <Suspense key={i} fallback={<Loading />}>
-            <LocationCard
-              tripId={tripId}
-              key={i}
-              locationCount={i}
-              params={params}
-              location={location}
-              lat={bias.lat}
-              lng={bias.lng}
-            />
-          </Suspense>
-        ))}
+      <section className="flex justify-between">
+        <div className="flex flex-col gap-5">
+          {locations.cityLocations.map((location: string, i) => (
+            <Suspense key={i} fallback={<Loading />}>
+              <LocationCard
+                tripId={tripId}
+                key={i}
+                locationCount={i}
+                params={params}
+                location={location}
+                lat={bias.lat}
+                lng={bias.lng}
+              />
+            </Suspense>
+          ))}
+        </div>
+        <TripMap
+          lat={bias.lat}
+          lng={bias.lng}
+          locations={locations.cityLocations}
+        />
       </section>
-    </>
+    </main>
   );
 }

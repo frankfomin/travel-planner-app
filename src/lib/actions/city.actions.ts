@@ -9,24 +9,9 @@ import {
   chatLocPrompt,
 } from "@/helpers/constants/chatbot-prompt";
 import OpenAI from "openai";
-import { AutocompleteResult } from "@/types";
+import { AutocompleteResult, Geometry } from "@/types";
 
-type Geometry = {
-  location: {
-    lat: number;
-    lng: number;
-  };
-  viewport: {
-    northeast: {
-      lat: number;
-      lng: number;
-    };
-    southwest: {
-      lat: number;
-      lng: number;
-    };
-  };
-};
+
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -270,3 +255,5 @@ export async function getCityImageFromPhotoRef(
     return null;
   }
 }
+
+

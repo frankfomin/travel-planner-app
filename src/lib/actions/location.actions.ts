@@ -1,6 +1,6 @@
 "use server";
 
-import { Details, Photo, locationDetailsParams } from "@/types";
+import { Details, Geometry, Photo, locationDetailsParams } from "@/types";
 import axios from "axios";
 import { cookies } from "next/headers";
 import OpenAI from "openai";
@@ -169,6 +169,75 @@ export async function getLocationDescription({
     console.error("Error:", error);
     return {
       error: "internal error",
+    };
+  }
+}
+
+export async function getGeoData({
+  locations,
+  lat,
+  lng,
+}: {
+  locations: string[];
+  lat: number;
+  lng: number;
+}) {
+  try {
+    const placeIds = await Promise.all(
+      locations.map(async (location) => {
+        const placeId = await axios.get(
+          `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${location}&inputtype=textquery&locationbias=circle%3A10000%40${lat}%2C${lng}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+        );
+        const candidates = placeId.data.candidates;
+        console.log(candidates);
+        const firstPlaceId = candidates[0].place_id;
+        return firstPlaceId;
+      })
+    );
+
+    const geoData = await Promise.all(
+      placeIds.map(async (placeId) => {
+        const response = await axios.get(
+          `https://maps.googleapis.com/maps/api/place/details/json?fields=geometry&place_id=${placeId}&key=${process.env.GOOGLE_PLACES_API_KEY}`
+        );
+        const place: Geometry = response.data.result.geometry;
+        const lat = place.location.lat;
+        const lng = place.location.lng;
+        return { lat, lng };
+      })
+    );
+
+    return {
+      geoData,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      error: true,
+    };
+  }
+}
+
+export async function getCachedLocationData({
+  locationCount,
+}: {
+  locationCount: number;
+}) {
+  try {
+    const cookie = cookies();
+    const userId = cookie.get("userId");
+    const cachedLocation = await redis.hgetall(
+      `location${locationCount}:${userId?.value}`
+    );
+    console.log("cached location", cachedLocation); 
+    if (cachedLocation?.details) {
+      return {
+        details: cachedLocation.details as Details,
+      };
+    }
+  } catch (error) {
+    return {
+      error: true,
     };
   }
 }

@@ -1,9 +1,9 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function Loading() {
+export default function CardLoading() {
   return (
-    <Card className="flex flex-col gap-5 max-w-2xl px-4 py-5 shadow-lg">
+    <Card className="flex flex-col gap-5 max-w-2xl w-full px-4 py-5 shadow-lg">
       <CardTitle>
         <Skeleton className="h-6 w-[45%]" />
       </CardTitle>

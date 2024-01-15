@@ -2,10 +2,10 @@ import Layout from "@/components/providers/Providers";
 import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import NextUIProvider from "@/components/providers/next-ui-provider";
 import AuthProvider from "@/components/providers/AuthProvider";
 import { Toaster } from "sonner";
 import { GeistSans } from "geist/font/sans";
+import GoogleMapsProvider from "@/components/providers/GoogleMapsProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,14 +21,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${GeistSans.variable}`}>
         <AuthProvider>
-          <NextUIProvider>
+          <GoogleMapsProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <Layout>
                 {children}
-                <Toaster richColors  position="top-center" />
+                <Toaster richColors position="top-center" />
               </Layout>
             </ThemeProvider>
-          </NextUIProvider>
+          </GoogleMapsProvider>
         </AuthProvider>
       </body>
     </html>

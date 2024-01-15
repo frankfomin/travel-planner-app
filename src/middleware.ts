@@ -9,7 +9,7 @@ import {
 } from "@/routes";
 
 export default auth(async (req) => {
-  const { nextUrl } = req;
+ /*  const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -40,7 +40,7 @@ export default auth(async (req) => {
     );
   }
 
-  return null;
+  return null; */
 });
 
 // Optionally, don't invoke Middleware on some paths

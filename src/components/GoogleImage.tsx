@@ -8,7 +8,7 @@ export default function GoogleImage({ photo_reference, ...props }: GoogleImagePr
     <Image
       {...props}
       alt=""
-      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photo_reference}&key=${process.env.GOOGLE_PLACES_API_KEY}`}
+      src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photo_reference}&key=${process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY}`}
     />
   );
 }

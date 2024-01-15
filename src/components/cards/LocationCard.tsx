@@ -14,15 +14,11 @@ import React, { Suspense } from "react";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";
-import DescLoading from "../loading/DescLoading";
-import { saveLocation } from "@/lib/actions/saveTrip.action";
 
 export default async function LocationCard({
   location,
   lat,
   lng,
-  params,
-  tripId,
   locationCount,
 }: {
   params: string | string[] | undefined;
@@ -50,18 +46,6 @@ export default async function LocationCard({
 
   if (!description) {
     throw new Error("No description");
-  }
-
-  if (params === "save") {
-    await saveLocation({
-      tripId,
-      name: details.name,
-      rating: details.rating,
-      photos: details.photos[0],
-      opening_hours: details.opening_hours,
-      description: description.toString(),
-      reviews: details.reviews,
-    });
   }
 
   const firstPhotoReference =
@@ -133,7 +117,9 @@ export default async function LocationCard({
                     />
                     <div className="flex flex-col justify-center">
                       <span>{review.author_name}</span>
-                      <div className="text-sm text-muted-foreground">{review.relative_time_description}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {review.relative_time_description}
+                      </div>
                     </div>
                   </Link>
                   <div className="text-sm flex sm:items-center gap-2">

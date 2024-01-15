@@ -40,11 +40,7 @@ export default function SignUpForm() {
 
     switch (true) {
       case userExists:
-        toast.error("User already exists");
-        form.setError("email", {
-          type: "manual",
-          message: "User already exists",
-        });
+        toast.error("Registration failed");
         break;
       case success:
         setSuccess(true);
@@ -74,6 +70,7 @@ export default function SignUpForm() {
                 : "venturevista200@gmail.com"}
             </span>
           </CardDescription>
+          <Button>Go to sign in</Button>
         </CardHeader>
       )}
 

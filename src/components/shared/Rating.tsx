@@ -1,10 +1,10 @@
 import React from "react";
 
 export default function Rating({ rating }: { rating: number }) {
-  console.log(rating);
+  const roundedRating = Math.round(rating);
   return (
     <div className="flex">
-      {Array.from({ length: rating }).map((_, i) => (
+      {Array.from({ length: roundedRating }).map((_, i) => (
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +22,7 @@ export default function Rating({ rating }: { rating: number }) {
           />
         </svg>
       ))}
-      {Array.from({ length: 5 - rating }).map((_, i) => (
+      {Array.from({ length: 5 - roundedRating }).map((_, i) => (
         <svg
           key={i}
           xmlns="http://www.w3.org/2000/svg"
