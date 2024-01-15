@@ -11,8 +11,6 @@ import {
 import OpenAI from "openai";
 import { AutocompleteResult, Geometry } from "@/types";
 
-
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
@@ -97,8 +95,8 @@ export async function getCityBias() {
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
     const currentRequestCount = await redis.incr(ip);
-
-    if (currentRequestCount > 100) {
+    await redis.expire(ip, 300);
+    if (currentRequestCount > 20) {
       return { rateLimit: "Too many requests" };
     }
 
@@ -125,16 +123,18 @@ export async function getCityBias() {
 
 export async function getCityLocations() {
   try {
+    const header = headers();
     const cookie = cookies();
     const userId = cookie.get("userId");
 
-    const ipAddress = "192.186.12.11";
+    const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
-    const currentRequestCount = await redis.incr(ipAddress);
-
-    if (currentRequestCount > 100) {
+    const currentRequestCount = await redis.incr(ip);
+    await redis.expire(ip, 300);
+    if (currentRequestCount > 20) {
       return { rateLimit: "Too many requests" };
     }
+
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
 
     if (!tripDetails) {
@@ -182,8 +182,8 @@ export async function getCityDescription() {
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
     const currentRequestCount = await redis.incr(ip);
-
-    if (currentRequestCount > 100) {
+    await redis.expire(ip, 300);
+    if (currentRequestCount > 20) {
       return { rateLimit: "Too many requests" };
     }
 
@@ -248,12 +248,10 @@ export async function getCityImageFromPhotoRef(
       `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1600&photo_reference=${photo_reference}&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
 
-    console.log("DATA", data);  
+    console.log("DATA", data);
 
     return data;
   } catch (error) {
     return null;
   }
 }
-
-
