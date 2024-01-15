@@ -3,12 +3,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function CardLoading() {
   return (
-    <Card className="flex flex-col gap-5 max-w-2xl w-full px-4 py-5 shadow-lg">
+    <Card className="flex flex-col gap-5 max-w-2xl w-full flex-shrink-0  px-4 py-5 shadow-lg">
       <CardTitle>
         <Skeleton className="h-6 w-[45%]" />
       </CardTitle>
       <CardContent className="p-0 flex flex-col gap-5">
-        <Skeleton className="aspect-video " />
+        <Skeleton className="aspect-video  w-full" />
         <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-[90%]" />
           <Skeleton className="h-4 w-[95%]" />

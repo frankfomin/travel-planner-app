@@ -18,11 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getActivites } from "@/lib/actions/city.actions";
 import { addBadgeSchema, travelPlanningSchema } from "@/lib/validators";
+import { set } from "date-fns";
 
 export default function Activities() {
   const router = useRouter();
   const { formData, nextStep, prevStep, step } = formContext();
   const [activities, setActivities] = useState<string[]>();
+  const [loading, setLoading] = useState(false);
 
   const { activities: a } = activitiesContext();
   const ref = useRef<HTMLFormElement>(null);
@@ -74,6 +76,7 @@ export default function Activities() {
               action={(formData: FormData) => {
                 const activity = formData.get("activity");
                 console.log(activity);
+
                 const result = addBadgeSchema.safeParse(activity);
                 if (!result.success) {
                   toast.error("Please enter a valid activity");
@@ -101,6 +104,7 @@ export default function Activities() {
               Back
             </Button>
             <Button
+              disabled={loading}
               formAction={async (data: FormData) => {
                 const message = {
                   cityName: formData.cityName,
@@ -123,8 +127,9 @@ export default function Activities() {
                   console.log(result.error);
                   return;
                 }
-
+                setLoading(true);
                 const res = await saveTripData(result.data);
+                setLoading(false);
 
                 if (res?.error) {
                   toast.error(res.error);

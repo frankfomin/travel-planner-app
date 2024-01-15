@@ -4,13 +4,13 @@ import TripHeader from "@/components/shared/TripHeader";
 import CityDescription from "./CityDescription";
 import LocationCard from "../cards/LocationCard";
 import { getCityBias, getCityLocations } from "@/lib/actions/city.actions";
-import Loading from "../loading/CardLoading";
 import CityDescLoading from "../loading/CityDescLoading";
 import CityPictureLoading from "../loading/CityPictureLoading";
 import SaveBtn from "../(trip components)/saveBtn";
 import { auth } from "@/auth";
 import { ExtendedSession } from "@/types";
 import TripMap from "./TripMap";
+import CardLoading from "../loading/CardLoading";
 
 export default async function YourTrip({
   params,
@@ -47,9 +47,9 @@ export default async function YourTrip({
         </div>
       </header>
       <section className="flex justify-between">
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 w-[50%]">
           {locations.cityLocations.map((location: string, i) => (
-            <Suspense key={i} fallback={<Loading />}>
+            <Suspense key={i} fallback={<CardLoading />}>
               <LocationCard
                 tripId={tripId}
                 key={i}
