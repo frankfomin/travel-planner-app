@@ -71,7 +71,7 @@ export async function getActivites({
         },
       ],
       max_tokens: 150,
-      temperature: 0.6,
+      temperature: 0.3,
     });
 
     const responseText = completion.choices[0].message.content;
