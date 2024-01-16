@@ -32,7 +32,6 @@ export async function GET() {
         { status: 200 }
       );
     }
-    console.log("USERID ", userId?.value);
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
 
     if (!tripDetails) {

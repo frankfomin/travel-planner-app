@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     const cookie = cookies();
     const userId = cookie.get("userId");
-    console.log("USASIDAJ", userId?.value);
+   
     const cachedLocation = await redis.hgetall(
       `location${locationCount}:${userId?.value}`
     );
