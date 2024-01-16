@@ -57,6 +57,7 @@ export async function tripDetails() {
   } catch (error) {}
 }
 
+//not using
 export async function getLocationDetails({
   location,
   lat,
@@ -114,7 +115,7 @@ export async function getLocationDetails({
     };
   }
 }
-
+//not using
 export async function getLocationDescription({
   locationName,
   locationCount,
