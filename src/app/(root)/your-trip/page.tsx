@@ -5,11 +5,7 @@ import { location, trip } from "@/db/schema";
 import { nanoid } from "nanoid";
 import Loading from "@/components/loading/Loading";
 
-export default async function YourTripPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function YourTripPage() {
   return (
     <main className="p-3">
       <Suspense fallback={<Loading />}>

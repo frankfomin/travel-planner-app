@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 import { travelPlanningSchema } from "../validators";
 export async function saveTripData(data: unknown) {
   try {
+    console.log("SAVING TRIP DATA")
     const result = travelPlanningSchema.safeParse(data);
 
     if (!result.success) {
