@@ -14,22 +14,30 @@ import axios from "axios";
 import { headers } from "next/headers";
 
 async function getCityLocations() {
-  const { data } = await axios.get(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/locations/cityLocations`,
     {
+      method: "GET",
       headers: Object.fromEntries(headers()),
     }
   );
+
+  const data = await response.json();
+
   return data.locations;
 }
 
 async function getCityBias() {
-  const { data } = await axios.get(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/google/cityBias`,
     {
+      method: "GET",
       headers: Object.fromEntries(headers()),
     }
   );
+
+  const data = await response.json();
+
   return { lat: data.lat, lng: data.lng };
 }
 
