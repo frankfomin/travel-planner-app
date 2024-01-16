@@ -61,7 +61,7 @@ export async function GET() {
     await redis.hmset(`location:${userId?.value}`, {
       cityDescription: responseText,
     });
-
+    //set expiry to 1 hour
     await redis.expire(`location:${userId?.value}`, 3600);
 
     return NextResponse.json({ description: responseText }, { status: 200 });
