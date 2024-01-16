@@ -1,6 +1,19 @@
-import { getCityDescription } from "@/lib/actions/city.actions";
 import { saveTrip } from "@/lib/actions/saveTrip.action";
+import axios from "axios";
+import { headers } from "next/headers";
 import React from "react";
+
+async function getCityDescription() {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/cityDescription`,
+    {
+      headers: Object.fromEntries(headers()),
+    }
+  );
+  console.log("data ", data);
+
+  return data.description;
+}
 
 export default async function CityDescription({
   params,
@@ -11,16 +24,8 @@ export default async function CityDescription({
 }) {
   const description = await getCityDescription();
 
-  if (!description.responseText) {
+  if (!description) {
     throw new Error("description error");
-  }
-
-  if (params === "save") {
-    await saveTrip({
-      saveDescription: true,
-      cityDescription: description.responseText,
-      tripId,
-    });
   }
 
   return (

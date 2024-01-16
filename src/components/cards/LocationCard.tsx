@@ -6,14 +6,34 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  getLocationDescription,
-  getLocationDetails,
-} from "@/lib/actions/location.actions";
+import { getLocationDetails } from "@/lib/actions/location.actions";
 import React, { Suspense } from "react";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import { headers } from "next/headers";
+
+async function getLocationDescription({
+  locationName,
+  locationCount,
+}: {
+  locationName: string;
+  locationCount: number;
+}) {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/locationDescription`,
+    {
+      locationName,
+      locationCount,
+    },
+    {
+      headers: Object.fromEntries(headers()),
+    }
+  );
+
+  return data.description;
+}
 
 export default async function LocationCard({
   location,
@@ -39,7 +59,12 @@ export default async function LocationCard({
   }
   const name = details.name;
 
-  const { description } = await getLocationDescription({
+  /* const { description } = await getLocationDescription({
+    locationName: name,
+    locationCount,
+  }); */
+
+  const description = await getLocationDescription({
     locationName: name,
     locationCount,
   });

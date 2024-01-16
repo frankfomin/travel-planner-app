@@ -20,17 +20,6 @@ export default async function TripHeader({
 
   console.log(details);
 
-  if (params === "save") {
-    await saveTrip({
-      saveTrip: true,
-      tripId,
-      city: details?.city,
-      width: details?.photo.width,
-      height: details?.photo.height,
-      photo_reference: details?.photo.photo_reference,
-    });
-  }
-
   return (
     <section className="flex justify-center items-center">
       <h1 className=" absolute sm:text-9xl text-5xl font-semibold z-10 text-primary-foreground">

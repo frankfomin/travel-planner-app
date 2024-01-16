@@ -1,17 +1,16 @@
 import { chatDescPrompt } from "@/helpers/constants/chatbot-prompt";
 import { redis } from "@/lib/redis";
 import { cookies, headers } from "next/headers";
-import { Configuration, OpenAIApi } from "openai-edge";
+import { NextResponse } from "next/server";
+import OpenAI from "openai";
 
 export const runtime = "edge";
 
-const config = new Configuration({
-  apiKey: process.env.OPEN_AI_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-const openai = new OpenAIApi(config);
-
-export default async function POST() {
+export async function GET() {
   try {
     const cookie = cookies();
     const userId = cookie.get("userId");
@@ -22,28 +21,27 @@ export default async function POST() {
     const currentRequestCount = await redis.incr(ip);
     await redis.expire(ip, 300);
     if (currentRequestCount > 20) {
-      return { rateLimit: "Too many requests" };
+      return new NextResponse("Too many requests", { status: 429 });
     }
 
     const cachedLoaction = await redis.hgetall(`location:${userId?.value}`);
 
     if (cachedLoaction?.cityDescription) {
-      return {
-        responseText: cachedLoaction.cityDescription as string,
-      };
+      return NextResponse.json(
+        { description: cachedLoaction.cityDescription as string },
+        { status: 200 }
+      );
     }
-
+    console.log("USERID ", userId?.value);
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
 
     if (!tripDetails) {
-      return {
-        error: "No trip details found",
-      };
+      return new NextResponse("No trip details found", { status: 404 });
     }
 
     const city = tripDetails.city;
 
-    const completion = await openai.createChatCompletion({
+    const completion = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -66,5 +64,9 @@ export default async function POST() {
     });
 
     await redis.expire(`location:${userId?.value}`, 3600);
-  } catch (error) {}
+
+    return NextResponse.json({ description: responseText }, { status: 200 });
+  } catch (error) {
+    return new NextResponse("internal error", { status: 500 });
+  }
 }
