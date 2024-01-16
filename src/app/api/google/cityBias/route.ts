@@ -1,9 +1,7 @@
 import { redis } from "@/lib/redis";
 import { Geometry } from "@/types";
-import axios from "axios";
 import { cookies, headers } from "next/headers";
 import { NextResponse } from "next/server";
-import React from "react";
 
 export const runtime = "edge";
 
