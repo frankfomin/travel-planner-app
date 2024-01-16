@@ -15,7 +15,7 @@ export async function POST(req: Request) {
 
     const cookie = cookies();
     const userId = cookie.get("userId");
-   
+
     const cachedLocation = await redis.hgetall(
       `location${locationCount}:${userId?.value}`
     );
@@ -52,6 +52,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ description: responseText }, { status: 200 });
   } catch (error) {
+    console.log("[locationDescription/route.ts] error");
     return new NextResponse("internal error", { status: 500 });
   }
 }

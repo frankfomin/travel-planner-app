@@ -66,6 +66,7 @@ export async function GET() {
 
     return NextResponse.json({ description: responseText }, { status: 200 });
   } catch (error) {
+    console.log("[cityDescription/route.ts] error");
     return new NextResponse("internal error", { status: 500 });
   }
 }

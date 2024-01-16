@@ -23,10 +23,17 @@ export async function GET() {
     if (currentRequestCount > 20) {
       return new NextResponse("ratelimit", { status: 429 });
     }
-    const cachedLocations = await redis.get(`locations:${userId?.value}`);
+    const cachedLocations: string[] | null = await redis.get(
+      `locations:${userId?.value}`
+    );
 
     if (cachedLocations) {
-      return NextResponse.json({ locations: cachedLocations }, { status: 200 });
+      if (cachedLocations.length > 0) {
+        return NextResponse.json(
+          { locations: cachedLocations },
+          { status: 200 }
+        );
+      }
     }
 
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
@@ -61,6 +68,7 @@ export async function GET() {
     await redis.expire(`locations:${userId?.value}`, 3600);
     return NextResponse.json({ locations: cityLocations }, { status: 200 });
   } catch (error) {
+    console.log("[cityLoactions/route.ts] error");
     return new NextResponse("Internal error", { status: 500 });
   }
 }
