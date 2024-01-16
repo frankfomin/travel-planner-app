@@ -9,13 +9,7 @@ type tripDetails = {
   place_id: string;
 };
 
-export default async function TripHeader({
-  tripId,
-  params,
-}: {
-  tripId: string;
-  params: string | string[] | undefined;
-}) {
+export default async function TripHeader() {
   const details = await tripDetails();
 
   console.log(details);

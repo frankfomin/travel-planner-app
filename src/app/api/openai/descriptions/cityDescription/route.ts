@@ -33,7 +33,7 @@ export async function GET() {
       );
     }
     const tripDetails = await redis.hgetall(`tripDetails:${userId?.value}`);
-
+    console.log("TRIP DETAILS", tripDetails);
     if (!tripDetails) {
       return new NextResponse("No trip details found", { status: 404 });
     }

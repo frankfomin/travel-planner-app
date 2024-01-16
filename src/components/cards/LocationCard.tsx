@@ -6,13 +6,40 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getLocationDetails } from "@/lib/actions/location.actions";
 import React, { Suspense } from "react";
 import Rating from "@/components/shared/Rating";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 import { headers } from "next/headers";
+import { Details } from "@/types";
+
+async function getLocationDetails({
+  location,
+  lat,
+  lng,
+  locationCount,
+}: {
+  location: string;
+  lat: number;
+  lng: number;
+  locationCount: number;
+}) {
+  const { data } = await axios.post(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/google/locationDetails`,
+    {
+      location,
+      lat,
+      lng,
+      locationCount,
+    },
+    {
+      headers: Object.fromEntries(headers()),
+    }
+  );
+
+  return data.details as Details;
+}
 
 async function getLocationDescription({
   locationName,
@@ -22,7 +49,7 @@ async function getLocationDescription({
   locationCount: number;
 }) {
   const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/locationDescription`,
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/descriptions/locationDescription`,
     {
       locationName,
       locationCount,
@@ -41,19 +68,19 @@ export default async function LocationCard({
   lng,
   locationCount,
 }: {
-  params: string | string[] | undefined;
   location: string;
   lat: number;
   lng: number;
-  tripId: string;
+
   locationCount: number;
 }) {
-  const { details } = await getLocationDetails({
+  const details = await getLocationDetails({
     location,
     lat,
     lng,
     locationCount,
   });
+
   if (!details) {
     throw new Error("No details");
   }

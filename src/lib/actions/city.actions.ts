@@ -49,6 +49,8 @@ export async function findCitiesFromText(cityName: string) {
   }
 }
 
+
+//not using
 export async function getActivites({
   city,
   companion,
@@ -120,7 +122,7 @@ export async function getCityBias() {
     return { error: "Internal error" };
   }
 }
-
+//not using
 export async function getCityLocations() {
   try {
     const header = headers();
@@ -172,7 +174,7 @@ export async function getCityLocations() {
     };
   }
 }
-
+//not using
 export async function getCityDescription() {
   try {
     const cookie = cookies();

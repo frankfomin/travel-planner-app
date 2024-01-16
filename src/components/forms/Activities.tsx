@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getActivites } from "@/lib/actions/city.actions";
 import { addBadgeSchema, travelPlanningSchema } from "@/lib/validators";
-import { set } from "date-fns";
 
 export default function Activities() {
   const router = useRouter();
@@ -38,18 +37,20 @@ export default function Activities() {
 
   const { mutate, isLoading, data } = useMutation({
     mutationFn: async () => {
-      const { activites } = await getActivites({
-        city: formData.cityName,
-        companion: formData.companions,
+      const city = formData.cityName;
+      const companion = formData.companions;
+      const { data } = await axios.post("/api/openai/activities", {
+        city,
+        companion,
       });
-
-      return activites;
+      console.log(data);
+      return data.activites as string[];
     },
     onSuccess: (data) => {
       setActivities(data);
     },
   });
-  console.log(activities);
+
   return (
     <FormPage
       title="What are you going to do?"
