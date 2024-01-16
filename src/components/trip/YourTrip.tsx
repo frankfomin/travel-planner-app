@@ -54,7 +54,7 @@ export default async function YourTrip() {
       </header>
       <section className="flex justify-between">
         <div className="flex flex-col gap-5 sm:w-[50%]">
-          {locations.map((location: string, i) => (
+          {locations.map((location: string, i: number) => (
             <Suspense key={i} fallback={<CardLoading />}>
               <LocationCard
                 key={i}
