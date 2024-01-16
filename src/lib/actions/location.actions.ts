@@ -34,11 +34,11 @@ export async function tripDetails() {
       `tripDetails:${userId?.value}`
     );
 
-    const { data } = await axios.get(
+    const res = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?fields=photos&place_id=${tripDetails?.place_id}&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
-
-    const photos = data.result.photos as Photo[];
+    const response = await res.json();
+    const photos = response.result.photos as Photo[];
 
     const firstPhotoReference = photos[0];
 
@@ -174,7 +174,6 @@ export async function getLocationDescription({
   }
 }
 
-
 //not using
 export async function getGeoData({
   locations,
@@ -232,7 +231,7 @@ export async function getCachedLocationData({
     const cachedLocation = await redis.hgetall(
       `location${locationCount}:${userId?.value}`
     );
-    console.log("cached location", cachedLocation); 
+    console.log("cached location", cachedLocation);
     if (cachedLocation?.details) {
       return {
         details: cachedLocation.details as Details,
