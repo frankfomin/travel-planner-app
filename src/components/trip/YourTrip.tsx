@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import TripHeader from "@/components/shared/TripHeader";
 import CityDescription from "./CityDescription";
 import LocationCard from "../cards/LocationCard";
-import { getCityBias } from "@/lib/actions/city.actions";
 import CityDescLoading from "../loading/CityDescLoading";
 import CityPictureLoading from "../loading/CityPictureLoading";
 import SaveBtn from "../(trip components)/saveBtn";
@@ -24,16 +23,22 @@ async function getCityLocations() {
   return data.locations;
 }
 
+async function getCityBias() {
+  const { data } = await axios.get(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/google/cityBias`,
+    {
+      headers: Object.fromEntries(headers()),
+    }
+  );
+  return { lat: data.lat, lng: data.lng };
+}
+
 export default async function YourTrip() {
   const [locations, bias, session] = await Promise.all([
     getCityLocations(),
     getCityBias(),
     auth(),
   ]);
-
-  if (locations.rateLimit || bias.rateLimit) {
-    throw new Error("Rate limit exceeded");
-  }
 
   if (!locations || !bias.lat || !bias.lng) {
     throw new Error("Failed to load data");
