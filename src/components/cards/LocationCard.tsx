@@ -25,18 +25,21 @@ async function getLocationDetails({
   lng: number;
   locationCount: number;
 }) {
-  const { data } = await axios.post(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/google/locationDetails`,
     {
-      location,
-      lat,
-      lng,
-      locationCount,
-    },
-    {
+      method: "POST",
       headers: Object.fromEntries(headers()),
+      body: JSON.stringify({
+        location,
+        lat,
+        lng,
+        locationCount,
+      }),
     }
   );
+
+  const data = await response.json();
 
   return data.details as Details;
 }
@@ -48,16 +51,19 @@ async function getLocationDescription({
   locationName: string;
   locationCount: number;
 }) {
-  const { data } = await axios.post(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/descriptions/locationDescription`,
     {
-      locationName,
-      locationCount,
-    },
-    {
+      method: "POST",
       headers: Object.fromEntries(headers()),
+      body: JSON.stringify({
+        locationName,
+        locationCount,
+      }),
     }
   );
+
+  const data = await response.json();
 
   return data.description;
 }

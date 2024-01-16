@@ -12,14 +12,20 @@ async function getGeoData({
   lat: number;
   lng: number;
 }) {
-  const { data } = await axios.post(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/locations/geoData`,
     {
-      locations,
-      lat,
-      lng,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        locations,
+        lat,
+        lng,
+      }),
     }
   );
+
+  const data = await response.json();
 
   return data.geoData;
 }

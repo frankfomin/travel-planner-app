@@ -1,15 +1,14 @@
-import { saveTrip } from "@/lib/actions/saveTrip.action";
-import axios from "axios";
 import { headers } from "next/headers";
-import React from "react";
 
 async function getCityDescription() {
-  const { data } = await axios.get(
+  const response = await fetch(
     `${process.env.NEXT_PUBLIC_APP_URL}/api/openai/descriptions/cityDescription`,
     {
       headers: Object.fromEntries(headers()),
     }
   );
+
+  const data = await response.json();
 
   return data.description;
 }
