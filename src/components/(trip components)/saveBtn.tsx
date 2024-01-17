@@ -40,7 +40,7 @@ export default function saveBtn({
           </DialogHeader>
         ) : (
           <DialogHeader>
-            <SignInForm />
+            <SignInForm redirectUrl="/your-trip" />
           </DialogHeader>
         )}
       </DialogContent>

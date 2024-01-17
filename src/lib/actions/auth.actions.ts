@@ -71,7 +71,7 @@ export async function signUp(data: unknown) {
   }
 }
 
-export async function signIn(data: unknown) {
+export async function signIn(data: unknown, redirectUrl?: string) {
   const result = signInSchema.safeParse(data);
 
   if (!result.success) {
@@ -108,7 +108,7 @@ export async function signIn(data: unknown) {
     await logIn("credentials", {
       email,
       password,
-      redirectTo: "/" || DEFAULT_LOGIN_REDIRECT,
+      redirectTo: redirectUrl || DEFAULT_LOGIN_REDIRECT,
     });
   } catch (error) {
     if (error instanceof AuthError) {

@@ -21,7 +21,7 @@ import { toast } from "sonner";
 import { Icons } from "@/components/ui/icons";
 import SubmitButton from "../ui/SubmitButton";
 
-export default function SignInForm() {
+export default function SignInForm({ redirectUrl }: { redirectUrl?: string }) {
   const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -33,7 +33,7 @@ export default function SignInForm() {
 
   async function onSubmit(data: z.infer<typeof signInSchema>) {
     setIsLoading(true);
-    const res = await signIn(data);
+    const res = await signIn(data, redirectUrl);
     setIsLoading(false);
 
     if (res?.invalidCredentials) {
