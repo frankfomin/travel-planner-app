@@ -23,10 +23,7 @@ export async function GET() {
     const placeId = tripDetails?.place_id;
 
     const res = await fetch(
-      `https://maps.googleapis.com/maps/api/place/details/json?
-      fields=geometry&
-      place_id=${placeId}
-      &key=${process.env.GOOGLE_PLACES_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/details/json?fields=geometry&place_id=${placeId}&key=${process.env.GOOGLE_PLACES_API_KEY}`
     );
 
     const response = await res.json();
