@@ -1,7 +1,6 @@
 import React from "react";
 
 import GoogleImage from "../GoogleImage";
-import { saveTrip } from "@/lib/actions/saveTrip.action";
 import { tripDetails } from "@/lib/actions/location.actions";
 
 type tripDetails = {
@@ -11,8 +10,6 @@ type tripDetails = {
 
 export default async function TripHeader() {
   const details = await tripDetails();
-
-  console.log(details);
 
   return (
     <section className="flex justify-center items-center">
@@ -24,7 +21,7 @@ export default async function TripHeader() {
         <div className=" aspect-video object-cover rounded-md w-full h-full ">
           <GoogleImage
             className="aspect-video object-cover  rounded-md w-full h-full"
-            photo_reference={details?.photo.photo_reference as string}
+            photo_reference={details?.photo.photo_reference || ""}
             width={details?.photo.width}
             height={details?.photo.height}
             src=""

@@ -33,6 +33,7 @@ export default function GoogleMap({
         className=""
         zoom={15}
         center={position}
+        minZoom={15}
         disableDefaultUI
         mapId={"829a053c0c705f52"}
       >

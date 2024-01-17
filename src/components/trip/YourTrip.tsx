@@ -42,6 +42,7 @@ async function getCityBias() {
 }
 
 export default async function YourTrip() {
+  
   const [locations, bias, session] = await Promise.all([
     getCityLocations(),
     getCityBias(),
