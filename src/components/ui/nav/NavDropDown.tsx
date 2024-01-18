@@ -19,7 +19,7 @@ export default async function NavDropDown() {
   return (
     <>
       {!session ? (
-        <Link href="/sign-in">
+        <Link href="/auth/sign-in">
           <Button>Sign In</Button>
         </Link>
       ) : (
