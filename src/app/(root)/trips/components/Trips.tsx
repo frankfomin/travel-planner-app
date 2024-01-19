@@ -4,15 +4,6 @@ import DeleteTrip from "./DeleteTrip";
 import GoogleImage from "@/components/GoogleImage";
 import { getTrips } from "@/lib/actions/trips.action";
 
-type Trip = {
-  id: string;
-  name: string;
-  created_at: string;
-  photo_reference: string;
-  width: number;
-  height: number;
-};
-
 export default async function Trips() {
   const trips = await getTrips();
 
@@ -34,7 +25,7 @@ export default async function Trips() {
           <div className="mt-7 flex w-full justify-between pr-10">
             <div>
               <Link href={`trips/${trip.id}`} key={i}>
-                <CardTitle>{trip.city}</CardTitle>
+                <CardTitle>{trip.name}</CardTitle>
               </Link>
               <CardDescription>
                 {new Date(trip.created_at).toLocaleDateString()}

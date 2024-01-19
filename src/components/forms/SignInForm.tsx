@@ -21,7 +21,13 @@ import { toast } from "sonner";
 import { Icons } from "@/components/ui/icons";
 import SubmitButton from "../ui/SubmitButton";
 
-export default function SignInForm({ redirectUrl }: { redirectUrl?: string }) {
+export default function SignInForm({
+  redirectUrl,
+  href,
+}: {
+  redirectUrl?: string;
+  href?: string;
+}) {
   const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -47,7 +53,7 @@ export default function SignInForm({ redirectUrl }: { redirectUrl?: string }) {
       title="Sign into your account"
       description="New to Venturevista?"
       linkText="Sign up for an account"
-      href="/auth/sign-up"
+      href={href ? href : "/auth/sign-up"}
     >
       <Form {...form}>
         <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>

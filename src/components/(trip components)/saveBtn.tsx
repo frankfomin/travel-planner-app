@@ -17,6 +17,8 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { ExtendedSession } from "@/types";
 import SignInForm from "../forms/SignInForm";
 import SaveTripForm from "../forms/SaveTripForm";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import SignUpForm from "../forms/SignUpForm";
 
 export default function saveBtn({
   user,
@@ -31,6 +33,7 @@ export default function saveBtn({
       <DialogTrigger asChild>
         <Button>Save trip</Button>
       </DialogTrigger>
+
       <DialogContent>
         {user ? (
           <DialogHeader>
@@ -40,7 +43,10 @@ export default function saveBtn({
           </DialogHeader>
         ) : (
           <DialogHeader>
-            <SignInForm redirectUrl="/your-trip" />
+            <SignInForm
+              href="/auth/sign-up?redirect=your-trip"
+              redirectUrl="/your-trip"
+            />
           </DialogHeader>
         )}
       </DialogContent>
