@@ -1,6 +1,22 @@
 "use client"; // Error components must be Client Components
 
-import { useEffect } from "react";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogFooter,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Error({
   error,
@@ -9,22 +25,29 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const [open, setOpen] = useState<boolean>(false);
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error(error);
-  }, [error]);
+    setOpen(true);
+  }, [open]);
 
   return (
-    <div>
-      <h2>{error.message}</h2>
-      <button
-        onClick={
-          // Attempt to recover by trying to re-render the segment
-          () => reset()
-        }
-      >
-        Try again
-      </button>
-    </div>
+    <AlertDialog open={open}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Something went wrong :(</AlertDialogTitle>
+          <AlertDialogDescription>
+            We apologize please try again
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter className="flex">
+          <Link href="/">
+            <Button variant="outline">Take me back</Button>
+          </Link>
+          <Link href="/your-trip">
+            <Button>Try again</Button>
+          </Link>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
