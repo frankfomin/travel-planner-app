@@ -33,7 +33,6 @@ export default function saveBtn({
       <DialogTrigger asChild>
         <Button>Save trip</Button>
       </DialogTrigger>
-
       <DialogContent>
         {user ? (
           <DialogHeader>

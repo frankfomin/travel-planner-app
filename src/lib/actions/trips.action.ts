@@ -93,6 +93,7 @@ export async function saveTrip({
     }
     const tripId = uuidv4();
     console.log("tripId", tripId);
+    //here
     await Promise.all([
       db.insert(trip).values({
         // @ts-ignore
@@ -105,6 +106,7 @@ export async function saveTrip({
         photo_reference: city?.photo.photo_reference,
         city: city?.city,
       }),
+      //here
       Promise.all(
         locations.map(async (loc) => {
           console.log(loc);
