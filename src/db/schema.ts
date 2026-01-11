@@ -9,7 +9,6 @@ import {
   decimal,
   json,
 } from "drizzle-orm/mysql-core";
-import type { AdapterAccount } from "@auth/core/adapters";
 import { relations, sql } from "drizzle-orm";
 
 export const users = mysqlTable("user", {
@@ -55,7 +54,6 @@ export const accounts = mysqlTable(
   {
     userId: varchar("userId", { length: 255 }).notNull(),
     type: varchar("type", { length: 255 })
-      .$type<AdapterAccount["type"]>()
       .notNull(),
     provider: varchar("provider", { length: 255 }).notNull(),
     providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
