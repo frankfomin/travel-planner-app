@@ -1,34 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ✈️ Travel Planner
 
-## Getting Started
+A modern travel planner app that helps you organize trips, plan itineraries, and keep all your travel details in one place.  
+Built to make trip planning simple, visual, and actually enjoyable.
 
-First, run the development server:
+---
+
+## 🚀 Features
+
+- 📍 Create and manage trips
+- 🗺️ Plan daily itineraries
+- 🏨 Store accommodations, activities, and notes
+- 🧳 Keep everything organized in one place
+- 📱 Responsive design (works great on desktop & mobile)
+
+---
+
+## 🎥 Demo Videos
+
+### Full App Walkthrough
+A quick overview showing how the app works from start to finish.
+
+https://github.com/USERNAME/REPO_NAME/assets/VIDEO_ID
+
+### Creating & Planning a Trip
+Shows how to create a new trip and plan activities step by step.
+
+https://github.com/USERNAME/REPO_NAME/assets/VIDEO_ID
+
+> 💡 **Tip:**  
+> You can upload videos directly to GitHub by dragging them into an issue, discussion, or README edit. GitHub will automatically generate the video URL.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js / React  
+- **Styling:** Tailwind CSS  
+- **Backend:** (e.g. Supabase / Firebase / API routes)
+- **Database:** (Your choice here)
+- **Deployment:** (e.g. Vercel)
+
+---
+
+## 📦 Installation
+
+Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+git clone https://github.com/USERNAME/REPO_NAME.git
+cd REPO_NAME
