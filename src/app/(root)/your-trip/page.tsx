@@ -1,8 +1,5 @@
 import YourTrip from "../../../components/trip/YourTrip";
 import { Suspense } from "react";
-import { db } from "@/db/db";
-import { location, trip } from "@/db/schema";
-import { nanoid } from "nanoid";
 import Loading from "@/components/loading/Loading";
 
 export const runtime = "edge";
