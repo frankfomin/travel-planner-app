@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { Button } from "../ui/button";
 import { Icons } from "../ui/icons";
 import { signIn } from "next-auth/react";
 import { toast } from "sonner";
@@ -11,10 +10,8 @@ export default function Socials() {
   const [isLoading, setIsLoading] = React.useState(false);
   function oAuthSignIn() {
     setIsLoading(true);
-    signIn("google").then((callback) => {
-      if (callback?.error) {
-        toast.error("Could not sign in");
-      }
+    signIn("google").catch(() => {
+      toast.error("Error signing in with Google");
     });
     setIsLoading(false);
   }
