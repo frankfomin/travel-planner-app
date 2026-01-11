@@ -1,6 +1,10 @@
 import ChangePassword from "@/components/forms/ChangePassword";
-import React from "react";
+import React, { Suspense } from "react";
 
 export default function ChangePasswordPage() {
-  return <ChangePassword />;
+  return (
+    <Suspense>
+      <ChangePassword />
+    </Suspense>
+  );
 }
