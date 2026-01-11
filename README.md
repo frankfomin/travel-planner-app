@@ -1,17 +1,14 @@
 # ✈️ Travel Planner
 
-A modern travel planner app that helps you organize trips, plan itineraries, and keep all your travel details in one place.  
-Built to make trip planning simple, visual, and actually enjoyable.
+Venture Vista is a Travel planner that helps you plan out potential locations to visit in your destination
 
 ---
 
 ## 🚀 Features
 
-- 📍 Create and manage trips
-- 🗺️ Plan daily itineraries
-- 🏨 Store accommodations, activities, and notes
-- 🧳 Keep everything organized in one place
-- 📱 Responsive design (works great on desktop & mobile)
+- Create trips for different locations
+- Save trips
+- Responsive design (works on desktop & mobile)
 
 ---
 
@@ -35,17 +32,6 @@ https://github.com/USERNAME/REPO_NAME/assets/VIDEO_ID
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js / React  
-- **Styling:** Tailwind CSS  
-- **Backend:** (e.g. Supabase / Firebase / API routes)
-- **Database:** (Your choice here)
-- **Deployment:** (e.g. Vercel)
-
----
-
-## 📦 Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/USERNAME/REPO_NAME.git
-cd REPO_NAME
+- **Styling:** Tailwind CSS and ShadCN
+- **Database:** Neon
+- **Deployment:** Vercel
