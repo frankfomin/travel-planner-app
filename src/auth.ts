@@ -51,7 +51,7 @@ export const {
   callbacks: {
     async session({ session, token }) {
       if (token.sub && session.user) {
-        const user = session.user as ExtendedSession;
+        const user = session.user as unknown as ExtendedSession;
 
         user.id = token.sub;
         user.isOAuth = token.isOAuth as boolean;
@@ -60,6 +60,7 @@ export const {
       return session;
     },
     async signIn({ user, account }) {
+      if (!user.id) return false;
       const existingUser = await getUserById(user.id);
 
       if (account?.provider !== "credentials") return true;
