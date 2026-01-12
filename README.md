@@ -1,12 +1,12 @@
 # 🛩️ Travel Planner
 
-Venture Vista is a Travel planner that helps you plan out potential locations to visit in your destination
+**Venture Vista** is a travel planner that helps you explore and plan potential locations to visit at your destination.
 
 ## Technologies
 - Nextjs
 - TypeScript
 - Tailwind CSS
-- ShadCN
+- Shadcn/ui
 - OpenAI
 - Drizzle ORM
 
@@ -16,7 +16,7 @@ Venture Vista is a Travel planner that helps you plan out potential locations to
 - Desktop & Mobile friendly
 
 ## The building process
-This project was built out of curiosity of trying to build an app integrated with AI generated Travel recommendations. 
+This project was built out of curiosity and a desire to explore how AI can be used to generate travel recommendations in a web application.
 
 ## Running the Project
 1. Clone the Repository
