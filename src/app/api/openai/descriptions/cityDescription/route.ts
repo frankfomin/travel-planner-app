@@ -19,7 +19,7 @@ export async function GET() {
     const ip = (header.get("x-forwarded-for") ?? "127.0.0.1").split(",")[0];
 
     const currentRequestCount = await redis.incr(ip);
-    await redis.expire(ip, 300);
+    await redis.expire(ip, 5);
     if (currentRequestCount > 20) {
       return new NextResponse("Too many requests", { status: 429 });
     }

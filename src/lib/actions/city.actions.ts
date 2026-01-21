@@ -91,7 +91,6 @@ export async function getActivites({
 
 export async function getCityBias() {
   try {
-    console.log("ARE YOU THE IMPOSTOR ")
     const cookie = cookies();
     const userId = cookie.get("userId");
     const header = headers();
