@@ -1,4 +1,4 @@
-# 🛩️ Travel Planner
+# Travel Planner
 
 **Venture Vista** is a travel planner that helps you explore and plan potential locations to visit at your destination.
 
