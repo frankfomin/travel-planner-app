@@ -32,9 +32,7 @@ Another problem I ran into was request timeouts since Vercel only allows 10s on 
 
 ## Environment Variables
 Create a `.env` file in the root of the project and provide the following variables:
-Note the application can run without a database but trips cannot be saved and authentication will not work
 ```env
-DATABASE_URL=postgresql://user:password@host:port/database
 OPENAI_API_KEY=your_openai_api_key
 GOOGLE_PLACES_API_KEY=your_google_places_api_key
 UPSTASH_REDIS_REST_URL="your_redis_rest_url"
