@@ -55,8 +55,8 @@ export default async function YourTrip() {
   const length = locations.length;
   return (
     <main className="flex flex-col gap-5">
-      <SaveBtn length={length} user={session?.user as ExtendedSession} />
-      <header className="relative w-full flex flex-col items-center gap-10">
+{/*       <SaveBtn length={length} user={session?.user as ExtendedSession} />
+ */}      <header className="relative w-full flex flex-col items-center gap-10">
         <div className="sm:max-w-4xl ">
           <Suspense fallback={<CityPictureLoading />}>
             <TripHeader />
