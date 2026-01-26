@@ -7,7 +7,6 @@
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
-- PostgreSQL
 - Drizzle ORM
 - OpenAI API
 - Google Places API
