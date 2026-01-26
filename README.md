@@ -28,7 +28,9 @@ I ran into a lot of problems with the parsing the data from the OpenAI API and m
 Another problem I ran into was request timeouts since Vercel only allows 10s on the Hobby plan. The workaround was to use edge function that allows for 25 seconds of runtime until timeout.
 
 ## Prerequisites
-- Upstash Redis 
+- Upstash Redis
+- OpenAI API key
+- Google Placed API key
 
 ## Environment Variables
 Create a `.env` file in the root of the project and provide the following variables:
